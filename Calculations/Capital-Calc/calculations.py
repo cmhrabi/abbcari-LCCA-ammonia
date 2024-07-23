@@ -91,18 +91,24 @@ def C_s_energy_calc(PV_opex, t_f, t_o, C_s):
 
 
 def ER_calc(ER_b, X_n, X_b, eff, alpha_j):
-    ER = [[{}]]
-    for i in range(len(X_n)):  # here i is the year where as in our paper it is tech i ***NEED TO FIX
+    ER = []
+    ER_sum = []
+    for i in range(len(X_n)):
+        ER.append([])  # here i is the year where as in our paper it is tech i ***NEED TO FIX
+        ER_sum.append({})
         for j in range(len(ER_b)):
+            ER[i].append({})
             for key in ER_b[j].keys():
                 if i != 0:
-                    ER[i][j][key] = ((1 - eff) * ER_b[i][j][key] * math.pow(X_n[i] / X_b, alpha_j) + eff * ER_b[i][j][
-                        key]) * ((X_n[i] - X_n[i - 1]) / X_b)
+                    ER[i][j][key] = ((1 - eff) * ER_b[j][key] * math.pow(X_n[i] / X_b, alpha_j[j]) + eff * ER_b[j][key]) * ((X_n[i] - X_n[i - 1]) / X_b)
                 else:
                     # ask not sure
-                    ER[i][j][key] = (
-                                (1 - eff) * ER_b[i][j][key] * math.pow(X_n[i] / X_b, alpha_j) + eff * ER_b[i][j][key])
-    return ER
+                    ER[i][j][key] = ((1 - eff) * ER_b[j][key] * math.pow(X_n[i] / X_b, alpha_j[j]) + eff * ER_b[j][key])
+                
+
+
+            
+    return ER, ER_sum
 
 
 def C_j_s_calc(ER, T_op, C_s_bar):
@@ -148,7 +154,7 @@ def main():
     # Capex
     X_sat = 240.64
     X_b = 0.01486512
-    LR = [0.3, 0.5]
+    LR = [0.13, 0.1, 0.1]
     C_b = [100, 200]
     S_dir = 0.33
     S_indir = 0.5
@@ -163,29 +169,22 @@ def main():
 
     # Opex
     T_op = 8000
-    eff = 0
+    eff = 0.6
     ER_b = [
-        [
             {
-                "elec": [200, 350],
-                "nat": [300, 500]
+                "elec": 0.986181293,
+                "nat": 0
             },
             {
-                "elec": [150, 200],
-                "nat": [100, 150]
-            }
-        ],
-        [
-            {
-                "elec": [200, 350],
-                "nat": [300, 500]
+                "elec": 0.034624043,
+                "nat": 0
             },
             {
-                "elec": [150, 200],
-                "nat": [100, 150]
+                "elec": 0.0778,
+                "nat": 0
             }
         ]
-    ]
+
     C_s = {
         "elec": [200, 350],
         "nat": [200, 500]
@@ -201,6 +200,9 @@ def main():
 
     # Calc alpha_j
     alpha = alpha_j_calc(LR, 0)
+    alpha_list = []
+    for i in range(len(LR)):
+        alpha_list.append(alpha_j_calc(LR, i))
 
     # Calc C_Capex_o
     C_pur, C_inst = pur_inst_cost_calc(C_b, X_n, X_b, E, Y, alpha, 0)
@@ -212,6 +214,7 @@ def main():
     # Calc C_capex
     C_capex = C_capex_calc(C_capex_o, PV, 0)
 
+    print(ER_calc(ER_b, X_n, X_b,eff,alpha_list ))
     print(f"X_n is: {X_n}")
     print(f"X_n cumulative is: {X_n_cumulative}")
     print(f"C_capex is: {C_capex}")
