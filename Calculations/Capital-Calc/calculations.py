@@ -3,14 +3,14 @@ import math
 
 # Capex
 def X_n_calc(X_sat, X_b, t_o, t_f):
-    n = t_f - t_o
+    n = t_f - t_o + 1
 
-    r = (1 / (t_f - t_o)) * math.log((0.99 * X_sat - X_b) / (0.01 * X_b))
+    r = (1 / (t_f - t_o)) * math.log(((0.99 * X_sat) - X_b) / (0.01 * X_b))
 
     X_n_cumulative = []
     X_n = []
     for i in range(n):
-        x = X_sat / (1 + ((X_sat - X_b) / X_b) * math.exp(-r * i + 1))
+        x = X_sat / (1 + ((X_sat - X_b) / X_b) * math.exp(-r * i))
 
         X_n.append(x)
 
@@ -146,7 +146,7 @@ def main():
     # General
 
     # Capex
-    X_sat = 240.63
+    X_sat = 240.64
     X_b = 0.01486512
     LR = [0.3, 0.5]
     C_b = [100, 200]
@@ -194,6 +194,7 @@ def main():
     C_H2O = 100
     C_opex_add = 0
     theta = 0.1  # marketing and distribution factor
+    CO2_per_ammonia = 2.013
 
     # Calc all X_n
     X_n, X_n_cumulative = X_n_calc(X_sat, X_b, t_o, t_f)
