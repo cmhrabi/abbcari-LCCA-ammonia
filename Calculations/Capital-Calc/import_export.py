@@ -35,16 +35,12 @@ def d_elec_n_calc(d_n, n_green):
 def import_export_cost_calc(d_n_elec, x_n, c_import, c_export):
     output = []
 
-    print(x_n)
     for i in range(len(x_n)):
         if d_n_elec[i] - x_n[i] >= 0:
-            print((d_n_elec[i] - x_n[i]))
             output.append((((d_n_elec[i] - x_n[i])*1000)/18.6/0.6826)*c_import[i])
         else:
             output.append((((d_n_elec[i] - x_n[i])*1000)/18.6/0.6826)*c_export[i])
 
-    print(len(x_n))
-    print(len(d_n_elec))
     return output
 
 def main():
