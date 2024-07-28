@@ -10,7 +10,7 @@ def X_n_calc(X_sat, X_b, t_o, t_f):
     X_n_cumulative = []
     X_n = []
     for i in range(n):
-        x = X_sat / (1 + ((X_sat - X_b) / X_b) * math.exp(-r * i))
+        x = X_sat / (1 + ((X_sat - X_b) / X_b) * math.exp(-r * (i)))
 
         X_n.append(x)
 
@@ -25,18 +25,34 @@ def alpha_j_calc(LR, i):
     alpha = math.log(1 - LR[i]) / math.log(2)
     return alpha
 
+# def C_b_calc(C_b):
 
-def pur_inst_cost_calc(C_b, X_n, X_b, E, Y, alpha, i):
+
+def pur_inst_cost_calc(C_b, X_n, X_b, E, Y, alpha, k):
     # C_i_pur & C_i_inst Calculation
-    C_pur = 0
-    C_inst = 0
+    C_pur = []
+    C_inst = []
     for j in range(len(X_n)):
-        if j != 0:
-            C = C_b[i] * pow((X_n[j] / X_b), alpha) * pow(((X_n[j] - X_n[j - 1]) / X_b), E)
-        else:
-            C = C_b[i] * pow((X_n[j] / X_b), alpha) * pow((X_n[j] / X_b), E)
-        C_pur += C
-        C_inst += C * (1 + Y[i])
+        C_sum = 0
+        C_sum_i = 0
+        i = 0
+        for key in C_b[0].keys():
+            if j != 0:
+                C = C_b[0][key] * pow((X_n[j] / X_b), alpha[i]) * pow(((X_n[j] - X_n[j - 1]) / X_b), E)
+                C_i = C*(1+Y[i])
+            else:
+                C = C_b[0][key] * pow((X_n[j] / X_b), alpha[i]) * pow((X_n[j] / X_b), E)
+                C_i = C*(1+Y[i])
+
+            print(f"{j}: {key} {C}")
+
+            C_sum += C
+            C_sum_i += C_i
+            i += 1
+        print(f"C_pur: {C_sum}")
+        C_pur.append(C_sum)
+        print(f"C_inst: {C_sum_i}")
+        C_inst.append(C_sum_i)
 
     return C_pur, C_inst
 
@@ -142,9 +158,9 @@ def C_opex_bar_calc(C_energy, C_H2O, C_opex_add, theta):
     return C_opex_bar
 
 
-def C_capex(PV_opex, C_opex_bar):
-    C_capex = PV_opex * C_opex_bar
-    return C_capex
+def C_opex_calc(PV_opex, C_opex_bar):
+    C_opex = PV_opex * C_opex_bar
+    return C_opex
 
 
 def main():
@@ -153,15 +169,21 @@ def main():
 
     # Capex
     X_sat = 240.64
-    X_b = 0.01486512
+    X_b = 0.0149
     LR = [0.13, 0.1, 0.1]
-    C_b = [100, 200]
+    C_b = [
+        {
+            "electrolysis": 2.64,
+            "nitrogen": 2.97,
+            "HB": 12.22
+        }
+    ]
     S_dir = 0.33
     S_indir = 0.5
     S_wc = 0.05
     DR = 0.07
     d = 0.01
-    Y = [0.33, 0.07]
+    Y = [0.33, 0, 0.7]
     E = 1
     t_o = 2027
     t_f = 2050
@@ -199,25 +221,25 @@ def main():
     X_n, X_n_cumulative = X_n_calc(X_sat, X_b, t_o, t_f)
 
     # Calc alpha_j
-    alpha = alpha_j_calc(LR, 0)
     alpha_list = []
     for i in range(len(LR)):
         alpha_list.append(alpha_j_calc(LR, i))
 
     # Calc C_Capex_o
-    C_pur, C_inst = pur_inst_cost_calc(C_b, X_n, X_b, E, Y, alpha, 0)
-    C_capex_o = capex_o_calc(C_pur, C_inst, S_dir, S_indir, S_wc, 0)
-
-    # Calc PV
-    PV = PV_capex_calc(DR, t_f, t_o)
-
-    # Calc C_capex
-    C_capex = C_capex_calc(C_capex_o, PV, 0)
-
-    print(ER_calc(ER_b, X_n, X_b,eff,alpha_list ))
+    C_pur, C_inst = pur_inst_cost_calc(C_b, X_n, X_b, E, Y, alpha_list, 0)
+    # C_capex_o = capex_o_calc(C_pur, C_inst, S_dir, S_indir, S_wc, 0)
+    #
+    # # Calc PV
+    # PV = PV_capex_calc(DR, t_f, t_o)
+    #
+    # # Calc C_capex
+    # C_capex = C_capex_calc(C_capex_o, PV, 0)
+    #
+    # print(ER_calc(ER_b, X_n, X_b,eff,alpha_list ))
     print(f"X_n is: {X_n}")
-    print(f"X_n cumulative is: {X_n_cumulative}")
-    print(f"C_capex is: {C_capex}")
+    print(f"C_pur is: {C_pur}")
+    print(f"C_inst is: {C_inst}")
+    # print(f"C_capex is: {C_capex}")
 
 
 if __name__ == "__main__":
