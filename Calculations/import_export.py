@@ -1,4 +1,5 @@
 from calculations import X_n_calc
+import pandas as pd
 
 def d_n_calc(d_b_j: list, d_sat_j: list, n):
     output = []
@@ -70,7 +71,18 @@ def main():
     d_tot_n = d_tot_n_calc(d_n)
     d_elec_n = [5.71031, 12.65181, 21.02358, 31.05333, 34.40099, 38.11, 42.22, 46.77, 51.81, 57.40, 63.58, 70.44, 78.03, 86.44, 95.76, 106.09, 117.52, 130.19, 144.23, 159.78, 177.00, 196.08, 217.22, 240.64]
     import_export_cost = import_export_cost_calc(d_elec_n, x_n, c_import, c_export)
-    print(import_export_cost)
+    count = 0
+    dict = {'year': [], 'IE cost': []}
+    for i in import_export_cost:
+        dict['year'].append(t_o + count)
+        dict['IE cost'].append(i)
+        count+=1
+
+    df = pd.DataFrame().from_dict(dict)
+    print(df.head(5))
+    
+    # pp = pprint.PrettyPrinter(depth=4)
+    # pp.pprint(dict)
     
 
 
