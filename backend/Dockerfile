@@ -23,8 +23,8 @@ ENV PATH="/backend/.venv/bin:$PATH"
 
 COPY --from=builder ${VIRTUAL_ENV} ${VIRTUAL_ENV}
 
-COPY backend ./backend
+COPY --chown=backend:backend backend ./backend
 
 EXPOSE 5000
 
-CMD ["flask", "--app", "backend/app", "run"]
+CMD ["python", "-m", "backend.app"]

@@ -1,7 +1,7 @@
 from flask import Flask, request, jsonify, make_response
 from flask_sqlalchemy import SQLAlchemy
 from os import environ
-from backend.app import User
+from backend.backend.app import User
 
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = environ.get('DB_URL')

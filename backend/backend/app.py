@@ -19,9 +19,9 @@ class User(db.Model):
 with app.app_context():
     db.create_all()
 
-@app.route('/test', methods=['GET'])
+@app.route('/test')
 def hello_world():
-    return "<p>Hello, World!</p>"
+    return "<p>Hello, World! change change</p>"
 
 if __name__ == '__main__':
-    app.run()
+    app.run(host="0.0.0.0", debug=True)
