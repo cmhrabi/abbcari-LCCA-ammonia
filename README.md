@@ -5,3 +5,6 @@ User Friendly Application to Compare Economic and Environmental Impact of New Su
 Poetry (Backend): https://python-poetry.org/docs/
 
 Yarn (Frontend): https://classic.yarnpkg.com/lang/en/docs/
+
+## Other helpful links
+UI Framework: https://nextui.org/docs/guide/introduction
