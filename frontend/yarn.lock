@@ -7969,6 +7969,7 @@ fresh@0.5.2:
 "frontend@file:.":
   version "0.1.0"
   dependencies:
+    "@nextui-org/react" "^2.4.8"
     "@testing-library/jest-dom" "^5.14.1"
     "@testing-library/react" "^13.0.0"
     "@testing-library/user-event" "^13.2.1"
@@ -7976,7 +7977,8 @@ fresh@0.5.2:
     "@types/node" "^16.7.13"
     "@types/react" "^18.0.0"
     "@types/react-dom" "^18.0.0"
-    frontend "file:../../../.cache/yarn/v6/npm-frontend-0.1.0-3fd6b217-c8f8-45ad-94c9-9591607c058e-1727401854037/node_modules/frontend"
+    framer-motion "^11.8.0"
+    frontend "file:../../../.cache/yarn/v6/npm-frontend-0.1.0-c91a568b-d399-46ba-802b-49a259d2cb20-1728504424235/node_modules/frontend"
     react "^18.3.1"
     react-dom "^18.3.1"
     react-scripts "5.0.1"

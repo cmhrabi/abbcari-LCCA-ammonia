@@ -1,13 +1,13 @@
 import type { Meta, StoryObj } from '@storybook/react';
  
-import Button from "./Button";
+import LCCAButton from "./Button";
  
-const meta: Meta<typeof Button> = {
-  component: Button,
+const meta: Meta<typeof LCCAButton> = {
+  component: LCCAButton,
 };
  
 export default meta;
-type Story = StoryObj<typeof Button>;
+type Story = StoryObj<typeof LCCAButton>;
  
 export const Primary: Story = {
   args: {
