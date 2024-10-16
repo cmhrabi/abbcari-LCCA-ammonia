@@ -1,11 +1,13 @@
 import React from 'react';
+import {Button} from "@nextui-org/react";
+import Text from '../Text/Text';
 
-const Button = () => {
+const LCCAButton = () => {
   return (
-    <div className="Button">
-      <button>LCCA Main Button</button>
-    </div>
+    <Button className='bg-primary-500'>
+      <Text>Button</Text>
+    </Button>
   );
 }
 
-export default Button;
+export default LCCAButton;
