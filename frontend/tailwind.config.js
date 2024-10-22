@@ -230,21 +230,6 @@ module.exports = {
         }
       }
     },
-    "layout": {
-      "radius": {
-        "small": "3px",
-        "medium": "0.75rem",
-        "large": "0.875rem"
-      },
-      "borderWidth": {
-        "small": "1px",
-        "medium": "2px",
-        "large": "3px"
-      },
-      "disabledOpacity": "0.5",
-      "dividerWeight": "1",
-      "hoverOpacity": 1
-  }
 }
   )],
 };
