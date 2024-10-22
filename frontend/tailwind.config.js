@@ -35,9 +35,17 @@ module.exports = {
           fontWeight: 400,
           lineHeight: "20px",
         }],
-        "button": ["12px", {
-          fontWeight: 400,
+        "button-sm": ["12px", {
+          fontWeight: 500,
           lineHeight: "16px",
+        }],
+        "button-md": ["14px", {
+          fontWeight: 500,
+          lineHeight: "20px",
+        }],
+        "button-lg": ["16px", {
+          fontWeight: 500,
+          lineHeight: "24px",
         }],
         "label": ["12px", {
           fontWeight: 400,
@@ -48,6 +56,9 @@ module.exports = {
           lineHeight: "20px",
         }]
       },
+      borderRadius: {
+        'button': '3px',
+      }
     },
   },
   darkMode: "class",
@@ -219,21 +230,6 @@ module.exports = {
         }
       }
     },
-    "layout": {
-      "radius": {
-        "small": "0.5rem",
-        "medium": "0.75rem",
-        "large": "0.875rem"
-      },
-      "borderWidth": {
-        "small": "1px",
-        "medium": "2px",
-        "large": "3px"
-      },
-      "disabledOpacity": "0.5",
-      "dividerWeight": "1",
-      "hoverOpacity": "0.9"
-  }
 }
   )],
 };

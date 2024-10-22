@@ -6234,6 +6234,13 @@ cjs-module-lexer@^1.0.0, cjs-module-lexer@^1.2.3:
   resolved "https://registry.npmjs.org/cjs-module-lexer/-/cjs-module-lexer-1.4.1.tgz"
   integrity sha512-cuSVIHi9/9E/+821Qjdvngor+xpnlwnuwIyZOaLmHBVdXL+gP+I6QQB9VkO7RI77YIcTV+S1W9AreJ5eN63JBA==
 
+class-variance-authority@^0.7.0:
+  version "0.7.0"
+  resolved "https://registry.yarnpkg.com/class-variance-authority/-/class-variance-authority-0.7.0.tgz#1c3134d634d80271b1837452b06d821915954522"
+  integrity sha512-jFI8IQw4hczaL4ALINxqLEXQbWcNjoSkloa4IaufXCJr6QawJyw7tuRysRsrE8w2p/4gGaxKIt/hX3qz/IbD1A==
+  dependencies:
+    clsx "2.0.0"
+
 clean-css@^5.2.2:
   version "5.3.3"
   resolved "https://registry.npmjs.org/clean-css/-/clean-css-5.3.3.tgz"
@@ -6249,6 +6256,11 @@ cliui@^7.0.2:
     string-width "^4.2.0"
     strip-ansi "^6.0.0"
     wrap-ansi "^7.0.0"
+
+clsx@2.0.0:
+  version "2.0.0"
+  resolved "https://registry.yarnpkg.com/clsx/-/clsx-2.0.0.tgz#12658f3fd98fafe62075595a5c30e43d18f3d00b"
+  integrity sha512-rQ1+kcj+ttHG0MKVGBUXwayCCF1oh39BF5COIpRzuCEv8Mwjv0XucrI2ExNTOn9IlLifGClWQcU9BrZORvtw6Q==
 
 clsx@^1.2.1:
   version "1.2.1"
@@ -7978,7 +7990,7 @@ fresh@0.5.2:
     "@types/react" "^18.0.0"
     "@types/react-dom" "^18.0.0"
     framer-motion "^11.8.0"
-    frontend "file:../../../.cache/yarn/v6/npm-frontend-0.1.0-c91a568b-d399-46ba-802b-49a259d2cb20-1728504424235/node_modules/frontend"
+    frontend "file:../../../.cache/yarn/v6/npm-frontend-0.1.0-73fe64cf-65d4-4c86-92ce-c6421155bbd1-1729552320402/node_modules/frontend"
     react "^18.3.1"
     react-dom "^18.3.1"
     react-scripts "5.0.1"
