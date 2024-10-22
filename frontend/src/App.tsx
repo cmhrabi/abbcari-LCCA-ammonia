@@ -1,7 +1,7 @@
 import React from 'react';
 import logo from './logo.svg';
 import './App.css';
-import LCCAButton from './components/Button/Button';
+import Button from './components/Button/Button';
 
 const App = () => {
   return (
@@ -11,7 +11,7 @@ const App = () => {
         <p>
           LCCA Platform
         </p>
-        <LCCAButton/>
+        <Button>Button</Button>
       </header>
     </div>
   );
