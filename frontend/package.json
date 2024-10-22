@@ -11,6 +11,7 @@
     "@types/node": "^16.7.13",
     "@types/react": "^18.0.0",
     "@types/react-dom": "^18.0.0",
+    "class-variance-authority": "^0.7.0",
     "framer-motion": "^11.8.0",
     "frontend": "file:",
     "react": "^18.3.1",
