@@ -1,5 +1,4 @@
 import React from 'react';
-import  {Button as NextButton}  from "@nextui-org/react" ;
 import Text, { TextSize } from '../Text/Text';
 import { cva } from 'class-variance-authority';
 
@@ -20,7 +19,7 @@ const Button: React.FC<ButtonProps> = ({
   color = 'primary',
   isIconOnly = false,
 }) => {
-  const variants = cva(['relative', 'rounded-button', 'inline-flex', 'items-center', 'text-center'], {
+  const variants = cva(['relative', 'rounded-3px', 'inline-flex', 'items-center', 'text-center'], {
     //Todo: Add more hover colors
     variants: {
       color: {

@@ -57,7 +57,10 @@ module.exports = {
         }]
       },
       borderRadius: {
-        'button': '3px',
+        '3px': '3px',
+      },
+      boxShadow: {
+        'input': '-2px -2px 0px -0px rgba(232, 244, 253, 1)',
       }
     },
   },
@@ -143,10 +146,10 @@ module.exports = {
             "DEFAULT": "#E8EDF1"
           },
           "lightblue": {
+            "ice": "#E8F4FD",
             "DEFAULT": "#F1F8FE"
           },
-        }
-      },
+      }},
       "dark": {
         "colors": {
           "default": {
