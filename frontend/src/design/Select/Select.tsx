@@ -3,14 +3,17 @@ import { cva } from 'class-variance-authority';
 import HelpMessage from '../HelpMessage/HelpMessage';
 import HelpIcon from '../../../public/help_icons/help.svg'
 import ErrorIcon from '../../../public/help_icons/error.svg'
+import { ListFormat } from 'typescript';
+import { withOptions } from 'tailwindcss/plugin';
 
-export interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> {
+interface SelectProps extends React.SelectHTMLAttributes<HTMLSelectElement> {
     label?: string;
     helpMessage?: string;
     error?: string;
+    options: string[];
 }
 
-const Input: React.FC<InputProps> = ({ label, helpMessage, error, ...props }) => {
+const Select: React.FC<SelectProps> = ({ label, helpMessage, error, options, ...props }) => {
     const inputVariants = cva(
         'block w-full p-3 border placeholder:text-input placeholder:text-grey-blue disabled:bg-grey rounded-3px shadow-sm ',
         {
@@ -38,9 +41,13 @@ const Input: React.FC<InputProps> = ({ label, helpMessage, error, ...props }) =>
                 {label && error && <img onClick={onFocus} src={ErrorIcon} width={16} height={16}/>}
                 {label && <label className={labelVariants({})}>{label}</label>}
             </div>
-            <input className={inputVariants({focus: error ? 'error' : 'noError'})} onFocus={onFocus} onBlur={onBlur} {...props}/>
+            <select className={inputVariants({focus: error ? 'error' : 'noError'})} onFocus={onFocus} onBlur={onBlur} {...props}>
+                {options.map((option, index) => 
+                    <option key={index} value={option}>{option}</option>
+                )}
+            </select>
         </div>
     );
 };
 
-export default Input;
+export default Select;

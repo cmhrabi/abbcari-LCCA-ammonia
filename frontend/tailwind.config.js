@@ -54,6 +54,10 @@ module.exports = {
         "input": ["14px", {
           fontWeight: 500,
           lineHeight: "20px",
+        }],
+        "help-message": ["14px", {
+          fontWeight: 900,
+          lineHeight: "20px",
         }]
       },
       borderRadius: {
@@ -111,20 +115,7 @@ module.exports = {
             "foreground": "#000",
             "DEFAULT": "#f5a524"
           },
-          "danger": {
-            "50": "#fee1eb",
-            "100": "#fbb8cf",
-            "200": "#f98eb3",
-            "300": "#f76598",
-            "400": "#f53b7c",
-            "500": "#f31260",
-            "600": "#c80f4f",
-            "700": "#9e0c3e",
-            "800": "#73092e",
-            "900": "#49051d",
-            "foreground": "#000",
-            "DEFAULT": "#f31260"
-          },
+          "danger": '#D21C1C',
           "background": "#ffffff",
           "foreground": {
             "50": "#dfdfdf",
@@ -193,20 +184,7 @@ module.exports = {
             "foreground": "#000",
             "DEFAULT": "#f5a524"
           },
-          "danger": {
-            "50": "#fee1eb",
-            "100": "#fbb8cf",
-            "200": "#f98eb3",
-            "300": "#f76598",
-            "400": "#f53b7c",
-            "500": "#f31260",
-            "600": "#c80f4f",
-            "700": "#9e0c3e",
-            "800": "#73092e",
-            "900": "#49051d",
-            "foreground": "#000",
-            "DEFAULT": "#f31260"
-          },
+          "danger": '#D21C1C',
           "background": "#ffffff",
           "foreground": {
             "50": "#dfdfdf",
