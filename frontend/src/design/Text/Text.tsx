@@ -10,7 +10,7 @@ export interface TextProps {
 
 export type TextSize = 'h1' | 'h2' | 'sub1' | 'sub2' | 'body' | 'button-sm' | 'button-md' | 'button-lg' | 'label' | 'input' | 'help-message';
 
-const Text: React.FC<TextProps> = ({ textSize = 'body', color = 'black', children }) => {
+const Text: React.FC<TextProps> = ({ textSize = 'body', color = 'black', children, ...props }) => {
     const variants = cva([], {
         variants: {
           size: {
