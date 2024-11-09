@@ -6,9 +6,10 @@ interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
     start?: React.ReactNode;
     end?: React.ReactNode;
     children: React.ReactNode;
-    color?: 'primary' | 'secondary';
+    color?: 'primary' | 'secondary' | 'tertiary' | 'danger' | 'warning' | 'success';
     size?: 'small' | 'medium' | 'large';
     isIconOnly?: boolean;
+    secondary?: boolean;
 };
 
 const Button: React.FC<ButtonProps> = ({
@@ -18,6 +19,7 @@ const Button: React.FC<ButtonProps> = ({
   size = 'medium',
   color = 'primary',
   isIconOnly = false,
+  secondary = false,
   ...props
 }) => {
   const variants = cva(['relative', 'rounded-3px', 'inline-flex', 'items-center', 'text-center'], {
@@ -26,7 +28,7 @@ const Button: React.FC<ButtonProps> = ({
       color: {
         primary: 'bg-primary hover:bg-primary-hover',
         secondary: 'bg-secondary',
-        teritary: 'bg-teritary',
+        tertiary: 'bg-tertiary',
         danger: 'bg-danger',
         warning: 'bg-warning',
         success: 'bg-success',
@@ -36,6 +38,9 @@ const Button: React.FC<ButtonProps> = ({
         medium: 'px-4 py-3',
         large: 'px-6 py-3.5',
       },
+      secondary: {
+        true: 'bg-opacity-30'
+      }
     }
   });
 
@@ -67,11 +72,11 @@ const Button: React.FC<ButtonProps> = ({
 
   return (
     isIconOnly ?
-      <button {...props} className={variants({size: size, color: color})}>
+      <button {...props} className={variants({size: size, color: color, secondary: secondary})}>
         {children}
       </button>
      : 
-      <button {...props} className={variants({size: size, color: color})}>
+      <button {...props} className={variants({size: size, color: color, secondary: secondary})}>
         {start && <div className={startVariants({size: size})}>{start}</div>}
         <Text textSize={textSizeMap[size]} color='white'>{children}</Text>
         {end && <div className={endVariants({size: size})}>{end}</div>}

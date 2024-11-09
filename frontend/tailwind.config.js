@@ -58,7 +58,11 @@ module.exports = {
         "help-message": ["14px", {
           fontWeight: 900,
           lineHeight: "20px",
-        }]
+        }],
+        "alert-title": ["14px", {
+          fontWeight: 700,
+          lineHeight: "20px",
+        }],
       },
       borderRadius: {
         '3px': '3px',
@@ -79,6 +83,7 @@ module.exports = {
           },
           "primary": {
             "hover": "#384E9E",
+            "alert-border": "rgba(1, 114, 203, 0.10)",
             "DEFAULT": "#506AC7"
           },
           "secondary": {
@@ -148,6 +153,7 @@ module.exports = {
           },
           "primary": {
             "hover": "#384E9E",
+            "alert-border": "rgba(1, 114, 203, 0.10)",
             "DEFAULT": "#506AC7"
           },
           "secondary": {
