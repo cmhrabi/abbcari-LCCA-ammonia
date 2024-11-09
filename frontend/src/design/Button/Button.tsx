@@ -1,9 +1,8 @@
 import React from 'react';
-import  {Button as NextButton}  from "@nextui-org/react" ;
 import Text, { TextSize } from '../Text/Text';
 import { cva } from 'class-variance-authority';
 
-interface ButtonProps {
+interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
     start?: React.ReactNode;
     end?: React.ReactNode;
     children: React.ReactNode;
@@ -19,8 +18,9 @@ const Button: React.FC<ButtonProps> = ({
   size = 'medium',
   color = 'primary',
   isIconOnly = false,
+  ...props
 }) => {
-  const variants = cva(['relative', 'rounded-button', 'inline-flex', 'items-center', 'text-center'], {
+  const variants = cva(['relative', 'rounded-3px', 'inline-flex', 'items-center', 'text-center'], {
     //Todo: Add more hover colors
     variants: {
       color: {
@@ -67,11 +67,11 @@ const Button: React.FC<ButtonProps> = ({
 
   return (
     isIconOnly ?
-      <button className={variants({size: size, color: color})}>
+      <button {...props} className={variants({size: size, color: color})}>
         {children}
       </button>
      : 
-      <button className={variants({size: size, color: color})}>
+      <button {...props} className={variants({size: size, color: color})}>
         {start && <div className={startVariants({size: size})}>{start}</div>}
         <Text textSize={textSizeMap[size]} color='white'>{children}</Text>
         {end && <div className={endVariants({size: size})}>{end}</div>}

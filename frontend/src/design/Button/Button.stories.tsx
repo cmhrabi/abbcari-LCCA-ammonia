@@ -7,7 +7,7 @@ export default {
   title: 'Components/Button',
 };
 
-const TypographyDemo = () => {
+const ButtonDemo = () => {
   return (
     <div className="space-y-3">
       <div className="space-x-3">
@@ -39,4 +39,4 @@ const TypographyDemo = () => {
   );
 };
 
-export const Variants = TypographyDemo.bind({});
+export const Variants = ButtonDemo.bind({});

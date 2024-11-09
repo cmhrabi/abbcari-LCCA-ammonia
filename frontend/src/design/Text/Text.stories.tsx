@@ -23,8 +23,14 @@ const TypographyDemo = () => {
         <Text textSize='body'>
             Body text
         </Text>
-        <Text textSize='button'>
-            Button text
+        <Text textSize='button-sm'>
+            Button small text
+        </Text>
+        <Text textSize='button-md'>
+            Button med text
+        </Text>
+        <Text textSize='button-lg'>
+            Button large text
         </Text>
         <Text textSize='label'>
             Label
