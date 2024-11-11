@@ -131,6 +131,7 @@ module.exports = {
           "grey": {
             "blue": "#697D95",
             "dark": "#404040",
+            "label": "#4F5E71",
             "DEFAULT": "#E8EDF1"
           },
           "lightblue": {
