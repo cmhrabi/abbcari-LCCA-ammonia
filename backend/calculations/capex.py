@@ -58,11 +58,26 @@ def pur_inst_cost_calc(C_b, X_n, X_b, E, Y, alpha, k):
 
 
 def capex_o_calc(C_pur, C_inst, S_dir, S_indir, S_wc, i):
-    C_dir = C_pur * S_dir
-    C_indir = (C_inst + C_dir) * S_indir
-    C_wc = (C_inst + C_dir + C_indir) * S_wc
 
-    C_capex_o = C_inst + C_dir + C_indir + C_wc
+    C_dir = []
+    C_indir = []
+    C_wc = []
+    C_capex_o = []
+
+    for j in range(len(C_pur)):
+        C_dir_j = C_pur[j] * S_dir
+        # print(f"C_dir {j} = {C_dir_j}")
+        C_indir_j = (C_inst[j] + C_dir_j) * S_indir
+        # print(f"C_indir {j} = {C_indir_j}")
+        C_wc_j = (C_inst[j] + C_dir_j + C_indir_j) * S_wc
+        # print(f"C_wc {j} = {C_wc_j}")
+        C_capex_o_j = C_inst[j] + C_dir_j + C_indir_j + C_wc_j
+        # print(f"C_capex_o_j = {C_capex_o_j}")
+        C_dir.append(C_dir_j)
+        C_indir.append(C_indir_j)
+        C_wc.append(C_wc_j)
+        C_capex_o.append(C_capex_o_j)
+
     return C_capex_o
 
 
@@ -120,10 +135,6 @@ def ER_calc(ER_b, X_n, X_b, eff, alpha_j):
                 else:
                     # ask not sure
                     ER[i][j][key] = ((1 - eff) * ER_b[j][key] * math.pow(X_n[i] / X_b, alpha_j[j]) + eff * ER_b[j][key])
-                
-
-
-            
     return ER, ER_sum
 
 
@@ -227,7 +238,8 @@ def main():
 
     # Calc C_Capex_o
     C_pur, C_inst = pur_inst_cost_calc(C_b, X_n, X_b, E, Y, alpha_list, 0)
-    # C_capex_o = capex_o_calc(C_pur, C_inst, S_dir, S_indir, S_wc, 0)
+    C_capex_o = capex_o_calc(C_pur, C_inst, S_dir, S_indir, S_wc, 0)
+    print(C_capex_o)
     #
     # # Calc PV
     # PV = PV_capex_calc(DR, t_f, t_o)
@@ -236,9 +248,9 @@ def main():
     # C_capex = C_capex_calc(C_capex_o, PV, 0)
     #
     # print(ER_calc(ER_b, X_n, X_b,eff,alpha_list ))
-    print(f"X_n is: {X_n}")
-    print(f"C_pur is: {C_pur}")
-    print(f"C_inst is: {C_inst}")
+    #print(f"X_n is: {X_n}")
+    #print(f"C_pur is: {C_pur}")
+    #print(f"C_inst is: {C_inst}")
     # print(f"C_capex is: {C_capex}")
 
 
