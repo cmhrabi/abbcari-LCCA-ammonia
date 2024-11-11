@@ -1,14 +1,13 @@
 import React from 'react';
-import { tv } from "@nextui-org/react";
 import { cva } from 'class-variance-authority';
 
-export interface TextProps {
+export interface TextProps extends React.HTMLAttributes<HTMLDivElement> {
     textSize?: TextSize;
-    color?: 'black' | 'white';
+    color?: 'black' | 'white' | 'primary' | 'secondary' | 'tertiary' | 'success' | 'warning' | 'danger';
     children: React.ReactNode;
 }
 
-export type TextSize = 'h1' | 'h2' | 'sub1' | 'sub2' | 'body' | 'button-sm' | 'button-md' | 'button-lg' | 'label' | 'input' | 'help-message';
+export type TextSize = 'h1' | 'h2' | 'sub1' | 'sub2' | 'body' | 'button-sm' | 'button-md' | 'button-lg' | 'label' | 'input' | 'help-message' | 'alert-title';
 
 const Text: React.FC<TextProps> = ({ textSize = 'body', color = 'black', children, ...props }) => {
     const variants = cva([], {
@@ -24,11 +23,18 @@ const Text: React.FC<TextProps> = ({ textSize = 'body', color = 'black', childre
             "button-lg": 'text-button-lg',
             label: 'text-label',
             input: 'text-input',
-            "help-message": "text-help-message"
+            "help-message": "text-help-message",
+            "alert-title": "text-alert-title"
           },
           color: {
             black: 'text-black',
             white: 'text-white',
+            primary: 'text-primary',
+            secondary: 'text-secondary',
+            tertiary: 'text-tertiary',
+            success: 'text-success',
+            warning: 'text-warning',
+            danger: 'text-danger',
           },
         },
         defaultVariants: {
@@ -37,7 +43,7 @@ const Text: React.FC<TextProps> = ({ textSize = 'body', color = 'black', childre
         }
       });
 
-    return <div className={variants({size: textSize, color: color})}>{children}</div>;
+    return <div className={variants({size: textSize, color: color})} {...props}>{children}</div>;
 };
 
 export default Text;
