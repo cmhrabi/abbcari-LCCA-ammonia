@@ -12,6 +12,9 @@ module.exports = {
   ],
   theme: {
     extend: {
+      fontFamily: {
+        sans: ["Inter"],
+      },
       "fontSize": {
         "h1": ["36px", {
           fontWeight: 600,
