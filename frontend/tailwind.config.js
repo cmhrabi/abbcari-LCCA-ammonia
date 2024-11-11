@@ -90,37 +90,29 @@ module.exports = {
             "DEFAULT": "#1C2465"
           },
           "tertiary": {
+            "hover": "#0161AC",
+            "active": "#01508E",
+            "bg": "#F1F8FE",
             "DEFAULT": "#0172CB"
           },
           "success": {
-            "50": "#e2f8ec",
-            "100": "#b9efd1",
-            "200": "#91e5b5",
-            "300": "#68dc9a",
-            "400": "#40d27f",
-            "500": "#17c964",
-            "600": "#13a653",
-            "700": "#0f8341",
-            "800": "#0b5f30",
-            "900": "#073c1e",
-            "foreground": "#000",
-            "DEFAULT": "#17c964"
+            "hover": "#238B31",
+            "active": "#1D7228",
+            "bg": "#F2F8F2",
+            "DEFAULT": "#28A138"
           },
           "warning": {
-            "50": "#fef4e4",
-            "100": "#fce4bd",
-            "200": "#fad497",
-            "300": "#f9c571",
-            "400": "#f7b54a",
-            "500": "#f5a524",
-            "600": "#ca881e",
-            "700": "#9f6b17",
-            "800": "#744e11",
-            "900": "#4a320b",
-            "foreground": "#000",
-            "DEFAULT": "#f5a524"
+            "hover": "#C96F00",
+            "active": "#B26200",
+            "bg": "#FEF7F1",
+            "DEFAULT": "#DF7B00"
           },
-          "danger": '#D21C1C',
+          "danger": {
+            "hover": '#B91919',
+            "active": '#9D1515',
+            "bg": "#FCF3F3",
+            "DEFAULT": '#D21C1C',
+          },
           "background": "#ffffff",
           "foreground": {
             "50": "#dfdfdf",

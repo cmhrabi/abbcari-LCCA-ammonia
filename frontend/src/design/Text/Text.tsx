@@ -1,5 +1,4 @@
 import React from 'react';
-import { tv } from "@nextui-org/react";
 import { cva } from 'class-variance-authority';
 
 export interface TextProps extends React.HTMLAttributes<HTMLDivElement> {

@@ -13,10 +13,10 @@ const alertStyles = cva(
   {
     variants: {
       type: {
-        info: "bg-blue-50 border-l-3 border-t-1 border-r-1 border-b-1 border-l-tertiary border-primary-alert-border", //custom border color not added in theme
-        success: "bg-green-50 text-green-800 border-l-4 border-green-500",
-        warning: "bg-yellow-50 text-yellow-800 border-l-4 border-yellow-500",
-        danger: "bg-red-50 text-red-800 border-l-4 border-red-500",
+        info: "bg-tertiary-bg border-l-3 border-t-1 border-r-1 border-b-1 border-l-tertiary border-primary-alert-border", //custom border color not added in theme
+        success: "bg-success-bg text-success border-l-4 border-success",
+        warning: "bg-warning-bg text-warning border-l-4 border-warning",
+        danger: "bg-danger-bg text-danger border-l-4 border-danger",
       },
       layout: { default: "flex items-start space-x-2", inline: "flex space-x-2" },
     },

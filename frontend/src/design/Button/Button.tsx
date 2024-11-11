@@ -23,15 +23,14 @@ const Button: React.FC<ButtonProps> = ({
   ...props
 }) => {
   const variants = cva(['relative', 'rounded-3px', 'inline-flex', 'items-center', 'text-center'], {
-    //Todo: Add more hover colors
     variants: {
       color: {
         primary: 'bg-primary hover:bg-primary-hover',
         secondary: 'bg-secondary',
-        tertiary: 'bg-tertiary',
-        danger: 'bg-danger',
-        warning: 'bg-warning',
-        success: 'bg-success',
+        tertiary: 'bg-tertiary hover:bg-tertiary-hover active:bg-tertiary-active',
+        danger: 'bg-danger hover:bg-danger-hover active:bg-danger-active', 
+        warning: 'bg-warning hover:bg-warning-hover active:bg-warning-active',
+        success: 'bg-success hover:bg-success-hover active:bg-success-active',
       },
       size: {
         small: 'px-3 py-2',
@@ -39,7 +38,7 @@ const Button: React.FC<ButtonProps> = ({
         large: 'px-6 py-3.5',
       },
       secondary: {
-        true: 'bg-opacity-30'
+        true: 'bg-opacity-30 hover:bg-opacity-40 active:bg-opacity-50',
       }
     }
   });
