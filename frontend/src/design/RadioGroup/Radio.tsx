@@ -20,7 +20,7 @@ const Radio: React.FC<RadioProps> = ({label, description, value, ...props}) => {
         control: cn(
           "group-data-[selected=true]:bg-white",
         ),
-      }} description={<Text textSize='label'>{description}</Text>} value={value} {...props}><Text textSize='input'>{label}</Text></NextRadio>
+      }} description={<Text textSize='label' color="grey-label">{description}</Text>} value={value} {...props}><Text textSize='input'>{label}</Text></NextRadio>
 )};
 
 export default Radio;
