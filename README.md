@@ -8,3 +8,4 @@ Yarn (Frontend): https://classic.yarnpkg.com/lang/en/docs/
 
 ## Other helpful links
 UI Framework: https://nextui.org/docs/guide/introduction
+Icon Library: https://heroicons.com/
