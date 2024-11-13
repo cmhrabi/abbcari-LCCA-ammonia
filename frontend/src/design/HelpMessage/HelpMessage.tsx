@@ -6,7 +6,7 @@ import CloseIcon from '../../../public/close.svg'
 interface HelpMessageProps {
     children: string;
     type: 'error' | 'info';
-    onSnooze: () => void
+    onSnooze?: () => void
 }
 
 const HelpMessage: React.FC<HelpMessageProps> = ({ children, type, onSnooze }) => {
