@@ -13,7 +13,8 @@ module.exports = {
   theme: {
     extend: {
       fontFamily: {
-        sans: ["Inter"],
+        sans: ["Inter", "sans-serif"],
+        josefin: ["Josefin Sans", "sans-serif"],
       },
       "fontSize": {
         "h1": ["36px", {
@@ -23,7 +24,10 @@ module.exports = {
         "h2": ["32px", {
           fontWeight: 600,
           lineHeight: "20px",
-          letterSpacing: "0.32px"
+        }],
+        "nav-title": ["24px", {
+          fontWeight: 400,
+          lineHeight: "20px",
         }],
         "sub1": ["16px", {
           fontWeight: 500,
@@ -72,6 +76,7 @@ module.exports = {
       },
       boxShadow: {
         'input': '-2px -2px 0px -0px rgba(232, 244, 253, 1)',
+        'nav-bar': '0px 4px 8px 0px rgba(79, 94, 113, 0.10), 0px 2px 4px 0px rgba(79, 94, 113, 0.11), 0px 0px 2px 0px rgba(79, 94, 113, 0.12)'
       }
     },
   },
