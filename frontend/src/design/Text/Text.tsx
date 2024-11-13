@@ -4,12 +4,13 @@ import { cva } from 'class-variance-authority';
 export interface TextProps extends React.HTMLAttributes<HTMLDivElement> {
     textSize?: TextSize;
     color?: 'black' | 'white' | 'primary' | 'secondary' | 'tertiary' | 'success' | 'warning' | 'danger' | 'grey-label';
+    font?: 'default' | 'josefin';
     children: React.ReactNode;
 }
 
-export type TextSize = 'h1' | 'h2' | 'sub1' | 'sub2' | 'body' | 'button-sm' | 'button-md' | 'button-lg' | 'label' | 'input' | 'help-message' | 'alert-title';
+export type TextSize = 'h1' | 'h2' | 'sub1' | 'sub2' | 'body' | 'button-sm' | 'button-md' | 'button-lg' | 'label' | 'input' | 'help-message' | 'alert-title' | 'nav-title';
 
-const Text: React.FC<TextProps> = ({ textSize = 'body', color = 'black', children, ...props }) => {
+const Text: React.FC<TextProps> = ({ textSize = 'body', color = 'black', children, font, ...props }) => {
     const variants = cva([], {
         variants: {
           size: {
@@ -24,7 +25,8 @@ const Text: React.FC<TextProps> = ({ textSize = 'body', color = 'black', childre
             label: 'text-label',
             input: 'text-input',
             "help-message": "text-help-message",
-            "alert-title": "text-alert-title"
+            "alert-title": "text-alert-title",
+            "nav-title": "text-nav-title"
           },
           color: {
             black: 'text-black',
@@ -37,6 +39,10 @@ const Text: React.FC<TextProps> = ({ textSize = 'body', color = 'black', childre
             danger: 'text-danger',
             "grey-label": 'text-grey-label'
           },
+          font: {
+            default: 'font-sans',
+            josefin: 'font-josefin'
+          }
         },
         defaultVariants: {
           size: 'body',
@@ -44,7 +50,7 @@ const Text: React.FC<TextProps> = ({ textSize = 'body', color = 'black', childre
         }
       });
 
-    return <div className={variants({size: textSize, color: color})} {...props}>{children}</div>;
+    return <div className={variants({size: textSize, color: color, font: font})} {...props}>{children}</div>;
 };
 
 export default Text;
