@@ -1,10 +1,8 @@
-import React, { useRef, useState } from 'react';
+import React from 'react';
 import { cva } from 'class-variance-authority';
 import HelpMessage from '../HelpMessage/HelpMessage';
-import HelpIcon from '../../../public/help_icons/help.svg'
-import ErrorIcon from '../../../public/help_icons/error.svg'
-import { ListFormat } from 'typescript';
-import { withOptions } from 'tailwindcss/plugin';
+import HelpIcon from '../../assets/help_icons/help.svg'
+import ErrorIcon from '../../assets/help_icons/error.svg'
 
 interface SelectProps extends React.SelectHTMLAttributes<HTMLSelectElement> {
     label?: string;

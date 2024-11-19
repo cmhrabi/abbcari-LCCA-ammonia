@@ -4147,6 +4147,11 @@
     "@react-types/overlays" "^3.8.9"
     "@react-types/shared" "^3.24.1"
 
+"@remix-run/router@1.21.0":
+  version "1.21.0"
+  resolved "https://registry.yarnpkg.com/@remix-run/router/-/router-1.21.0.tgz#c65ae4262bdcfe415dbd4f64ec87676e4a56e2b5"
+  integrity sha512-xfSkCAchbdG5PnbrKqFWwia4Bi61nH+wm8wLEqfHDyp7Y3dZzgqS2itV8i4gAq9pC2HsTpwyBC6Ds8VHZ96JlA==
+
 "@rollup/plugin-babel@^5.2.0":
   version "5.3.1"
   resolved "https://registry.npmjs.org/@rollup/plugin-babel/-/plugin-babel-5.3.1.tgz"
@@ -7986,6 +7991,7 @@ fresh@0.5.2:
 "frontend@file:.":
   version "0.1.0"
   dependencies:
+    "@heroicons/react" "^2.1.5"
     "@nextui-org/react" "^2.4.8"
     "@testing-library/jest-dom" "^5.14.1"
     "@testing-library/react" "^13.0.0"
@@ -7996,7 +8002,7 @@ fresh@0.5.2:
     "@types/react-dom" "^18.0.0"
     class-variance-authority "^0.7.0"
     framer-motion "^11.8.0"
-    frontend "file:../../.cache/yarn/v6/npm-frontend-0.1.0-d55a1032-60af-4883-84fe-866bd33ed98b-1731457600171/node_modules/frontend"
+    frontend "file:../../.cache/yarn/v6/npm-frontend-0.1.0-31378804-ee75-4103-ae54-c22b272a0dc5-1731463162987/node_modules/frontend"
     react "^18.3.1"
     react-dom "^18.3.1"
     react-scripts "5.0.1"
@@ -11330,6 +11336,21 @@ react-remove-scroll@^2.5.6:
     tslib "^2.1.0"
     use-callback-ref "^1.3.0"
     use-sidecar "^1.1.2"
+
+react-router-dom@^6.28.0:
+  version "6.28.0"
+  resolved "https://registry.yarnpkg.com/react-router-dom/-/react-router-dom-6.28.0.tgz#f73ebb3490e59ac9f299377062ad1d10a9f579e6"
+  integrity sha512-kQ7Unsl5YdyOltsPGl31zOjLrDv+m2VcIEcIHqYYD3Lp0UppLjrzcfJqDJwXxFw3TH/yvapbnUvPlAj7Kx5nbg==
+  dependencies:
+    "@remix-run/router" "1.21.0"
+    react-router "6.28.0"
+
+react-router@6.28.0:
+  version "6.28.0"
+  resolved "https://registry.yarnpkg.com/react-router/-/react-router-6.28.0.tgz#29247c86d7ba901d7e5a13aa79a96723c3e59d0d"
+  integrity sha512-HrYdIFqdrnhDw0PqG/AKjAqEqM7AvxCz0DQ4h2W8k6nqmc5uRBYDag0SBxx9iYz5G8gnuNVLzUe13wl9eAsXXg==
+  dependencies:
+    "@remix-run/router" "1.21.0"
 
 react-scripts@5.0.1:
   version "5.0.1"

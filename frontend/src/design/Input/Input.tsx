@@ -1,8 +1,8 @@
 import React, { useRef, useState } from 'react';
 import { cva } from 'class-variance-authority';
 import HelpMessage from '../HelpMessage/HelpMessage';
-import HelpIcon from '../../../public/help_icons/help.svg'
-import ErrorIcon from '../../../public/help_icons/error.svg'
+import HelpIcon from '../../assets/help_icons/help.svg'
+import ErrorIcon from '../../assets/help_icons/error.svg'
 
 export interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> {
     label?: string;

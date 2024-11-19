@@ -1,20 +1,22 @@
 import React from 'react';
-import logo from './logo.svg';
-import './App.css';
-import Button from './design/Button/Button';
+import { useRoutes } from 'react-router-dom';
+import Analysis from './screens/Analysis';
+import Home from './screens/Home';
+
+const routes = [
+  {
+    path: "/analysis",
+    element: <Analysis />,
+  },
+  {
+    path: "/",
+    element: <Home />
+  },
+];
 
 const App = () => {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          LCCA Platform
-        </p>
-        <Button>Button</Button>
-      </header>
-    </div>
-  );
-}
+  const appRoutes = useRoutes(routes);
+  return appRoutes;
+};
 
 export default App;

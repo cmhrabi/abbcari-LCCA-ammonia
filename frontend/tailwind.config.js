@@ -36,6 +36,10 @@ module.exports = {
         }],
         "sub2": ["16px", {
           fontWeight: 500,
+          lineHeight: "25px",
+        }],
+        "sub3": ["16px", {
+          fontWeight: 600,
           lineHeight: "20px",
         }],
         "body": ["14px", {
@@ -73,10 +77,12 @@ module.exports = {
       },
       borderRadius: {
         '3px': '3px',
+        '5px': '5px',
       },
       boxShadow: {
         'input': '-2px -2px 0px -0px rgba(232, 244, 253, 1)',
-        'nav-bar': '0px 4px 8px 0px rgba(79, 94, 113, 0.10), 0px 2px 4px 0px rgba(79, 94, 113, 0.11), 0px 0px 2px 0px rgba(79, 94, 113, 0.12)'
+        'nav-bar': '0px 4px 8px 0px rgba(79, 94, 113, 0.10), 0px 2px 4px 0px rgba(79, 94, 113, 0.11), 0px 0px 2px 0px rgba(79, 94, 113, 0.12)',
+        'card': '-4px 4px 4px 0px rgba(0, 0, 0, 0.05)'
       }
     },
   },
@@ -140,6 +146,7 @@ module.exports = {
             "blue": "#697D95",
             "dark": "#404040",
             "label": "#4F5E71",
+            "bg": "#F2F2F2",
             "DEFAULT": "#E8EDF1"
           },
           "lightblue": {

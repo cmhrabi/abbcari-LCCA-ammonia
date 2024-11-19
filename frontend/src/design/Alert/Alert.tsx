@@ -2,10 +2,10 @@ import React from 'react';
 import { cva } from 'class-variance-authority';
 import Text from '../Text/Text';
 import Button from '../Button/Button';
-import infoIcon from '../../../public/alert_icons/info.svg';
-import dangerIcon from '../../../public/alert_icons/danger.svg';
-import successIcon from '../../../public/alert_icons/success.svg';
-import warningIcon from '../../../public/alert_icons/warning.svg';
+import infoIcon from '../../assets/alert_icons/info.svg';
+import dangerIcon from '../../assets/alert_icons/danger.svg';
+import successIcon from '../../assets/alert_icons/success.svg';
+import warningIcon from '../../assets/alert_icons/warning.svg';
 
 
 const alertStyles = cva(
