@@ -35,8 +35,8 @@ const Select: React.FC<SelectProps> = ({ label, helpMessage, error, options, ...
             {helpMessage && focused && !error && <HelpMessage onSnooze={handleSnoozeHelp} type='info'>{helpMessage}</HelpMessage>}
             {error && <HelpMessage type='error' onSnooze={handleSnoozeHelp}>{error}</HelpMessage>}
             <div className="flex flex-row space-x-1">
-                {label && !error && <img onClick={onFocus} src={HelpIcon} width={16} height={16}/>}
-                {label && error && <img onClick={onFocus} src={ErrorIcon} width={16} height={16}/>}
+                {label && !error && <img onClick={onFocus} alt='Help Icon' src={HelpIcon} width={16} height={16}/>}
+                {label && error && <img onClick={onFocus} alt='Help Icon' src={ErrorIcon} width={16} height={16}/>}
                 {label && <label className={labelVariants({})}>{label}</label>}
             </div>
             <select className={inputVariants({focus: error ? 'error' : 'noError'})} onFocus={onFocus} onBlur={onBlur} {...props}>

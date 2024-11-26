@@ -6,7 +6,7 @@ import { useNavigate } from 'react-router-dom';
 interface TitleSlideProps {
 }
 
-const TitleSlide: React.FC<TitleSlideProps> = ({}) => {
+const TitleSlide: React.FC<TitleSlideProps> = () => {
     const navigate = useNavigate();
 
     return (

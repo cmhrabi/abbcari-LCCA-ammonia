@@ -6,7 +6,7 @@ import { useNavigate } from 'react-router-dom';
 interface AboutSlideProps {
 }
 
-const AboutSlide: React.FC<AboutSlideProps> = ({}) => {
+const AboutSlide: React.FC<AboutSlideProps> = () => {
     const navigate = useNavigate();
 
     return (

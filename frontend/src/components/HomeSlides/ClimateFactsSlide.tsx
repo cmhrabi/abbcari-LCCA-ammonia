@@ -4,7 +4,7 @@ import Text from '../../design/Text/Text';
 interface ClimateFactsSlideProps {
 }
 
-const ClimateFactsSlide: React.FC<ClimateFactsSlideProps> = ({}) => {
+const ClimateFactsSlide: React.FC<ClimateFactsSlideProps> = () => {
     return (
         <div className='bg-grey-bg'>
             <div className='py-16 max-w-6xl m-auto flex justify-center'>

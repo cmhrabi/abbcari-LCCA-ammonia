@@ -6,7 +6,7 @@ import Card from '../../design/Card/Card';
 interface VisualizeSlideProps {
 }
 
-const VisualizeSlide: React.FC<VisualizeSlideProps> = ({}) => {
+const VisualizeSlide: React.FC<VisualizeSlideProps> = () => {
     return (
         <div className='bg-grey-bg'>
             <div className='py-16 max-w-6xl m-auto'>

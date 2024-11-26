@@ -1,5 +1,4 @@
-import type { Meta, StoryObj } from '@storybook/react';
- 
+/* eslint-disable jsx-a11y/alt-text */
 import Button from "./Button";
 import glyph from "../../../public/glyph.svg";
 

@@ -1,4 +1,3 @@
-import type { Meta, StoryObj } from '@storybook/react';
 import Card from './Card';
 import { ClockIcon } from '@heroicons/react/24/outline'
 

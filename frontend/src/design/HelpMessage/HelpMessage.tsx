@@ -19,14 +19,14 @@ const HelpMessage: React.FC<HelpMessageProps> = ({ children, type, onSnooze }) =
         },
     });
 
-    const color = type == 'error' ? '#D21C1C' : '#0172CB'
+    const color = type === 'error' ? '#D21C1C' : '#0172CB'
 
     return (
         <div>
         <div className='flex'>
             <div className={variants({type: type})}>
                 <Text color='white' textSize='input'>{children}</Text>
-                {type != 'error' && <img src={CloseIcon} onClick={onSnooze} width={20} height={20}/>}
+                {type !== 'error' && <img src={CloseIcon} alt="Close Button" onClick={onSnooze} width={20} height={20}/>}
             </div>
         </div>
         <div className='pl-1'>

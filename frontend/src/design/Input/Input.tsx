@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react';
+import React from 'react';
 import { cva } from 'class-variance-authority';
 import HelpMessage from '../HelpMessage/HelpMessage';
 import HelpIcon from '../../assets/help_icons/help.svg'
@@ -34,8 +34,8 @@ const Input: React.FC<InputProps> = ({ label, helpMessage, error, ...props }) =>
             {helpMessage && focused && !error && <HelpMessage onSnooze={handleSnoozeHelp} type='info'>{helpMessage}</HelpMessage>}
             {error && <HelpMessage type='error' onSnooze={handleSnoozeHelp}>{error}</HelpMessage>}
             <div className="flex flex-row space-x-1">
-                {label && !error && <img onClick={onFocus} src={HelpIcon} width={16} height={16}/>}
-                {label && error && <img onClick={onFocus} src={ErrorIcon} width={16} height={16}/>}
+                {label && !error && <img onClick={onFocus} alt='Error Icon' src={HelpIcon} width={16} height={16}/>}
+                {label && error && <img onClick={onFocus} alt='Error Icon'  src={ErrorIcon} width={16} height={16}/>}
                 {label && <label className={labelVariants({})}>{label}</label>}
             </div>
             <input className={inputVariants({focus: error ? 'error' : 'noError'})} onFocus={onFocus} onBlur={onBlur} {...props}/>
