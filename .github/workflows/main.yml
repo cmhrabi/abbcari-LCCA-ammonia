@@ -6,6 +6,8 @@ jobs:
     steps:
     - uses: actions/checkout@v2
     - name: Install modules
+      working-directory: ./frontend
       run: yarn
     - name: Run ESLint
+      working-directory: ./frontend
       run: eslint . --ext .js,.jsx,.ts,.tsx
