@@ -1,7 +1,7 @@
 import type { Preview } from "@storybook/react";
-import { NextUIProvider } from '@nextui-org/react';
+import { NextUIProvider } from "@nextui-org/react";
 import React from "react";
-import './../src/index.css';
+import "./../src/index.css";
 
 const preview: Preview = {
   parameters: {
@@ -18,7 +18,7 @@ const preview: Preview = {
         <Story />
       </NextUIProvider>
     ),
-  ]
+  ],
 };
 
 export default preview;

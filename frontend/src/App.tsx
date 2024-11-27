@@ -1,7 +1,7 @@
-import React from 'react';
-import { useRoutes } from 'react-router-dom';
-import Analysis from './screens/Analysis';
-import Home from './screens/Home';
+import React from "react";
+import { useRoutes } from "react-router-dom";
+import Analysis from "./screens/Analysis";
+import Home from "./screens/Home";
 
 const routes = [
   {
@@ -10,7 +10,7 @@ const routes = [
   },
   {
     path: "/",
-    element: <Home />
+    element: <Home />,
   },
 ];
 
