@@ -1,14 +1,14 @@
-import type { Meta, StoryObj } from '@storybook/react';
-import HelpMessage from './HelpMessage';
+import HelpMessage from "./HelpMessage";
+import React from "react";
 
 export default {
-  title: 'Components/HelpMessage',
+  title: "Components/HelpMessage",
 };
 
 const HelpMessageDemo = () => {
   return (
     <div>
-        <HelpMessage type={'info'}>Help Message</HelpMessage>
+      <HelpMessage type={"info"}>Help Message</HelpMessage>
     </div>
   );
 };
