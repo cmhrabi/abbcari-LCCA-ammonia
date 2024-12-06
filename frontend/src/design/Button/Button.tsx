@@ -29,7 +29,14 @@ const Button: React.FC<ButtonProps> = ({
   ...props
 }) => {
   const variants = cva(
-    ["relative", "rounded-3px", "inline-flex", "items-center", "text-center"],
+    [
+      "relative",
+      "rounded-3px",
+      "inline-flex",
+      "items-center",
+      "text-center",
+      "disabled:bg-grey",
+    ],
     {
       variants: {
         color: {

@@ -1,7 +1,7 @@
 import React from "react";
 import { cva } from "class-variance-authority";
 import Text from "../Text/Text";
-import CloseIcon from "../../../public/close.svg";
+import CloseIcon from "../../assets/close.svg";
 
 interface HelpMessageProps {
   children: string;

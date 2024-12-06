@@ -6,15 +6,17 @@ import ErrorIcon from "../../assets/help_icons/error.svg";
 
 export interface InputProps
   extends React.InputHTMLAttributes<HTMLInputElement> {
-  label?: string;
+  label?: React.ReactNode;
   helpMessage?: string;
   error?: string;
+  noIcon?: boolean;
 }
 
 const Input: React.FC<InputProps> = ({
   label,
   helpMessage,
   error,
+  noIcon = false,
   ...props
 }) => {
   const inputVariants = cva(
@@ -49,7 +51,7 @@ const Input: React.FC<InputProps> = ({
         </HelpMessage>
       )}
       <div className="flex flex-row space-x-1">
-        {label && !error && (
+        {label && !noIcon && !error && (
           <img
             onClick={onFocus}
             alt="Error Icon"
