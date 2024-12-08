@@ -12,7 +12,8 @@ interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
     | "tertiary"
     | "danger"
     | "warning"
-    | "success";
+    | "success"
+    | "grey";
   size?: "small" | "medium" | "large";
   isIconOnly?: boolean;
   secondary?: boolean;
@@ -47,6 +48,7 @@ const Button: React.FC<ButtonProps> = ({
           danger: "bg-danger hover:bg-danger-hover active:bg-danger-active",
           warning: "bg-warning hover:bg-warning-hover active:bg-warning-active",
           success: "bg-success hover:bg-success-hover active:bg-success-active",
+          grey: "bg-grey-blue",
         },
         size: {
           small: "px-3 py-2",
