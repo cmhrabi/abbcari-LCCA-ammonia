@@ -56,7 +56,7 @@ export const theme = {
         "16px",
         {
           fontWeight: 600,
-          lineHeight: "20px",
+          lineHeight: "25px",
         },
       ],
       body: [
@@ -101,6 +101,13 @@ export const theme = {
           lineHeight: "20px",
         },
       ],
+      breadcrumb: [
+        "12px",
+        {
+          fontWeight: 500,
+          lineHeight: "16px",
+        },
+      ],
       "help-message": [
         "14px",
         {
@@ -113,6 +120,13 @@ export const theme = {
         {
           fontWeight: 700,
           lineHeight: "20px",
+        },
+      ],
+      "breadcrumb-final": [
+        "12px",
+        {
+          fontWeight: 700,
+          lineHeight: "16px",
         },
       ],
     },
@@ -267,6 +281,13 @@ export const plugins = [
             DEFAULT: "#F1F8FE",
           },
         },
+      },
+    },
+    layout: {
+      radius: {
+        small: "3px",
+        medium: "5px",
+        large: "10px",
       },
     },
   }),

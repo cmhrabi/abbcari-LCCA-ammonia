@@ -8,6 +8,8 @@ import {
   PlusCircleIcon,
 } from "@heroicons/react/24/solid";
 import { useNavigate } from "react-router-dom";
+import NoLoginModal from "../components/NoLoginModal/NoLoginModal";
+import { useDisclosure } from "@nextui-org/react";
 
 const descriptionText = `
   A dynamic modeling tool that allows you to analyze strategies and scenarios to reduce carbon emissions for hydrogen production for the upcoming decades. Levelized cost of carbon abatement (LCCA) is a new time-dependent parameter that can be used to inform decision-making practices.
@@ -16,6 +18,7 @@ const descriptionText = `
 const Analysis = () => {
   const [alertOpen, setAlertOpen] = useState(true);
   const navigate = useNavigate();
+  const { isOpen, onOpen, onOpenChange } = useDisclosure();
 
   return (
     <>
@@ -33,7 +36,7 @@ const Analysis = () => {
           <Alert
             title="Log in to explore without limits"
             message="You can perform your analysis without logging in, but to save and revisit your analysis later, please log in or create an account. Don't worry, you can still export a PDF to your computer at any time without logging in."
-            action={() => {}}
+            action={onOpen}
             actionLabel="Log In"
             secondaryAction={() => {
               setAlertOpen(false);
@@ -51,17 +54,20 @@ const Analysis = () => {
               Start a new analysis
             </Card>
           </div>
-          <Card
-            variant="primary"
-            description="Lorem ipsum dolor sit amet, consectetur adipiscing elit."
-            icon={
-              <MagnifyingGlassCircleIcon className="size-11 text-primary" />
-            }
-          >
-            View saved analyses
-          </Card>
+          <div onClick={onOpen}>
+            <Card
+              variant="primary"
+              description="Lorem ipsum dolor sit amet, consectetur adipiscing elit."
+              icon={
+                <MagnifyingGlassCircleIcon className="size-11 text-primary" />
+              }
+            >
+              View saved analyses
+            </Card>
+          </div>
         </div>
       </div>
+      <NoLoginModal isOpen={isOpen} onOpenChange={onOpenChange} />
     </>
   );
 };
