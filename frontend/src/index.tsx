@@ -3,7 +3,8 @@ import ReactDOM from "react-dom/client";
 import "./index.css";
 import App from "./App";
 import reportWebVitals from "./reportWebVitals";
-
+import { store } from "./store";
+import { Provider } from "react-redux";
 import { NextUIProvider } from "@nextui-org/react";
 import { BrowserRouter } from "react-router-dom";
 
@@ -14,7 +15,9 @@ root.render(
   <React.StrictMode>
     <NextUIProvider>
       <BrowserRouter>
-        <App />
+        <Provider store={store}>
+          <App />
+        </Provider>
       </BrowserRouter>
     </NextUIProvider>
   </React.StrictMode>,

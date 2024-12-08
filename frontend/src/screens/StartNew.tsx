@@ -7,22 +7,31 @@ import RadioGroup from "../design/RadioGroup/RadioGroup";
 import Button from "../design/Button/Button";
 import { useNavigate } from "react-router-dom";
 import Breadcrumbs from "../design/Breadcumbs/Breadcrumbs";
+import { useAppSelector, useAppDispatch } from "../hooks";
+import {
+  setAnalysisName,
+  setTech1Name,
+  setTech2Name,
+  setType,
+} from "../Slices/nameSlice";
 
 const StartNew = () => {
-  const [radioVal, setRadioVal] = useState("");
-  const [disabled, setDisabled] = useState(true);
-  const [name, setName] = useState("");
-  const [tech1, setTech1] = useState("");
-  const [tech2, setTech2] = useState("");
+  const analysisName = useAppSelector((state) => state.name.value.analysisName);
+  const tech1Name = useAppSelector((state) => state.name.value.tech1Name);
+  const tech2Name = useAppSelector((state) => state.name.value.tech2Name);
+  const type = useAppSelector((state) => state.name.value.type);
+  const dispatch = useAppDispatch();
   const navigate = useNavigate();
 
+  const [disabled, setDisabled] = useState(true);
+
   useEffect(() => {
-    if (radioVal && name && tech1 && tech2) {
+    if (analysisName && tech1Name && tech2Name && type) {
       setDisabled(false);
     } else {
       setDisabled(true);
     }
-  }, [name, radioVal, tech1, tech2]);
+  }, [analysisName, tech1Name, tech2Name, type]);
 
   return (
     <>
@@ -40,16 +49,16 @@ const StartNew = () => {
           </Text>
           <div className="w-1/3">
             <Input
-              value={name}
-              onChange={(e) => setName(e.target.value)}
+              value={analysisName}
+              onChange={(e) => dispatch(setAnalysisName(e.target.value))}
               label={<Text textSize="sub3">Enter a name for your project</Text>}
               placeholder="Name"
               noIcon
             />
           </div>
           <RadioGroup
-            onChange={(e) => setRadioVal(e.target.value)}
-            value={radioVal}
+            onChange={(e) => dispatch(setType(e.target.value))}
+            value={type}
             label="What type of LCCA Analysis will you be performing?"
           >
             <Radio
@@ -63,12 +72,12 @@ const StartNew = () => {
               description="Are you deciding between which technologies to start implementing?"
             />
           </RadioGroup>
-          {radioVal && name && (
+          {type && analysisName && (
             <div className="grid grid-cols-1 gap-y-14">
               <div className="w-1/2">
                 <Input
-                  value={tech1}
-                  onChange={(e) => setTech1(e.target.value)}
+                  value={tech1Name}
+                  onChange={(e) => dispatch(setTech1Name(e.target.value))}
                   label={
                     <Text textSize="sub3">
                       What is the name of the first technology you would like to
@@ -80,8 +89,8 @@ const StartNew = () => {
               </div>
               <div className="w-1/2">
                 <Input
-                  value={tech2}
-                  onChange={(e) => setTech2(e.target.value)}
+                  value={tech2Name}
+                  onChange={(e) => dispatch(setTech2Name(e.target.value))}
                   label={
                     <Text textSize="sub3">
                       What is the name of the second technology you would like
