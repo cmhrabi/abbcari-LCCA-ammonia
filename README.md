@@ -8,6 +8,7 @@ Yarn (Frontend): https://classic.yarnpkg.com/lang/en/docs/
 
 ## Other helpful links
 UI Framework (Old): https://nextui.org/docs/guide/introduction
+
 UI Framework (New): https://orbit.kiwi/getting-started/for-developers/
 
 Icon Library: https://heroicons.com/
