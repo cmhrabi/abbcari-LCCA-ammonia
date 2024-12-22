@@ -11,7 +11,6 @@ const General = () => {
   const analysisName = useAppSelector((state) => state.name.value.analysisName);
   const navigate = useNavigate();
 
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [disabled, setDisabled] = useState(true);
 
   return (
