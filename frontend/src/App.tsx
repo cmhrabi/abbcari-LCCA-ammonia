@@ -3,6 +3,7 @@ import { useRoutes } from "react-router-dom";
 import Analysis from "./screens/Analysis";
 import Home from "./screens/Home";
 import StartNew from "./screens/StartNew";
+import General from "./screens/General";
 
 const routes = [
   {
@@ -15,6 +16,10 @@ const routes = [
       {
         path: "start",
         element: <StartNew />,
+      },
+      {
+        path: "general",
+        element: <General />,
       },
     ],
   },

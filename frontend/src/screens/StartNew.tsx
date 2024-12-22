@@ -47,7 +47,7 @@ const StartNew = () => {
           <Text color="secondary" textSize="h2">
             Start a new analysis
           </Text>
-          <div className="w-1/3">
+          <div className="max-w-sm">
             <Input
               value={analysisName}
               onChange={(e) => dispatch(setAnalysisName(e.target.value))}
@@ -74,7 +74,7 @@ const StartNew = () => {
           </RadioGroup>
           {type && analysisName && (
             <div className="grid grid-cols-1 gap-y-14">
-              <div className="w-1/2">
+              <div className="max-w-xl">
                 <Input
                   value={tech1Name}
                   onChange={(e) => dispatch(setTech1Name(e.target.value))}
@@ -87,7 +87,7 @@ const StartNew = () => {
                   noIcon
                 />
               </div>
-              <div className="w-1/2">
+              <div className="max-w-xl">
                 <Input
                   value={tech2Name}
                   onChange={(e) => dispatch(setTech2Name(e.target.value))}
@@ -106,7 +106,11 @@ const StartNew = () => {
             <Button color="grey" onClick={() => navigate("/analysis")}>
               Cancel
             </Button>
-            <Button color="primary" disabled={disabled}>
+            <Button
+              color="primary"
+              disabled={disabled}
+              onClick={() => navigate("/analysis/general")}
+            >
               Next
             </Button>
           </div>
