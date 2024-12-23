@@ -27,13 +27,13 @@ const HelpMessage: React.FC<HelpMessageProps> = ({
 
   return (
     <div>
-      <div className="flex">
+      <div className="flex z-50">
         <div className={variants({ type: type })}>
           <Text color="white" textSize="input">
             {children}
           </Text>
           {type != "error" && (
-            <img src={CloseIcon} onClick={onSnooze} width={20} height={20} />
+            <img src={CloseIcon} onClick={onSnooze} width={20} height={20} className="cursor-pointer" />
           )}
         </div>
       </div>
