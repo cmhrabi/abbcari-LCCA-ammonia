@@ -41,9 +41,11 @@ const Input: React.FC<InputProps> = ({
   return (
     <div>
       {helpMessage && focused && !error && (
+        <div>
         <HelpMessage onSnooze={handleSnoozeHelp} type="info">
           {helpMessage}
         </HelpMessage>
+        </div>
       )}
       {error && (
         <HelpMessage type="error" onSnooze={handleSnoozeHelp}>
@@ -58,6 +60,7 @@ const Input: React.FC<InputProps> = ({
             src={HelpIcon}
             width={16}
             height={16}
+            className="cursor-pointer"
           />
         )}
         {label && error && (
