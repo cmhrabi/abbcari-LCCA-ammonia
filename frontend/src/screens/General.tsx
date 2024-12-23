@@ -33,15 +33,15 @@ const General = () => {
           </Text>
           <div className="grid grid-cols-2 gap-x-24 gap-y-12 max-w-md">
             <Input
-              label="Analysis name"
-              value={analysisName}
+              label="Start year"
+              // value={analysisName}
               onChange={() => {}}
               placeholder="2024"
               noIcon
             />
             <Input
-              label="Analysis name"
-              value={analysisName}
+              label="Final year"
+              // value={analysisName}
               onChange={() => {}}
               placeholder="2034"
               noIcon
@@ -49,40 +49,46 @@ const General = () => {
           </div>
           <div className="grid grid-cols-2 gap-x-24 gap-y-12 max-w-screen-lg">
             <Input
-              label="Analysis name"
-              value={analysisName}
+              label="Discount rate"
+              // value={analysisName}
               onChange={() => {}}
-              placeholder="Name"
+              placeholder="Value"
+              helpMessage="The rate at which future costs are adjusted to reflect the present value."
             />
             <Input
-              label="Analysis name"
-              value={analysisName}
+              label="Province(s) used in analysis"
+              // value={analysisName}
               onChange={() => {}}
-              placeholder="Name"
+              placeholder="Value(s)"
+              helpMessage="The province(s) you want to influence the projected cost based on its geographical location on the electricity grid."
             />
             <Input
-              label="Analysis name"
-              value={analysisName}
+              label="Electrical ammonia demand in target year (in petajoules)"
+              // value={analysisName}
               onChange={() => {}}
-              placeholder="Name"
+              placeholder="Value"
+              helpMessage="The amount of electricity that is required to generate ammonia. This value will be used to derive the installed and purchased costs."
             />
             <Input
-              label="Analysis name"
-              value={analysisName}
+              label="Efficiency of the technology"
+              // value={analysisName}
               onChange={() => {}}
-              placeholder="Name"
+              placeholder="Value"
+              helpMessage="The effectiveness of the technology performing its intended function relative to the carbon emission produced."
             />
             <Input
-              label="Analysis name"
-              value={analysisName}
+              label="Base electrical ammonia production rate (in petajoules)"
+              // value={analysisName}
               onChange={() => {}}
-              placeholder="Name"
+              placeholder="Value"
+              helpMessage="The current amount of ammonia that can be produced by your new technology. It will be used to calculate future production rates as the technology advances."
             />
             <Input
-              label="Analysis name"
-              value={analysisName}
+              label="Plant operating hours"
+              // value={analysisName}
               onChange={() => {}}
-              placeholder="Name"
+              placeholder="8000"
+              helpMessage="The number of hours a plant operates in a year. This value will be used to calculate the operating cost for a plant constructed in a year."
             />
           </div>
           <div className="space-x-6">
