@@ -26,14 +26,20 @@ const HelpMessage: React.FC<HelpMessageProps> = ({
   const color = type == "error" ? "#D21C1C" : "#0172CB";
 
   return (
-    <div>
-      <div className="flex z-50">
+    <div className="absolute z-10 top-0 -translate-y-full">
+      <div className="flex">
         <div className={variants({ type: type })}>
           <Text color="white" textSize="input">
             {children}
           </Text>
           {type != "error" && (
-            <img src={CloseIcon} onClick={onSnooze} width={20} height={20} className="cursor-pointer" />
+            <img
+              src={CloseIcon}
+              onClick={onSnooze}
+              width={20}
+              height={20}
+              className="cursor-pointer"
+            />
           )}
         </div>
       </div>
