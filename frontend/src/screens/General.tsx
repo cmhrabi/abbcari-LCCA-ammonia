@@ -6,6 +6,7 @@ import { useNavigate } from "react-router-dom";
 import Breadcrumbs from "../design/Breadcumbs/Breadcrumbs";
 import { useAppSelector } from "../hooks";
 import Input from "../design/Input/Input";
+import Select from "../design/Select/Select";
 
 const General = () => {
   const analysisName = useAppSelector((state) => state.name.value.analysisName);
@@ -55,13 +56,20 @@ const General = () => {
               placeholder="Value"
               helpMessage="The rate at which future costs are adjusted to reflect the present value."
             />
-            <Input
+            {/* <Input
               label="Province(s) used in analysis"
               // value={analysisName}
               onChange={() => {}}
               placeholder="Value(s)"
               helpMessage="The province(s) you want to influence the projected cost based on its geographical location on the electricity grid."
+            /> */}
+            <Select
+              label="Province(s) used in analysis"
+              onChange={() => {}}
+              options={["No Selection", "Alberta", "British Columbia", "Manitoba", "New Brunswick", "Newfoundland and Labrador", "Nova Scotia", "Ontario", "Prince Edward Island", "Quebec", "Saskatchewan"]}
+              helpMessage="The province(s) you want to influence the projected cost based on its geographical location on the electricity grid."
             />
+
             <Input
               label="Electrical ammonia demand in target year (in petajoules)"
               // value={analysisName}

@@ -27,7 +27,7 @@ const HelpMessage: React.FC<HelpMessageProps> = ({
 
   return (
     <div>
-      <div className="flex z-50">
+      <div>
         <div className={variants({ type: type })}>
           <Text color="white" textSize="input">
             {children}
