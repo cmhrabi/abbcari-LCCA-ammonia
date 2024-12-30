@@ -41,10 +41,10 @@ const Input: React.FC<InputProps> = ({
   return (
     <div>
       {helpMessage && focused && !error && (
-        <div>
-        <HelpMessage onSnooze={handleSnoozeHelp} type="info">
-          {helpMessage}
-        </HelpMessage>
+        <div className="relative">
+          <HelpMessage onSnooze={handleSnoozeHelp} type="info">
+            {helpMessage}
+          </HelpMessage>
         </div>
       )}
       {error && (
