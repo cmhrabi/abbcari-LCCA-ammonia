@@ -76,7 +76,6 @@ const Input: React.FC<InputProps> = ({
       </div>
       <input
         className={inputVariants({ focus: error ? "error" : "noError" })}
-        onFocus={onFocus}
         onBlur={onBlur}
         {...props}
       />

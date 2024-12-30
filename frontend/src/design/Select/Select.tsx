@@ -72,7 +72,6 @@ const Select: React.FC<SelectProps> = ({
       </div>
       <select
         className={inputVariants({ focus: error ? "error" : "noError" })}
-        onFocus={onFocus}
         onBlur={onBlur}
         {...props}
       >
