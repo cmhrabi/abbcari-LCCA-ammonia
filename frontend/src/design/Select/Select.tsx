@@ -41,9 +41,9 @@ const Select: React.FC<SelectProps> = ({
     <div>
       {helpMessage && focused && !error && (
         <div className="relative">
-        <HelpMessage onSnooze={handleSnoozeHelp} type="info">
-          {helpMessage}
-        </HelpMessage>
+          <HelpMessage onSnooze={handleSnoozeHelp} type="info">
+            {helpMessage}
+          </HelpMessage>
         </div>
       )}
       {error && (

@@ -16,22 +16,24 @@ import {
 } from "../Slices/nameSlice";
 
 const StartNew = () => {
-  const analysisName = useAppSelector((state) => state.name.value.analysisName);
-  const tech1Name = useAppSelector((state) => state.name.value.tech1Name);
-  const tech2Name = useAppSelector((state) => state.name.value.tech2Name);
-  const type = useAppSelector((state) => state.name.value.type);
+  const nameValues = useAppSelector((state) => state.name.value);
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
 
   const [disabled, setDisabled] = useState(true);
 
   useEffect(() => {
-    if (analysisName && tech1Name && tech2Name && type) {
+    if (
+      nameValues.analysisName &&
+      nameValues.tech1Name &&
+      nameValues.tech2Name &&
+      nameValues.type
+    ) {
       setDisabled(false);
     } else {
       setDisabled(true);
     }
-  }, [analysisName, tech1Name, tech2Name, type]);
+  }, [nameValues]);
 
   return (
     <>
@@ -49,7 +51,7 @@ const StartNew = () => {
           </Text>
           <div className="max-w-sm">
             <Input
-              value={analysisName}
+              value={nameValues.analysisName}
               onChange={(e) => dispatch(setAnalysisName(e.target.value))}
               label={<Text textSize="sub3">Enter a name for your project</Text>}
               placeholder="Name"
@@ -58,7 +60,7 @@ const StartNew = () => {
           </div>
           <RadioGroup
             onChange={(e) => dispatch(setType(e.target.value))}
-            value={type}
+            value={nameValues.type}
             label="What type of LCCA Analysis will you be performing?"
           >
             <Radio
@@ -72,11 +74,11 @@ const StartNew = () => {
               description="Are you deciding between which technologies to start implementing?"
             />
           </RadioGroup>
-          {type && analysisName && (
+          {nameValues.type && nameValues.analysisName && (
             <div className="grid grid-cols-1 gap-y-14">
               <div className="max-w-xl">
                 <Input
-                  value={tech1Name}
+                  value={nameValues.tech1Name}
                   onChange={(e) => dispatch(setTech1Name(e.target.value))}
                   label={
                     <Text textSize="sub3">
@@ -89,7 +91,7 @@ const StartNew = () => {
               </div>
               <div className="max-w-xl">
                 <Input
-                  value={tech2Name}
+                  value={nameValues.tech2Name}
                   onChange={(e) => dispatch(setTech2Name(e.target.value))}
                   label={
                     <Text textSize="sub3">
