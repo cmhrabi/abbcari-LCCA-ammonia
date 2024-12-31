@@ -40,9 +40,11 @@ const Select: React.FC<SelectProps> = ({
   return (
     <div>
       {helpMessage && focused && !error && (
+        <div className="relative">
         <HelpMessage onSnooze={handleSnoozeHelp} type="info">
           {helpMessage}
         </HelpMessage>
+        </div>
       )}
       {error && (
         <HelpMessage type="error" onSnooze={handleSnoozeHelp}>
@@ -57,6 +59,7 @@ const Select: React.FC<SelectProps> = ({
             src={HelpIcon}
             width={16}
             height={16}
+            className="cursor-pointer"
           />
         )}
         {label && error && (
