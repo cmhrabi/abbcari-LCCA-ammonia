@@ -1,9 +1,11 @@
 import { configureStore } from "@reduxjs/toolkit";
 import nameSlice from "./Slices/nameSlice";
+import generalSlice from "./Slices/generalSlice";
 
 export const store = configureStore({
   reducer: {
     name: nameSlice,
+    general: generalSlice,
   },
 });
 
