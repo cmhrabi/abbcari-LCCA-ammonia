@@ -1,18 +1,45 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import NavBar from "../components/NavBar/NavBar";
 import Text from "../design/Text/Text";
 import Button from "../design/Button/Button";
 import { useNavigate } from "react-router-dom";
 import Breadcrumbs from "../design/Breadcumbs/Breadcrumbs";
-import { useAppSelector } from "../hooks";
+import { useAppSelector, useAppDispatch } from "../hooks";
 import Input from "../design/Input/Input";
 import Select from "../design/Select/Select";
+import {
+  setDiscount,
+  setProvince,
+  setElectricalAmmonia,
+  setEfficiency,
+  setBaseAmmonia,
+  setPlantOperatingHours,
+} from "../Slices/generalSlice";
 
 const General = () => {
   const analysisName = useAppSelector((state) => state.name.value.analysisName);
+  const tech1Name = useAppSelector((state) => state.name.value.tech1Name);
+  const tech2Name = useAppSelector((state) => state.name.value.tech2Name);
+  const generalValues = useAppSelector((state) => state.general.value);
+  const dispatch = useAppDispatch();
   const navigate = useNavigate();
 
   const [disabled, setDisabled] = useState(true);
+
+  useEffect(() => {
+    if (
+      generalValues.discount &&
+      generalValues.electricalAmmonia &&
+      generalValues.efficiency &&
+      generalValues.baseAmmonia &&
+      generalValues.plantOperatingHours &&
+      !generalValues.province.includes("No Selection")
+    ) {
+      setDisabled(false);
+    } else {
+      setDisabled(true);
+    }
+  }, [generalValues]);
 
   return (
     <>
@@ -27,7 +54,7 @@ const General = () => {
         />
         <div className="grid grid-cols-1 gap-y-14">
           <Text color="secondary" textSize="h2">
-            “P2A vs. HB Analysis” Project
+            “{tech1Name} vs. {tech2Name}” Project
           </Text>
           <Text color="secondary" textSize="sub3">
             General inputs
@@ -35,14 +62,12 @@ const General = () => {
           <div className="grid grid-cols-2 gap-x-24 gap-y-12 max-w-md">
             <Input
               label="Start year"
-              // value={analysisName}
               onChange={() => {}}
               placeholder="2024"
               noIcon
             />
             <Input
               label="Final year"
-              // value={analysisName}
               onChange={() => {}}
               placeholder="2034"
               noIcon
@@ -51,42 +76,55 @@ const General = () => {
           <div className="grid grid-cols-2 gap-x-24 gap-y-12 max-w-screen-lg">
             <Input
               label="Discount rate"
-              // value={analysisName}
-              onChange={() => {}}
+              onChange={(e) => dispatch(setDiscount(e.target.value))}
+              value={generalValues.discount}
               placeholder="Value"
               helpMessage="The rate at which future costs are adjusted to reflect the present value."
             />
             <Select
               label="Province(s) used in analysis"
-              onChange={() => {}}
-              options={["No Selection", "Alberta", "British Columbia", "Manitoba", "New Brunswick", "Newfoundland and Labrador", "Nova Scotia", "Ontario", "Prince Edward Island", "Quebec", "Saskatchewan"]}
+              onChange={(e) => dispatch(setProvince(e.target.value))}
+              value={generalValues.province}
+              options={[
+                "No Selection",
+                "Alberta",
+                "British Columbia",
+                "Manitoba",
+                "New Brunswick",
+                "Newfoundland and Labrador",
+                "Nova Scotia",
+                "Ontario",
+                "Prince Edward Island",
+                "Quebec",
+                "Saskatchewan",
+              ]}
               helpMessage="The province(s) you want to influence the projected cost based on its geographical location on the electricity grid."
             />
             <Input
               label="Electrical ammonia demand in target year (in petajoules)"
-              // value={analysisName}
-              onChange={() => {}}
+              onChange={(e) => dispatch(setElectricalAmmonia(e.target.value))}
+              value={generalValues.electricalAmmonia}
               placeholder="Value"
               helpMessage="The amount of electricity that is required to generate ammonia. This value will be used to derive the installed and purchased costs."
             />
             <Input
               label="Efficiency of the technology"
-              // value={analysisName}
-              onChange={() => {}}
+              onChange={(e) => dispatch(setEfficiency(e.target.value))}
+              value={generalValues.efficiency}
               placeholder="Value"
               helpMessage="The effectiveness of the technology performing its intended function relative to the carbon emission produced."
             />
             <Input
               label="Base electrical ammonia production rate (in petajoules)"
-              // value={analysisName}
-              onChange={() => {}}
+              onChange={(e) => dispatch(setBaseAmmonia(e.target.value))}
+              value={generalValues.baseAmmonia}
               placeholder="Value"
               helpMessage="The current amount of ammonia that can be produced by your new technology. It will be used to calculate future production rates as the technology advances."
             />
             <Input
               label="Plant operating hours"
-              // value={analysisName}
-              onChange={() => {}}
+              onChange={(e) => dispatch(setPlantOperatingHours(e.target.value))}
+              value={generalValues.plantOperatingHours}
               placeholder="8000"
               helpMessage="The number of hours a plant operates in a year. This value will be used to calculate the operating cost for a plant constructed in a year."
             />
