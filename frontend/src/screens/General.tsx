@@ -14,6 +14,8 @@ import {
   setEfficiency,
   setBaseAmmonia,
   setPlantOperatingHours,
+  setStartYear,
+  setFinalYear,
 } from "../Slices/generalSlice";
 
 const General = () => {
@@ -33,7 +35,9 @@ const General = () => {
       generalValues.efficiency &&
       generalValues.baseAmmonia &&
       generalValues.plantOperatingHours &&
-      !generalValues.province.includes("No Selection")
+      !generalValues.province.includes("No Selection") &&
+      generalValues.startYear &&
+      generalValues.finalYear
     ) {
       setDisabled(false);
     } else {
@@ -62,13 +66,15 @@ const General = () => {
           <div className="grid grid-cols-2 gap-x-24 gap-y-12 max-w-md">
             <Input
               label="Start year"
-              onChange={() => {}}
+              onChange={(e) => dispatch(setStartYear(e.target.value))}
+              value={generalValues.startYear}
               placeholder="2024"
               noIcon
             />
             <Input
               label="Final year"
-              onChange={() => {}}
+              onChange={(e) => dispatch(setFinalYear(e.target.value))}
+              value={generalValues.finalYear}
               placeholder="2034"
               noIcon
             />
@@ -130,10 +136,14 @@ const General = () => {
             />
           </div>
           <div className="space-x-6">
-            <Button color="grey" onClick={() => navigate("/analysis")}>
-              Cancel
+            <Button color="grey" onClick={() => navigate("/analysis/start")}>
+              Back
             </Button>
-            <Button color="primary" disabled={disabled}>
+            <Button 
+              color="primary" 
+              disabled={disabled}
+              onClick={() => navigate("/analysis/first")}
+            >
               Next
             </Button>
           </div>

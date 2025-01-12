@@ -15,6 +15,8 @@ export const generalSlice = createSlice({
   name: "general",
   initialState: {
     value: {
+      startYear: "",
+      finalYear: "",
       discount: "",
       province: "No Selection",
       electricalAmmonia: "",
@@ -24,6 +26,12 @@ export const generalSlice = createSlice({
     },
   },
   reducers: {
+    setStartYear: (state, action: PayloadAction<string>) => {
+      state.value.startYear = action.payload;
+    },
+    setFinalYear: (state, action: PayloadAction<string>) => {
+      state.value.finalYear = action.payload;
+    },
     setDiscount: (state, action: PayloadAction<string>) => {
       state.value.discount = action.payload;
     },
@@ -46,6 +54,8 @@ export const generalSlice = createSlice({
 });
 
 export const {
+  setStartYear,
+  setFinalYear,
   setDiscount,
   setProvince,
   setElectricalAmmonia,

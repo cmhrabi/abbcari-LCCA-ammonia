@@ -4,6 +4,8 @@ import Analysis from "./screens/Analysis";
 import Home from "./screens/Home";
 import StartNew from "./screens/StartNew";
 import General from "./screens/General";
+import FirstTechnology from "./screens/FirstTechnology";
+import { element } from "prop-types";
 
 const routes = [
   {
@@ -21,6 +23,10 @@ const routes = [
         path: "general",
         element: <General />,
       },
+      {
+        path: "first",
+        element: <FirstTechnology />,
+      }
     ],
   },
   {
