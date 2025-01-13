@@ -3,7 +3,7 @@ import { ClockIcon } from "@heroicons/react/24/outline";
 import React from "react";
 
 export default {
-  title: "Components/Card",
+  title: "Design/Card",
 };
 
 const CardDemo = () => {

@@ -22,7 +22,7 @@ const Analysis = () => {
 
   return (
     <>
-      <NavBar title="LCCA" />
+      <NavBar title="COMPASS" />
       <div className="py-16 max-w-6xl m-auto">
         <div className="pb-7">
           <Text color="secondary" textSize="h2">

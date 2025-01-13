@@ -37,7 +37,7 @@ const StartNew = () => {
 
   return (
     <>
-      <NavBar title="LCCA" />
+      <NavBar title="COMPASS" />
       <div className="py-11 max-w-6xl m-auto">
         <Breadcrumbs
           items={[

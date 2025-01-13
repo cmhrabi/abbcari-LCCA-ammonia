@@ -17,6 +17,7 @@ import {
   setStartYear,
   setFinalYear,
 } from "../Slices/generalSlice";
+import Wizard from "../design/Wizard/Wizard";
 
 const General = () => {
   const analysisName = useAppSelector((state) => state.name.value.analysisName);
@@ -47,7 +48,7 @@ const General = () => {
 
   return (
     <>
-      <NavBar title="LCCA" />
+      <NavBar title="COMPASS" />
       <div className="py-11 max-w-6xl m-auto">
         <Breadcrumbs
           items={[
@@ -56,27 +57,45 @@ const General = () => {
             { label: `${analysisName} analysis`, link: "" },
           ]}
         />
-        <div className="grid grid-cols-1 gap-y-14">
+        <div className="grid grid-cols-1 gap-y-10">
           <Text color="secondary" textSize="h2">
             “{tech1Name} vs. {tech2Name}” Project
           </Text>
+          <Wizard
+            defaultStep={0}
+            currentStep={0}
+            steps={[
+              {
+                title: "General",
+              },
+              {
+                title: "1st Technology",
+              },
+              {
+                title: "2nd Technology",
+              },
+              {
+                title: "Review",
+              },
+            ]}
+          />
           <Text color="secondary" textSize="sub3">
             General inputs
           </Text>
           <div className="grid grid-cols-2 gap-x-24 gap-y-12 max-w-md">
             <Input
               label="Start year"
-              onChange={(e) => dispatch(setStartYear(e.target.value))}
+              onChange={(e) => dispatch(setStartYear(parseInt(e.target.value)))}
               value={generalValues.startYear}
-              placeholder="2024"
               noIcon
+              type="number"
             />
             <Input
               label="Final year"
-              onChange={(e) => dispatch(setFinalYear(e.target.value))}
+              onChange={(e) => dispatch(setFinalYear(parseInt(e.target.value)))}
               value={generalValues.finalYear}
-              placeholder="2034"
               noIcon
+              type="number"
             />
           </div>
           <div className="grid grid-cols-2 gap-x-24 gap-y-12 max-w-screen-lg">
@@ -129,9 +148,11 @@ const General = () => {
             />
             <Input
               label="Plant operating hours"
-              onChange={(e) => dispatch(setPlantOperatingHours(e.target.value))}
+              onChange={(e) =>
+                dispatch(setPlantOperatingHours(parseInt(e.target.value)))
+              }
               value={generalValues.plantOperatingHours}
-              placeholder="8000"
+              type="number"
               helpMessage="The number of hours a plant operates in a year. This value will be used to calculate the operating cost for a plant constructed in a year."
             />
           </div>
@@ -139,8 +160,8 @@ const General = () => {
             <Button color="grey" onClick={() => navigate("/analysis/start")}>
               Back
             </Button>
-            <Button 
-              color="primary" 
+            <Button
+              color="primary"
               disabled={disabled}
               onClick={() => navigate("/analysis/first")}
             >
