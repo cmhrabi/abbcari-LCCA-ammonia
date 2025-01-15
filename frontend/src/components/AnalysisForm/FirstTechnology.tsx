@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import Text from "../../design/Text/Text";
 import Button from "../../design/Button/Button";
-import { useNavigate } from "react-router-dom";
 import { useAppSelector } from "../../hooks";
 import Input from "../../design/Input/Input";
 
@@ -11,7 +10,6 @@ interface FirstTechnologyProps {
 
 const FirstTechnology: React.FC<FirstTechnologyProps> = ({ setCurrStep }) => {
   const tech1Name = useAppSelector((state) => state.name.value.tech1Name);
-  const navigate = useNavigate();
 
   const [disabled, setDisabled] = useState(true);
 
