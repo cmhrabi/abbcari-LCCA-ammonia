@@ -2,7 +2,7 @@ import HelpMessage from "./HelpMessage";
 import React from "react";
 
 export default {
-  title: "Components/HelpMessage",
+  title: "Design/HelpMessage",
 };
 
 const HelpMessageDemo = () => {

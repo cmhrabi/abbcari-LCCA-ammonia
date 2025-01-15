@@ -12,6 +12,7 @@ export const content = [
 export const theme = {
   extend: {
     fontFamily: {
+      base: ["Inter", "sans-serif"],
       sans: ["Inter", "sans-serif"],
       josefin: ["Josefin Sans", "sans-serif"],
     },

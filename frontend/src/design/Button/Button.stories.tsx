@@ -3,7 +3,7 @@ import glyph from "../../../public/glyph.svg";
 import React from "react";
 
 export default {
-  title: "Components/Button",
+  title: "Design/Button",
 };
 
 const ButtonDemo = () => {

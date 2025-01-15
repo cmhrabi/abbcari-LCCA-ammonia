@@ -2,7 +2,7 @@ import React from "react";
 import Text from "./Text";
 
 export default {
-  title: "Components/Typography",
+  title: "Design/Typography",
 };
 
 const TypographyDemo = () => {

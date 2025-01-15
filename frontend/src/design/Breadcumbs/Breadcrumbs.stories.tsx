@@ -2,7 +2,7 @@ import Breadcrumbs from "./Breadcrumbs";
 import React from "react";
 
 export default {
-  title: "Components/Breadcrumbs",
+  title: "Design/Breadcrumbs",
 };
 
 const BreadcrumbsDemo = () => {
