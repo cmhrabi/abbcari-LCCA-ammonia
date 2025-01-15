@@ -21,9 +21,11 @@ const NavBar: React.FC<NavBarProps> = ({ title, type = "default" }) => {
           onClick={() => navigate("/")}
         >
           <img src={logo} alt="logo" />
-          <Text color="primary" textSize="nav-title" font="josefin">
-            {title}
-          </Text>
+          <div className="pl-3">
+            <Text color="primary" textSize="nav-title" font="josefin">
+              {title}
+            </Text>
+          </div>
         </div>
         <div className="pl-6">
           {/* TODO: Change to text link */}

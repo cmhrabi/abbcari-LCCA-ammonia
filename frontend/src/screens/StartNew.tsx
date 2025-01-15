@@ -37,7 +37,7 @@ const StartNew = () => {
 
   return (
     <>
-      <NavBar title="LCCA" />
+      <NavBar title="COMPASS" />
       <div className="py-11 max-w-6xl m-auto">
         <Breadcrumbs
           items={[
@@ -111,7 +111,7 @@ const StartNew = () => {
             <Button
               color="primary"
               disabled={disabled}
-              onClick={() => navigate("/analysis/general")}
+              onClick={() => navigate("/analysis/main")}
             >
               Next
             </Button>

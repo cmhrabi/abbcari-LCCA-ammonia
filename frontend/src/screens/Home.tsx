@@ -8,7 +8,7 @@ import ClimateFactsSlide from "../components/HomeSlides/ClimateFactsSlide";
 const Home = () => {
   return (
     <div className="overflow-visible">
-      <NavBar title="LCCA" type="home" />
+      <NavBar title="COMPASS" type="home" />
       <TitleSlide />
       <VisualizeSlide />
       <AboutSlide />
