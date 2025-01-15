@@ -111,7 +111,7 @@ const StartNew = () => {
             <Button
               color="primary"
               disabled={disabled}
-              onClick={() => navigate("/analysis/general")}
+              onClick={() => navigate("/analysis/main")}
             >
               Next
             </Button>

@@ -1,18 +1,16 @@
 import React from "react";
 import { useRoutes } from "react-router-dom";
-import Analysis from "./screens/Analysis";
+import ViewOrCreate from "./screens/ViewOrCreate";
 import Home from "./screens/Home";
 import StartNew from "./screens/StartNew";
-import General from "./screens/General";
-import FirstTechnology from "./screens/FirstTechnology";
-import { element } from "prop-types";
+import Analysis from "./screens/Analysis";
 
 const routes = [
   {
     path: "/analysis",
     children: [
       {
-        element: <Analysis />,
+        element: <ViewOrCreate />,
         index: true,
       },
       {
@@ -20,13 +18,9 @@ const routes = [
         element: <StartNew />,
       },
       {
-        path: "general",
-        element: <General />,
+        path: "main",
+        element: <Analysis />,
       },
-      {
-        path: "first",
-        element: <FirstTechnology />,
-      }
     ],
   },
   {
