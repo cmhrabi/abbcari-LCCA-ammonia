@@ -156,6 +156,7 @@ export const plugins = [
           primary: {
             hover: "#384E9E",
             "alert-border": "rgba(1, 114, 203, 0.10)",
+            input: "#E7ECFF",
             DEFAULT: "#506AC7",
           },
           secondary: {

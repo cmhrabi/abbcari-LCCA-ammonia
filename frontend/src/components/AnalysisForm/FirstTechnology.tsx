@@ -3,6 +3,7 @@ import Text from "../../design/Text/Text";
 import Button from "../../design/Button/Button";
 import { useAppSelector } from "../../hooks";
 import Input from "../../design/Input/Input";
+import CostSection from "../../design/Cost/CostSection"
 
 interface FirstTechnologyProps {
   setCurrStep: (arg0: number) => void;
@@ -21,8 +22,21 @@ const FirstTechnology: React.FC<FirstTechnologyProps> = ({ setCurrStep }) => {
         </Text>
       </div>
       <div className="grid grid-cols-1 gap-y-14">
-        <div className="grid grid-cols-5 gap-x-11 gap-y-12 max-w-screen-xl">
-          <Input
+        <div className="grid grid-cols-2 gap-x-11 gap-y-12 shadow-card rounded-[10px] border-1 border-grey py-5 px-10">
+          <CostSection
+            type="text"
+            label="Direct costs"
+            onChange={() => {}}
+            helpMessage="Test"
+          />
+
+          <CostSection
+            type="number"
+            label="Indirect costs"
+            onChange={() => {}}
+            helpMessage="Test"
+          />
+          {/* <Input
             type="number"
             label="Direct cost factor"
             onChange={() => {}}
@@ -38,7 +52,7 @@ const FirstTechnology: React.FC<FirstTechnologyProps> = ({ setCurrStep }) => {
           />
           <Input
             type="number"
-            label="Worker capital cost"
+            label="Working capital cost"
             onChange={() => {}}
             placeholder="Value"
             helpMessage="The worker capital cost are the costs associated with labor and employee-related expenses."
@@ -54,7 +68,7 @@ const FirstTechnology: React.FC<FirstTechnologyProps> = ({ setCurrStep }) => {
             onChange={() => {}}
             placeholder="Value"
             helpMessage="The depreciation percentage is an indication of how quickly your technology will lose its productive value over time. An accurate representation is required to estimate the net capital expenditure."
-          />
+          /> */}
         </div>
         <div className="space-x-6">
           <Button color="grey" onClick={() => setCurrStep(0)}>
