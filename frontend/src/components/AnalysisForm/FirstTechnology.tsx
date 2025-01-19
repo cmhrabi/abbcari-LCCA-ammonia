@@ -3,6 +3,7 @@ import Text from "../../design/Text/Text";
 import Button from "../../design/Button/Button";
 import { useAppSelector } from "../../hooks";
 import Input from "../../design/Input/Input";
+import ProcessCard from "../ProcessCard/ProcessCard";
 
 interface FirstTechnologyProps {
   setCurrStep: (arg0: number) => void;
@@ -54,6 +55,25 @@ const FirstTechnology: React.FC<FirstTechnologyProps> = ({ setCurrStep }) => {
             onChange={() => {}}
             placeholder="Value"
             helpMessage="The depreciation percentage is an indication of how quickly your technology will lose its productive value over time. An accurate representation is required to estimate the net capital expenditure."
+          />
+        </div>
+        <div>
+          <div className="flex flex-row justify-between items-end pb-2">
+            <Text color="secondary" textSize="sub3">
+              Subprocesses
+            </Text>
+            <Button>+ Add Subprocess</Button>
+          </div>
+          <ProcessCard
+            info={{
+              baseCost: 1000,
+              learningRate: 4,
+              scalingFactor: 2,
+              installationFactor: 2,
+              energyRequirement: 100,
+              efficiency: 0.7,
+            }}
+            handleEdit={() => {}}
           />
         </div>
         <div className="space-x-6">
