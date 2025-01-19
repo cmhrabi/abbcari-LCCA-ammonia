@@ -36,10 +36,10 @@ const Analysis = () => {
                 title: "General",
               },
               {
-                title: "1st Technology",
+                title: "Electrified Process",
               },
               {
-                title: "2nd Technology",
+                title: "Conventional Natural Gas Process",
               },
               {
                 title: "Review",
