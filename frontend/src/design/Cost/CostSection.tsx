@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import { cva } from "class-variance-authority";
 import HelpMessage from "../HelpMessage/HelpMessage";
 import HelpIcon from "../../assets/help_icons/help.svg";
@@ -7,22 +7,19 @@ import Button from "../../design/Button/Button";
 
 export interface InputProps
   extends React.InputHTMLAttributes<HTMLInputElement> {
-    label?: React.ReactNode;
-    helpMessage?: string;
-    error?: string;
-    noIcon?: boolean; 
-    name?: string;
-    cost?: string;
-  }
+  label?: React.ReactNode;
+  helpMessage?: string;
+  error?: string;
+  noIcon?: boolean;
+  name?: string;
+  cost?: string;
+}
 
 const CostInput: React.FC<InputProps> = ({
   label,
   helpMessage,
   error,
   noIcon = false,
-  name,
-  cost,
-  ...props
 }) => {
   const inputNameVariant = cva(
     "block w-full p-3 border placeholder:text-input placeholder:text-grey-blue disabled:bg-grey rounded rounded-3px shadow-sm",
@@ -30,12 +27,12 @@ const CostInput: React.FC<InputProps> = ({
       variants: {
         background: {
           default: "bg-white",
-        //   secondary: "bg-grey-light",
+          //   secondary: "bg-grey-light",
           blue: "bg-primary-input",
         },
         focus: {
           error: "outline-none border-danger shadow-input",
-          noError: 
+          noError:
             "focus:outline-none focus:border-tertiary focus:shadow-input",
         },
       },
@@ -48,38 +45,33 @@ const CostInput: React.FC<InputProps> = ({
   const onBlur = () => setFocused(false);
   const handleSnoozeHelp = () => setFocused(false);
 
-  const [rows, setRows] = React.useState([
-    { name: "", cost: "", error: ""},
-  ]);
+  const [rows, setRows] = React.useState([{ name: "", cost: "", error: "" }]);
 
   const addRow = () => {
-    setRows([
-      ...rows,
-      { name: "", cost: "", error: "" },
-    ]);
+    setRows([...rows, { name: "", cost: "", error: "" }]);
   };
 
   return (
-      <div>
-        {helpMessage && focused && !error && (
-          <div className="relative">
-              <HelpMessage onSnooze={handleSnoozeHelp} type="info">
-                  {helpMessage}
-              </HelpMessage>
-          </div>
+    <div>
+      {helpMessage && focused && !error && (
+        <div className="relative">
+          <HelpMessage onSnooze={handleSnoozeHelp} type="info">
+            {helpMessage}
+          </HelpMessage>
+        </div>
       )}
-        <div className="flex flex-row space-x-1 mb-2">
-          {label && (
-              <img
-                  onClick={onFocus}
-                  alt="Error Icon"
-                  src={HelpIcon}
-                  width={16}
-                  height={16}
-                  className="cursor-pointer"
-              />
-          )}
-      {label && <label className={`${labelVariant({})}`}>{label}</label>}
+      <div className="flex flex-row space-x-1 mb-2">
+        {label && (
+          <img
+            onClick={onFocus}
+            alt="Error Icon"
+            src={HelpIcon}
+            width={16}
+            height={16}
+            className="cursor-pointer"
+          />
+        )}
+        {label && <label className={`${labelVariant({})}`}>{label}</label>}
       </div>
       {rows.map((row, index) => (
         <div key={index} className="space-y-4">
@@ -88,7 +80,7 @@ const CostInput: React.FC<InputProps> = ({
               <input
                 className={inputNameVariant({
                   background: "default",
-                  focus: row.error ? "error" : "noError"
+                  focus: row.error ? "error" : "noError",
                 })}
                 placeholder="Name"
               />
@@ -96,7 +88,7 @@ const CostInput: React.FC<InputProps> = ({
               <input
                 className={inputNameVariant({
                   background: "blue",
-                  focus: row.error ? "error" : "noError"
+                  focus: row.error ? "error" : "noError",
                 })}
                 placeholder="Cost"
               />
@@ -122,25 +114,17 @@ const CostInput: React.FC<InputProps> = ({
                 />
               )}
             </div>
-          </div>   
+          </div>
         </div>
       ))}
 
       <div className="mt-4">
-        <button 
-          className="bg-transparent border-none text-primary" 
-          onClick={addRow}
-        >
+        <Button color="transparent" onClick={addRow}>
           + Add a new cost
-        </button>
+        </Button>
       </div>
     </div>
   );
-
 };
 
 export default CostInput;
-
-
-
-

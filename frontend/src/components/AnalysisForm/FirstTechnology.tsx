@@ -1,10 +1,11 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Text from "../../design/Text/Text";
 import Button from "../../design/Button/Button";
 import { useAppSelector } from "../../hooks";
-import Input from "../../design/Input/Input";
 import ProcessCard from "../ProcessCard/ProcessCard";
 import CostSection from "../../design/Cost/CostSection";
+import { useDisclosure } from "@nextui-org/react";
+import SubProcessModal from "../SubProcessModal/SubProcessModal";
 
 interface FirstTechnologyProps {
   setCurrStep: (arg0: number) => void;
@@ -12,6 +13,15 @@ interface FirstTechnologyProps {
 
 const FirstTechnology: React.FC<FirstTechnologyProps> = ({ setCurrStep }) => {
   const tech1Name = useAppSelector((state) => state.name.value.tech1Name);
+  const subProcesses = useAppSelector(
+    (state) => state.electrified.value.subProcesses,
+  );
+  const { isOpen, onOpen, onOpenChange } = useDisclosure();
+  const {
+    isOpen: isEditOpen,
+    onOpen: onEditOpen,
+    onOpenChange: onEditOpenChange,
+  } = useDisclosure();
 
   const [disabled, setDisabled] = useState(true);
 
@@ -76,19 +86,38 @@ const FirstTechnology: React.FC<FirstTechnologyProps> = ({ setCurrStep }) => {
             <Text color="secondary" textSize="sub3">
               Subprocesses
             </Text>
-            <Button>+ Add Subprocess</Button>
+            <Button color="transparent" size="noPadding" onClick={onOpen}>
+              + Add Subprocess
+            </Button>
           </div>
-          <ProcessCard
-            info={{
-              baseCost: 1000,
-              learningRate: 4,
-              scalingFactor: 2,
-              installationFactor: 2,
-              energyRequirement: 100,
-              efficiency: 0.7,
-            }}
-            handleEdit={() => {}}
-          />
+          {subProcesses.length > 0 ? (
+            subProcesses.map((subP, i) => {
+              return (
+                <>
+                  <ProcessCard
+                    key={i}
+                    info={{
+                      baseCost: subP.baseCost,
+                      learningRate: subP.learningRate,
+                      scalingFactor: subP.scalingFactor,
+                      installationFactor: subP.installationFactor,
+                      energyRequirement: subP.energyRequirement,
+                      efficiency: subP.efficiency,
+                      name: subP.name,
+                    }}
+                    handleEdit={onEditOpen}
+                  />
+                  <SubProcessModal
+                    isOpen={isEditOpen}
+                    onOpenChange={onEditOpenChange}
+                    editID={i}
+                  />
+                </>
+              );
+            })
+          ) : (
+            <ProcessCard />
+          )}
         </div>
         <div className="space-x-6">
           <Button color="grey" onClick={() => setCurrStep(0)}>
@@ -99,6 +128,7 @@ const FirstTechnology: React.FC<FirstTechnologyProps> = ({ setCurrStep }) => {
           </Button>
         </div>
       </div>
+      <SubProcessModal isOpen={isOpen} onOpenChange={onOpenChange} />
     </>
   );
 };

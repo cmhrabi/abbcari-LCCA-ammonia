@@ -13,8 +13,9 @@ interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
     | "danger"
     | "warning"
     | "success"
-    | "grey";
-  size?: "small" | "medium" | "large";
+    | "grey"
+    | "transparent";
+  size?: "small" | "medium" | "large" | "noPadding";
   isIconOnly?: boolean;
   secondary?: boolean;
 }
@@ -49,11 +50,13 @@ const Button: React.FC<ButtonProps> = ({
           warning: "bg-warning hover:bg-warning-hover active:bg-warning-active",
           success: "bg-success hover:bg-success-hover active:bg-success-active",
           grey: "bg-grey-blue",
+          transparent: "bg-transparent",
         },
         size: {
           small: "px-3 py-2",
           medium: "px-4 py-3",
           large: "px-6 py-3.5",
+          noPadding: "",
         },
         secondary: {
           true: "bg-opacity-30 hover:bg-opacity-40 active:bg-opacity-50",
@@ -68,6 +71,7 @@ const Button: React.FC<ButtonProps> = ({
         small: "pr-2",
         medium: "pr-2",
         large: "pr-3",
+        noPadding: "",
       },
     },
   });
@@ -78,6 +82,7 @@ const Button: React.FC<ButtonProps> = ({
         small: "pl-2",
         medium: "pl-2",
         large: "pl-3",
+        noPadding: "",
       },
     },
   });
@@ -101,7 +106,10 @@ const Button: React.FC<ButtonProps> = ({
       className={variants({ size: size, color: color, secondary: secondary })}
     >
       {start && <div className={startVariants({ size: size })}>{start}</div>}
-      <Text textSize={textSizeMap[size]} color="white">
+      <Text
+        textSize={textSizeMap[size]}
+        color={color === "transparent" ? "primary" : "white"}
+      >
         {children}
       </Text>
       {end && <div className={endVariants({ size: size })}>{end}</div>}
