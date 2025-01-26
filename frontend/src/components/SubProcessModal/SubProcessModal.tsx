@@ -27,9 +27,10 @@ const SubProcessModal: React.FC<SubProcessModalProps> = ({
     (state) => state.electrified.value.subProcesses,
   );
 
-  const [baseCost, setBaseCost] = useState<string | undefined>(
-    subProcesses[editID]?.baseCost.toString(),
-  );
+  // const [baseCost, setBaseCost] = useState<string | undefined>(
+  //   subProcesses[editID]?.baseCost.toString(),
+  // );
+  const [baseCost, setBaseCost] = useState<string | undefined>(undefined);
   const [learningRate, setLearningRate] = useState<string | undefined>(
     editID !== undefined
       ? subProcesses[editID]?.learningRate.toString()

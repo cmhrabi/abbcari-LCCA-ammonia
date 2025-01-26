@@ -6,6 +6,7 @@ import { useAppSelector } from "../hooks";
 import Wizard from "../design/Wizard/Wizard";
 import General from "../components/AnalysisForm/General";
 import FirstTechnology from "../components/AnalysisForm/FirstTechnology";
+import Review from "./Review";
 
 const Analysis = () => {
   const analysisName = useAppSelector((state) => state.name.value.analysisName);
@@ -49,6 +50,7 @@ const Analysis = () => {
         </div>
         {currStep === 0 && <General setCurrStep={setCurrStep} />}
         {currStep === 1 && <FirstTechnology setCurrStep={setCurrStep} />}
+        {currStep === 3 && <Review setCurrStep={setCurrStep} />}
       </div>
     </>
   );

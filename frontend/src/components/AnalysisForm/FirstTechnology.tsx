@@ -123,7 +123,7 @@ const FirstTechnology: React.FC<FirstTechnologyProps> = ({ setCurrStep }) => {
           <Button color="grey" onClick={() => setCurrStep(0)}>
             Back
           </Button>
-          <Button color="primary" disabled={disabled}>
+          <Button color="primary" onClick={() => setCurrStep(3)}>
             Next
           </Button>
         </div>

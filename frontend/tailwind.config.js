@@ -60,6 +60,13 @@ export const theme = {
           lineHeight: "25px",
         },
       ],
+      sub4: [
+        "14px",
+        {
+          fontWeight: 600,
+          lineHeight: "20px",
+        },
+      ],
       body: [
         "14px",
         {
@@ -130,6 +137,7 @@ export const theme = {
           lineHeight: "16px",
         },
       ],
+      
     },
     borderRadius: {
       "3px": "3px",
@@ -205,7 +213,7 @@ export const plugins = [
             blue: "#697D95",
             dark: "#404040",
             label: "#4F5E71",
-            bg: "#F2F2F2",
+            bg: "#F5F5F5",
             DEFAULT: "#E8EDF1",
           },
           lightblue: {
