@@ -3,16 +3,7 @@ import { cva } from "class-variance-authority";
 
 export interface TextProps extends React.HTMLAttributes<HTMLDivElement> {
   textSize?: TextSize;
-  color?:
-    | "black"
-    | "white"
-    | "primary"
-    | "secondary"
-    | "tertiary"
-    | "success"
-    | "warning"
-    | "danger"
-    | "grey-label";
+  color?: TextColor;
   font?: "default" | "josefin";
   align?: "left" | "center" | "right";
   children: React.ReactNode;
@@ -34,6 +25,17 @@ export type TextSize =
   | "help-message"
   | "alert-title"
   | "nav-title";
+
+export type TextColor =
+  | "black"
+  | "white"
+  | "primary"
+  | "secondary"
+  | "tertiary"
+  | "success"
+  | "warning"
+  | "danger"
+  | "grey-label";
 
 const Text: React.FC<TextProps> = ({
   textSize = "body",

@@ -137,7 +137,6 @@ export const theme = {
           lineHeight: "16px",
         },
       ],
-      
     },
     borderRadius: {
       "3px": "3px",

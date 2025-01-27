@@ -34,9 +34,13 @@ export const electrifiedSlice = createSlice({
           action.payload.subProcess;
       }
     },
+    deleteSubProcess: (state, action: PayloadAction<number>) => {
+      state.value.subProcesses.splice(action.payload, 1);
+    },
   },
 });
 
-export const { addSubProcess, updateSubProcess } = electrifiedSlice.actions;
+export const { addSubProcess, updateSubProcess, deleteSubProcess } =
+  electrifiedSlice.actions;
 
 export default electrifiedSlice.reducer;

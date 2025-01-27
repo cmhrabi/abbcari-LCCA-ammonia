@@ -1,6 +1,16 @@
 import React from "react";
-import Text, { TextSize } from "../Text/Text";
+import Text, { TextColor, TextSize } from "../Text/Text";
 import { cva } from "class-variance-authority";
+
+export type ButtonColor =
+  | "primary"
+  | "secondary"
+  | "tertiary"
+  | "danger"
+  | "warning"
+  | "success"
+  | "grey"
+  | "transparent";
 
 interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   start?: React.ReactNode;
@@ -37,7 +47,7 @@ const Button: React.FC<ButtonProps> = ({
       "inline-flex",
       "items-center",
       "text-center",
-      "disabled:bg-grey",
+      "disabled:bg-grey-bg",
     ],
     {
       variants: {
@@ -49,8 +59,8 @@ const Button: React.FC<ButtonProps> = ({
           danger: "bg-danger hover:bg-danger-hover active:bg-danger-active",
           warning: "bg-warning hover:bg-warning-hover active:bg-warning-active",
           success: "bg-success hover:bg-success-hover active:bg-success-active",
-          grey: "bg-grey-blue",
-          transparent: "bg-transparent",
+          grey: "bg-grey hover:opacity-80 active:opacity-100",
+          transparent: "bg-transparent ",
         },
         size: {
           small: "px-3 py-2",
@@ -93,6 +103,17 @@ const Button: React.FC<ButtonProps> = ({
     large: "button-lg",
   };
 
+  const colorMap: { [key: string]: TextColor } = {
+    primary: "white",
+    secondary: "white",
+    tertiary: "white",
+    danger: "white",
+    warning: "white",
+    success: "white",
+    grey: "black",
+    transparent: "primary",
+  };
+
   return isIconOnly ? (
     <button
       {...props}
@@ -106,10 +127,7 @@ const Button: React.FC<ButtonProps> = ({
       className={variants({ size: size, color: color, secondary: secondary })}
     >
       {start && <div className={startVariants({ size: size })}>{start}</div>}
-      <Text
-        textSize={textSizeMap[size]}
-        color={color === "transparent" ? "primary" : "white"}
-      >
+      <Text textSize={textSizeMap[size]} color={colorMap[color]}>
         {children}
       </Text>
       {end && <div className={endVariants({ size: size })}>{end}</div>}

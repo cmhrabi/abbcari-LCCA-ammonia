@@ -71,7 +71,7 @@ const Wizard = React.forwardRef<HTMLButtonElement, WizardProps>(
     },
     ref,
   ) => {
-    const [currentStep, setCurrentStep] = useControlledState(
+    const [currentStep] = useControlledState(
       currentStepProp,
       defaultStep,
       onStepChange,

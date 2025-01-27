@@ -9,62 +9,43 @@ import {
 import Button from "../../design/Button/Button";
 import Text from "../../design/Text/Text";
 import Input from "../../design/Input/Input";
-import { addSubProcess } from "../../Slices/electrifiedSlice";
-import { useAppDispatch, useAppSelector } from "../../hooks";
+import { addSubProcess, updateSubProcess } from "../../Slices/electrifiedSlice";
+import { useAppDispatch } from "../../hooks";
+import { ProcessCardInfo } from "../ProcessCard/ProcessCard";
 
 interface SubProcessModalProps {
   isOpen: boolean;
   onOpenChange: (open: boolean) => void;
+  info?: ProcessCardInfo;
   editID?: number;
 }
 
 const SubProcessModal: React.FC<SubProcessModalProps> = ({
   isOpen,
   onOpenChange,
+  info,
   editID,
 }) => {
-  const subProcesses = useAppSelector(
-    (state) => state.electrified.value.subProcesses,
+  const dispatch = useAppDispatch();
+  const [name, setName] = useState<string | undefined>(info?.name);
+  const [baseCost, setBaseCost] = useState<string | undefined>(
+    String(info?.baseCost),
   );
-
-  // const [baseCost, setBaseCost] = useState<string | undefined>(
-  //   subProcesses[editID]?.baseCost.toString(),
-  // );
-  const [baseCost, setBaseCost] = useState<string | undefined>(undefined);
   const [learningRate, setLearningRate] = useState<string | undefined>(
-    editID !== undefined
-      ? subProcesses[editID]?.learningRate.toString()
-      : undefined,
+    String(info?.learningRate),
   );
   const [scalingFactor, setScalingFactor] = useState<string | undefined>(
-    editID !== undefined
-      ? subProcesses[editID]?.scalingFactor.toString()
-      : undefined,
+    String(info?.scalingFactor),
   );
   const [installationFactor, setInstallationFactor] = useState<
     string | undefined
-  >(
-    editID !== undefined
-      ? subProcesses[editID]?.installationFactor.toString()
-      : undefined,
-  );
+  >(String(info?.installationFactor));
   const [energyRequirement, setEnergyRequirement] = useState<
     string | undefined
-  >(
-    editID !== undefined
-      ? subProcesses[editID]?.energyRequirement.toString()
-      : undefined,
-  );
+  >(String(info?.energyRequirement));
   const [efficiency, setEfficiency] = useState<string | undefined>(
-    editID !== undefined
-      ? subProcesses[editID]?.efficiency.toString()
-      : undefined,
+    String(info?.efficiency),
   );
-  const [name, setName] = useState<string>(
-    editID !== undefined ? subProcesses[editID]?.name.toString() : "",
-  );
-
-  const dispatch = useAppDispatch();
 
   const onSubmit = () => {
     if (
@@ -76,28 +57,35 @@ const SubProcessModal: React.FC<SubProcessModalProps> = ({
       energyRequirement &&
       efficiency
     ) {
-      dispatch(
-        addSubProcess({
-          baseCost: parseFloat(baseCost),
-          learningRate: parseFloat(learningRate),
-          scalingFactor: parseFloat(scalingFactor),
-          installationFactor: parseFloat(installationFactor),
-          energyRequirement: parseFloat(energyRequirement),
-          efficiency: parseFloat(efficiency),
-          name,
-        }),
-      );
+      if (editID !== undefined) {
+        dispatch(
+          updateSubProcess({
+            subProcess: {
+              baseCost: parseFloat(baseCost),
+              learningRate: parseFloat(learningRate),
+              scalingFactor: parseFloat(scalingFactor),
+              installationFactor: parseFloat(installationFactor),
+              energyRequirement: parseFloat(energyRequirement),
+              efficiency: parseFloat(efficiency),
+              name,
+            },
+            index: editID,
+          }),
+        );
+      } else {
+        dispatch(
+          addSubProcess({
+            baseCost: parseFloat(baseCost),
+            learningRate: parseFloat(learningRate),
+            scalingFactor: parseFloat(scalingFactor),
+            installationFactor: parseFloat(installationFactor),
+            energyRequirement: parseFloat(energyRequirement),
+            efficiency: parseFloat(efficiency),
+            name,
+          }),
+        );
+      }
     }
-  };
-
-  const setStatesToUndefined = () => {
-    setBaseCost(undefined);
-    setLearningRate(undefined);
-    setScalingFactor(undefined);
-    setInstallationFactor(undefined);
-    setEnergyRequirement(undefined);
-    setEfficiency(undefined);
-    setName("");
   };
 
   return (
@@ -117,7 +105,7 @@ const SubProcessModal: React.FC<SubProcessModalProps> = ({
           <>
             <ModalHeader>
               <Text color="secondary" textSize="sub3">
-                Add a subprocess
+                {editID === undefined ? "Add a Subprocess" : "Edit Subprocess"}
               </Text>
             </ModalHeader>
             <ModalBody>
@@ -177,7 +165,6 @@ const SubProcessModal: React.FC<SubProcessModalProps> = ({
               <Button
                 color="grey"
                 onClick={() => {
-                  setStatesToUndefined();
                   onClose();
                 }}
               >
@@ -187,11 +174,10 @@ const SubProcessModal: React.FC<SubProcessModalProps> = ({
                 color="primary"
                 onClick={() => {
                   onSubmit();
-                  setStatesToUndefined();
                   onClose();
                 }}
               >
-                Add
+                {editID === undefined ? "Add" : "Save"}
               </Button>
             </ModalFooter>
           </>
