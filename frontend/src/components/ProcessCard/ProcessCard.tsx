@@ -28,7 +28,7 @@ const ProcessCard: React.FC<ProcessCardProps> = ({ info, handleEdit }) => {
     );
   } else {
     return (
-      <div className="shadow-card flex flex-row items-center justify-between rounded-[10px] px-6 py-5 border-1 border-grey">
+      <div className="shadow-card flex flex-row items-center justify-between rounded-[10px] px-6 py-5 border-1 border-grey mb-3">
         <div className="rounded-full bg-primary-50 flex items-center justify-center border-1 border-primary px-1">
           <Text color="primary" textSize="button-sm">
             {info?.name}

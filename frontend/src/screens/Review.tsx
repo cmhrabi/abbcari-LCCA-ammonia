@@ -9,20 +9,20 @@ import Button from "../design/Button/Button";
 import { useNavigate } from "react-router-dom";
 import Breadcrumbs from "../design/Breadcumbs/Breadcrumbs";
 import {
-  setAnalysisName,
-  setTech1Name,
-  setTech2Name,
-  setType,
+    setAnalysisName,
+    setTech1Name,
+    setTech2Name,
+    setType,
 } from "../Slices/nameSlice";
 import {
-  setDiscount,
-  setProvince,
-  setElectricalAmmonia,
-  setEfficiency,
-  setBaseAmmonia,
-  setPlantOperatingHours,
-  setStartYear,
-  setFinalYear,
+    setDiscount,
+    setProvince,
+    setElectricalAmmonia,
+    setEfficiency,
+    setBaseAmmonia,
+    setPlantOperatingHours,
+    setStartYear,
+    setFinalYear,
 } from "../Slices/generalSlice";
 import {
     addSubProcess,
@@ -30,25 +30,25 @@ import {
 } from "../Slices/electrifiedSlice";
 
 import { useAppSelector, useAppDispatch } from "../hooks";
-import SubProcessModal from "../components/SubProcessModal/SubProcessModal";
+import ProcessCard from "../components/ProcessCard/ProcessCard";
 
 interface ReviewProps {
-  setCurrStep: (arg0: number) => void;
+    setCurrStep: (arg0: number) => void;
 }
 
 interface UpsideDownIconProps extends React.SVGProps<SVGSVGElement> { }
 
-const Review: React.FC<ReviewProps> = ({ setCurrStep }) => {  
-  const generalValues = useAppSelector((state) => state.general.value);  
-  const nameValues = useAppSelector((state) => state.name.value);
-  const tech1Name = useAppSelector((state) => state.name.value.tech1Name);
-  const tech2Name = useAppSelector((state) => state.name.value.tech2Name);
-  const electrifiedValues = useAppSelector((state) => state.electrified.value); 
+const Review: React.FC<ReviewProps> = ({ setCurrStep }) => {
+    const generalValues = useAppSelector((state) => state.general.value);
+    const nameValues = useAppSelector((state) => state.name.value);
+    const tech1Name = useAppSelector((state) => state.name.value.tech1Name);
+    const tech2Name = useAppSelector((state) => state.name.value.tech2Name);
+    const subProcesses = useAppSelector((state) => state.electrified.value.subProcesses);
 
-  const dispatch = useAppDispatch();
-  const navigate = useNavigate();
+    const dispatch = useAppDispatch();
+    const navigate = useNavigate();
 
-  const [disabled, setDisabled] = useState(true);  
+    const [disabled, setDisabled] = useState(true);
     const UpsideDownIcon: React.FC<UpsideDownIconProps> = (props) => {
         return (
             <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -57,84 +57,86 @@ const Review: React.FC<ReviewProps> = ({ setCurrStep }) => {
 
         );
     };
-  
-  return (
-    <div>
-      <Accordion selectionMode="multiple" variant="splitted" className="space-y-26">
-        <AccordionItem className="shadow-card rounded-[10px] mb-7 mt-8" key="Upside-Down" aria-label="General Inputs" indicator={<UpsideDownIcon/>}title={<div className="justify-between flex flex-row"><Text textSize="sub3">General Inputs</Text><Button size="noPadding" color="transparent" onClick={() => setCurrStep(0)}>Edit</Button></div>}>
-          <div className="grid grid-cols-4 pt-1 pb-4 px-8 gap-y-3">
-            <Text>Start year: {generalValues.startYear}</Text>
-            <Text>Target year: {generalValues.finalYear}</Text>
-            <Text>Discount rate: {generalValues.discount}</Text>
-            <Text>Electrical ammonia: {generalValues.electricalAmmonia}</Text>
-            <div className="col-span-2">
-              <Text>Province used in analysis: {generalValues.province}</Text>
-            </div>   
-            {/* <p>Efficiency: {generalValues.efficiency}</p> */}
-            {/* <p>Base Ammonia: {generalValues.baseAmmonia}</p> */}
-            <div className="col-span-2">
-              <Text>Plant Operating Hours: {generalValues.plantOperatingHours}</Text>
-            </div>
-           
-          </div>
-        </AccordionItem>
 
-        <AccordionItem className="shadow-card rounded-[10px] mb-7" key="2" aria-label="First Technology Inputs" indicator={<UpsideDownIcon />} title={<div className="justify-between flex flex-row"><Text textSize="sub3">{tech1Name} Inputs</Text><Button size="noPadding" color="transparent" onClick={() => setCurrStep(1)}>Edit</Button></div>}>
-        <div className="grid grid-cols-4 pt-1 pb-4 px-8 gap-y-3">
-                <Text>Direct cost factor: </Text>
-                <Text>Indirect cost factor: </Text>
-                <Text>Working capital cost: </Text>
-                <Text>Depreciation percentage: </Text>
-                <Text>Duration of use: </Text>
-                {/* <p>Efficiency: {generalValues.efficiency}</p> */}
-                {/* <p>Base Ammonia: {generalValues.baseAmmonia}</p> */}
-        </div>
-            <div className="px-6 mb-2">
-                <Text textSize="sub4">Subtechnologies for {tech1Name}</Text>
-            </div>
-            <div className="shadow-card flex flex-row items-center justify-between rounded-[10px] px-6 py-5 border-1 border-grey mb-7">
-              <div className="rounded-full bg-primary-50 flex items-center justify-center border-1 border-primary px-1">
-                 <Text color="primary" textSize="button-sm">
-                     {electrifiedValues.subProcesses[0]?.name}
-                </Text>
-              </div>
-                <Text>Baseline cost: {electrifiedValues.subProcesses[0]?.baseCost}</Text>
-                <Text>Learning rate: {electrifiedValues.subProcesses[0]?.learningRate}</Text>
-                <Text>Scaling factor: {electrifiedValues.subProcesses[0]?.scalingFactor}</Text>
-                <Text>Installation factor: {electrifiedValues.subProcesses[0]?.installationFactor}</Text>
-                <Text>Energy requirement: {electrifiedValues.subProcesses[0]?.energyRequirement}</Text>
-                <Text>Efficiency: {electrifiedValues.subProcesses[0]?.efficiency}</Text>
-            </div>
-        {/* </div> */}
-        </AccordionItem>
+        return (
+            <div>
+                <Accordion selectionMode="multiple" variant="splitted" className="space-y-26">
+                    <AccordionItem className="shadow-card rounded-[10px] mb-7 mt-8" key="Upside-Down" aria-label="General Inputs" indicator={<UpsideDownIcon />} title={<div className="justify-between flex flex-row"><Text textSize="sub3">General Inputs</Text><Button size="noPadding" color="transparent" onClick={() => setCurrStep(0)}>Edit</Button></div>}>
+                        <div className="grid grid-cols-4 pt-1 pb-4 px-8 gap-y-3">
+                            <Text>Start year: {generalValues.startYear}</Text>
+                            <Text>Target year: {generalValues.finalYear}</Text>
+                            <Text>Discount rate: {generalValues.discount}</Text>
+                            <Text>Electrical ammonia: {generalValues.electricalAmmonia}</Text>
+                            <div className="col-span-2">
+                                <Text>Province used in analysis: {generalValues.province}</Text>
+                            </div>
+                            {/* <p>Efficiency: {generalValues.efficiency}</p> */}
+                            {/* <p>Base Ammonia: {generalValues.baseAmmonia}</p> */}
+                            <div className="col-span-2">
+                                <Text>Plant Operating Hours: {generalValues.plantOperatingHours}</Text>
+                            </div>
 
-        <AccordionItem className="shadow-card rounded-[10px]" key="3" aria-label="First Technology Inputs" indicator={<UpsideDownIcon />} title={<div className="justify-between flex flex-row"><Text textSize="sub3">{tech2Name} Inputs</Text><Button size="noPadding" color="transparent" onClick={() => setCurrStep(1)}>Edit</Button></div>}>
-          <div className="grid grid-cols-4 pt-1 pb-4 px-8 gap-y-3">
-            <Text>Direct cost factor: </Text>
-            <Text>Indirect cost factor: </Text>
-            <Text>Working capital cost: </Text>
-            <Text>Depreciation percentage: </Text>
-            <Text>Duration of use: </Text>
-            {/* <p>Efficiency: {generalValues.efficiency}</p> */}
-            {/* <p>Base Ammonia: {generalValues.baseAmmonia}</p> */}
-          </div>
-            <div className="px-6">
-                <Text textSize="sub4">Subtechnologies for {tech2Name}</Text>
+                        </div>
+                    </AccordionItem>
+
+                    <AccordionItem className="shadow-card rounded-[10px] mb-7" key="2" aria-label="First Technology Inputs" indicator={<UpsideDownIcon />} title={<div className="justify-between flex flex-row"><Text textSize="sub3">{tech1Name} Inputs</Text><Button size="noPadding" color="transparent" onClick={() => setCurrStep(1)}>Edit</Button></div>}>
+                        <div className="grid grid-cols-4 pt-1 pb-4 px-8 gap-y-3">
+                            <Text>Direct cost factor: </Text>
+                            <Text>Indirect cost factor: </Text>
+                            <Text>Working capital cost: </Text>
+                            <Text>Depreciation percentage: </Text>
+                            <Text>Duration of use: </Text>
+                            {/* <p>Efficiency: {generalValues.efficiency}</p> */}
+                            {/* <p>Base Ammonia: {generalValues.baseAmmonia}</p> */}
+                        </div>
+                        <div className="px-6 mb-2">
+                            <Text textSize="sub4">Subtechnologies for {tech1Name}</Text>
+                        </div>
+                        <div>
+                        {subProcesses.map((subProcess, index) => (
+                            <ProcessCard 
+                              key={index}
+                              info={{
+                                  baseCost: subProcess.baseCost,
+                                  learningRate: subProcess.learningRate,
+                                  scalingFactor: subProcess.scalingFactor,
+                                  installationFactor: subProcess.installationFactor,
+                                  energyRequirement: subProcess.energyRequirement,
+                                  efficiency: subProcess.efficiency,
+                                  name: subProcess.name,
+                                }} 
+                            />
+                        ))}
+                        </div>
+                        {/* </div> */}
+                    </AccordionItem>
+
+                    <AccordionItem className="shadow-card rounded-[10px]" key="3" aria-label="First Technology Inputs" indicator={<UpsideDownIcon />} title={<div className="justify-between flex flex-row"><Text textSize="sub3">{tech2Name} Inputs</Text><Button size="noPadding" color="transparent" onClick={() => setCurrStep(1)}>Edit</Button></div>}>
+                        <div className="grid grid-cols-4 pt-1 pb-4 px-8 gap-y-3">
+                            <Text>Direct cost factor: </Text>
+                            <Text>Indirect cost factor: </Text>
+                            <Text>Working capital cost: </Text>
+                            <Text>Depreciation percentage: </Text>
+                            <Text>Duration of use: </Text>
+                            {/* <p>Efficiency: {generalValues.efficiency}</p> */}
+                            {/* <p>Base Ammonia: {generalValues.baseAmmonia}</p> */}
+                        </div>
+                        <div className="px-6">
+                            <Text textSize="sub4">Subtechnologies for {tech2Name}</Text>
+                        </div>
+
+                    </AccordionItem>
+                </Accordion> 
+                <div className="space-x-6 mt-32">
+                    <Button color="grey" onClick={() => setCurrStep(1)}>
+                        Back
+                    </Button>
+                    <Button color="primary" disabled={disabled}>
+                        Calculate
+                    </Button>
+                </div>    
             </div>
-
-        </AccordionItem>
-      </Accordion>
-
-      <div className="space-x-6 mt-32">
-        <Button color="grey" onClick={() => setCurrStep(1)}>
-          Back
-        </Button>
-        <Button color="primary" disabled={disabled}>
-          Calculate
-        </Button>
-      </div>
-    </div>
-  );
+        ); 
 };
 
-export default Review;
+    export default Review;
