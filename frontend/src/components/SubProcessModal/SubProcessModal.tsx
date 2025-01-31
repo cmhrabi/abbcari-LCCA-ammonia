@@ -177,7 +177,7 @@ const SubProcessModal: React.FC<SubProcessModalProps> = ({
                   onClose();
                 }}
               >
-                {editID === undefined ? "Add" : "Save"}
+                {editID === undefined ? "Add" : "Save changes"}
               </Button>
             </ModalFooter>
           </>

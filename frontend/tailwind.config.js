@@ -74,6 +74,13 @@ export const theme = {
           lineHeight: "20px",
         },
       ],
+      modal:[
+        "24px",
+        {
+          fontWeight: 700,
+          lineHeight: "32px",
+        },
+      ],
       "button-sm": [
         "12px",
         {

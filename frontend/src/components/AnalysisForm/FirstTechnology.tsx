@@ -5,9 +5,10 @@ import { useAppDispatch, useAppSelector } from "../../hooks";
 import ProcessCard from "../ProcessCard/ProcessCard";
 import CostSection from "../../design/Cost/CostSection";
 import { useDisclosure } from "@nextui-org/react";
-import { XMarkIcon } from "@heroicons/react/24/solid";
+import { XCircleIcon } from "@heroicons/react/24/outline";
 import SubProcessModal from "../SubProcessModal/SubProcessModal";
 import { deleteSubProcess } from "../../Slices/electrifiedSlice";
+import DeleteProcessModal from "../DeleteProcessModal/DeleteProcessModal";
 
 interface FirstTechnologyProps {
   setCurrStep: (arg0: number) => void;
@@ -22,29 +23,37 @@ const FirstTechnology: React.FC<FirstTechnologyProps> = ({ setCurrStep }) => {
   const dispatch = useAppDispatch();
 
   const [editStates, setEditStates] = useState(
-    subProcesses.map(() => ({ isOpen: false })),
+    subProcesses.map(() => ({ isOpenEdit: false, isOpenDelete: false })),
   );
   const [localSubProcesses, setLocalSubProcesses] = useState(subProcesses);
 
-  const handleOpen = (index: number) => {
-    setEditStates((prevStates: { isOpen: boolean }[]) =>
+  const handleOpenEdit = (index: number) => {
+    setEditStates((prevStates: { isOpenEdit: boolean, isOpenDelete: boolean }[]) =>
       prevStates.map((state, i) =>
-        i === index ? { ...state, isOpen: true } : state,
+        i === index ? { ...state, isOpenEdit: true, isOpenDelete: false} : state,
+      ),
+    );
+  };
+
+  const handleOpenDelete = (index: number) => {
+    setEditStates((prevStates: { isOpenEdit: boolean, isOpenDelete: boolean }[]) =>
+      prevStates.map((state, i) =>
+        i === index ? { ...state, isOpenEdit: false, isOpenDelete: true } : state,
       ),
     );
   };
 
   const handleClose = (index: number) => {
-    setEditStates((prevStates: { isOpen: boolean }[]) =>
+    setEditStates((prevStates: { isOpenEdit: boolean, isOpenDelete: boolean }[]) =>
       prevStates.map((state, i) =>
-        i === index ? { ...state, isOpen: false } : state,
+        i === index ? { ...state, isOpenEdit: false, isOpenDelete: false } : state,
       ),
     );
   };
 
   useEffect(() => {
     setLocalSubProcesses(subProcesses);
-    setEditStates(subProcesses.map(() => ({ isOpen: false })));
+    setEditStates(subProcesses.map(() => ({ isOpenEdit: false, isOpenDelete: false })));
   }, [subProcesses]);
 
   useEffect(() => {
@@ -128,28 +137,34 @@ const FirstTechnology: React.FC<FirstTechnologyProps> = ({ setCurrStep }) => {
                   efficiency: subP.efficiency,
                   name: subP.name,
                 };
-                const { isOpen } = editStates[i];
+                const { isOpenEdit, isOpenDelete } = editStates[i];
 
                 return (
                   <div
                     key={i}
                     className="flex flex-row items-center justify-between"
                   >
-                    <ProcessCard info={info} handleEdit={() => handleOpen(i)} />
+                    <ProcessCard info={info} handleEdit={() => handleOpenEdit(i)} />
                     <Button
                       isIconOnly
                       color="transparent"
                       onClick={() => {
-                        dispatch(deleteSubProcess(i));
+                        handleOpenDelete(i);
                       }}
                     >
-                      <XMarkIcon className="size-4 text-grey-blue" />
+                      <XCircleIcon className="size-5 text-grey-blue" />
                     </Button>
                     <SubProcessModal
-                      isOpen={isOpen}
+                      isOpen={isOpenEdit}
                       onOpenChange={() => handleClose(i)}
                       editID={i}
                       info={info}
+                    />
+                    <DeleteProcessModal
+                      isOpen={isOpenDelete}
+                      onOpenChange={() => handleClose(i)}
+                      deleteID={i}
+                      subProcessName={info.name}
                     />
                   </div>
                 );

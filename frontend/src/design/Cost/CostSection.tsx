@@ -4,6 +4,7 @@ import HelpMessage from "../HelpMessage/HelpMessage";
 import HelpIcon from "../../assets/help_icons/help.svg";
 import ErrorIcon from "../../assets/help_icons/error.svg";
 import Button from "../../design/Button/Button";
+import { XCircleIcon } from "@heroicons/react/24/outline";
 
 export interface InputProps
   extends React.InputHTMLAttributes<HTMLInputElement> {
@@ -76,7 +77,7 @@ const CostInput: React.FC<InputProps> = ({
       {rows.map((row, index) => (
         <div key={index} className="space-y-4">
           <div className="flex flex-col space-y-2">
-            <div className="flex gap-x-10 gap-y-10 w-80">
+            <div className="flex gap-x-5 gap-y-10 w-80">
               <input
                 className={inputNameVariant({
                   background: "default",
@@ -92,6 +93,12 @@ const CostInput: React.FC<InputProps> = ({
                 })}
                 placeholder="Cost"
               />
+              <Button
+                isIconOnly
+                color="transparent"
+              >
+                <XCircleIcon className="size-5 text-grey-blue" />
+              </Button>
             </div>
             <div className="flex flex-row space-x-1 space-y-9">
               {label && !noIcon && row.error && (

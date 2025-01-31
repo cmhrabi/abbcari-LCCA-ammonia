@@ -17,6 +17,7 @@ export type TextSize =
   | "sub3"
   | "sub4"
   | "body"
+  | "modal"
   | "button-sm"
   | "button-md"
   | "button-lg"
@@ -55,6 +56,7 @@ const Text: React.FC<TextProps> = ({
         sub3: "text-sub3",
         sub4: "text-sub4",
         body: "text-body",
+        modal: "text-modal",
         "button-sm": "text-button-sm",
         "button-md": "text-button-md",
         "button-lg": "text-button-lg",
