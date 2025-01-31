@@ -6,7 +6,7 @@ import { useAppSelector } from "../hooks";
 import Wizard from "../design/Wizard/Wizard";
 import General from "../components/AnalysisForm/General";
 import FirstTechnology from "../components/AnalysisForm/FirstTechnology";
-import Review from "./Review";
+import Review from "../components/AnalysisForm/Review";
 
 const Analysis = () => {
   const analysisName = useAppSelector((state) => state.name.value.analysisName);

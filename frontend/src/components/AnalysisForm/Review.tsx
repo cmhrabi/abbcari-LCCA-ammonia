@@ -1,9 +1,9 @@
 import React, { useState } from "react";
 import { Accordion, AccordionItem } from "@nextui-org/react";
-import Text from "../design/Text/Text";
-import Button from "../design/Button/Button";
-import { useAppSelector } from "../hooks";
-import ProcessCard from "../components/ProcessCard/ProcessCard";
+import Text from "../../design/Text/Text";
+import Button from "../../design/Button/Button";
+import { useAppSelector } from "../../hooks";
+import ProcessCard from "../ProcessCard/ProcessCard";
 
 interface ReviewProps {
   setCurrStep: (arg0: number) => void;

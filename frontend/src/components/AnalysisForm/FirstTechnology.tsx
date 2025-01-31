@@ -4,10 +4,22 @@ import Button from "../../design/Button/Button";
 import { useAppDispatch, useAppSelector } from "../../hooks";
 import ProcessCard from "../ProcessCard/ProcessCard";
 import CostSection from "../../design/Cost/CostSection";
-import { useDisclosure } from "@nextui-org/react";
+import { Checkbox, useDisclosure } from "@nextui-org/react";
 import { XCircleIcon } from "@heroicons/react/24/outline";
 import SubProcessModal from "../SubProcessModal/SubProcessModal";
-import { deleteSubProcess } from "../../Slices/electrifiedSlice";
+import {
+  addDirectCost,
+  addIndirectCost,
+  deleteDirectCost,
+  deleteIndirectCost,
+  setBottomUpCalc,
+  setDirectCostFactor,
+  setIndirectCostFactor,
+  setWorkingCapitalFactor,
+  updateDirectCost,
+  updateIndirectCost,
+} from "../../Slices/electrifiedSlice";
+import Input from "../../design/Input/Input";
 import DeleteProcessModal from "../DeleteProcessModal/DeleteProcessModal";
 
 interface FirstTechnologyProps {
@@ -19,6 +31,7 @@ const FirstTechnology: React.FC<FirstTechnologyProps> = ({ setCurrStep }) => {
   const subProcesses = useAppSelector(
     (state) => state.electrified.value.subProcesses,
   );
+  const electrifiedValues = useAppSelector((state) => state.electrified.value);
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
   const dispatch = useAppDispatch();
 
@@ -28,32 +41,43 @@ const FirstTechnology: React.FC<FirstTechnologyProps> = ({ setCurrStep }) => {
   const [localSubProcesses, setLocalSubProcesses] = useState(subProcesses);
 
   const handleOpenEdit = (index: number) => {
-    setEditStates((prevStates: { isOpenEdit: boolean, isOpenDelete: boolean }[]) =>
-      prevStates.map((state, i) =>
-        i === index ? { ...state, isOpenEdit: true, isOpenDelete: false} : state,
-      ),
+    setEditStates(
+      (prevStates: { isOpenEdit: boolean; isOpenDelete: boolean }[]) =>
+        prevStates.map((state, i) =>
+          i === index
+            ? { ...state, isOpenEdit: true, isOpenDelete: false }
+            : state,
+        ),
     );
   };
 
   const handleOpenDelete = (index: number) => {
-    setEditStates((prevStates: { isOpenEdit: boolean, isOpenDelete: boolean }[]) =>
-      prevStates.map((state, i) =>
-        i === index ? { ...state, isOpenEdit: false, isOpenDelete: true } : state,
-      ),
+    setEditStates(
+      (prevStates: { isOpenEdit: boolean; isOpenDelete: boolean }[]) =>
+        prevStates.map((state, i) =>
+          i === index
+            ? { ...state, isOpenEdit: false, isOpenDelete: true }
+            : state,
+        ),
     );
   };
 
   const handleClose = (index: number) => {
-    setEditStates((prevStates: { isOpenEdit: boolean, isOpenDelete: boolean }[]) =>
-      prevStates.map((state, i) =>
-        i === index ? { ...state, isOpenEdit: false, isOpenDelete: false } : state,
-      ),
+    setEditStates(
+      (prevStates: { isOpenEdit: boolean; isOpenDelete: boolean }[]) =>
+        prevStates.map((state, i) =>
+          i === index
+            ? { ...state, isOpenEdit: false, isOpenDelete: false }
+            : state,
+        ),
     );
   };
 
   useEffect(() => {
     setLocalSubProcesses(subProcesses);
-    setEditStates(subProcesses.map(() => ({ isOpenEdit: false, isOpenDelete: false })));
+    setEditStates(
+      subProcesses.map(() => ({ isOpenEdit: false, isOpenDelete: false })),
+    );
   }, [subProcesses]);
 
   useEffect(() => {
@@ -68,53 +92,89 @@ const FirstTechnology: React.FC<FirstTechnologyProps> = ({ setCurrStep }) => {
         </Text>
       </div>
       <div className="grid grid-cols-1 gap-y-14">
-        <div className="grid grid-cols-2 gap-x-11 gap-y-12 shadow-card rounded-[10px] border-1 border-grey py-5 px-10">
-          <CostSection
-            type="text"
-            label="Direct costs"
-            onChange={() => {}}
-            helpMessage="Test"
-          />
+        <div className="shadow-card rounded-[10px] border-1 border-grey py-5 px-10">
+          <div className="pb-3">
+            <Checkbox
+              color="primary"
+              checked={electrifiedValues.bottomUpCalc}
+              onChange={(e) => {
+                dispatch(setBottomUpCalc(e.target.checked));
+              }}
+            >
+              Use bottom-up cost estimation
+            </Checkbox>
+          </div>
+          {electrifiedValues.bottomUpCalc && (
+            <div className="grid grid-cols-2 gap-x-32 gap-y-5 mr-20">
+              <CostSection
+                type="text"
+                label="Direct costs"
+                onChange={() => {}}
+                helpMessage="Test"
+                rows={electrifiedValues.directCosts}
+                editRow={(index, name, cost) => {
+                  dispatch(
+                    updateDirectCost({ index: index, cost: { name, cost } }),
+                  );
+                }}
+                addRow={() => {
+                  dispatch(addDirectCost({ name: "", cost: "" }));
+                }}
+                deleteRow={(index) => {
+                  dispatch(deleteDirectCost(index));
+                }}
+              />
 
-          <CostSection
-            type="number"
-            label="Indirect costs"
-            onChange={() => {}}
-            helpMessage="Test"
-          />
-          {/* <Input
-            type="number"
-            label="Direct cost factor"
-            onChange={() => {}}
-            placeholder="Value"
-            helpMessage="The direct cost factor includes expenses directly tied to the physical creation of a project. This includes, but is not limited to:"
-          />
-          <Input
-            type="number"
-            label="Indirect cost factor"
-            onChange={() => {}}
-            placeholder="Value"
-            helpMessage="The indirect cost factor includes expenses not directly linked to production but necessary for project completion. This includes, but is not limited to:"
-          />
-          <Input
-            type="number"
-            label="Working capital cost"
-            onChange={() => {}}
-            placeholder="Value"
-            helpMessage="The worker capital cost are the costs associated with labor and employee-related expenses."
-          />
-          <Input
-            label="Depreciation percentage"
-            onChange={() => {}}
-            placeholder="Value"
-            helpMessage="The depreciation percentage is an indication of how quickly your technology will lose its productive value over time. An accurate representation is required to estimate the net capital expenditure."
-          />
-          <Input
-            label="Duration of use (hours)"
-            onChange={() => {}}
-            placeholder="Value"
-            helpMessage="The depreciation percentage is an indication of how quickly your technology will lose its productive value over time. An accurate representation is required to estimate the net capital expenditure."
-          /> */}
+              <CostSection
+                type="number"
+                label="Indirect costs"
+                helpMessage="Test"
+                rows={electrifiedValues.indirectCosts}
+                editRow={(index, name, cost) => {
+                  dispatch(
+                    updateIndirectCost({ index: index, cost: { name, cost } }),
+                  );
+                }}
+                addRow={() => {
+                  dispatch(addIndirectCost({ name: "", cost: "" }));
+                }}
+                deleteRow={(index) => {
+                  dispatch(deleteIndirectCost(index));
+                }}
+              />
+            </div>
+          )}
+          {!electrifiedValues.bottomUpCalc && (
+            <div className="grid grid-cols-3 gap-x-40 gap-y-5">
+              <Input
+                type="number"
+                label="Direct cost factor"
+                onChange={(e) => {
+                  dispatch(setDirectCostFactor(parseFloat(e.target.value)));
+                }}
+                value={electrifiedValues.directCostFactor}
+                helpMessage="The direct cost factor includes expenses directly tied to the physical creation of a project. This includes, but is not limited to:"
+              />
+              <Input
+                type="number"
+                label="Indirect cost factor"
+                onChange={(e) => {
+                  dispatch(setIndirectCostFactor(parseFloat(e.target.value)));
+                }}
+                value={electrifiedValues.indirectCostFactor}
+                helpMessage="The indirect cost factor includes expenses not directly linked to production but necessary for project completion. This includes, but is not limited to:"
+              />
+              <Input
+                type="number"
+                label="Working capital cost factor"
+                onChange={(e) => {
+                  dispatch(setWorkingCapitalFactor(parseFloat(e.target.value)));
+                }}
+                value={electrifiedValues.workingCapitalFactor}
+                helpMessage="The worker capital cost are the costs associated with labor and employee-related expenses."
+              />
+            </div>
+          )}
         </div>
         <div>
           <div className="flex flex-row justify-between items-end pb-2">
@@ -144,7 +204,10 @@ const FirstTechnology: React.FC<FirstTechnologyProps> = ({ setCurrStep }) => {
                     key={i}
                     className="flex flex-row items-center justify-between"
                   >
-                    <ProcessCard info={info} handleEdit={() => handleOpenEdit(i)} />
+                    <ProcessCard
+                      info={info}
+                      handleEdit={() => handleOpenEdit(i)}
+                    />
                     <Button
                       isIconOnly
                       color="transparent"

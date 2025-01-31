@@ -125,6 +125,11 @@ const SubProcessModal: React.FC<SubProcessModalProps> = ({
                   type="number"
                   label="Baseline Cost"
                   value={baseCost}
+                  start={
+                    <Text textSize="sub3" color="grey-label">
+                      $
+                    </Text>
+                  }
                   onChange={(e) => setBaseCost(e.target.value)}
                 />
                 <Input

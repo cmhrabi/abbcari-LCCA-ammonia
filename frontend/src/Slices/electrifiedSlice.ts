@@ -10,16 +10,35 @@ export interface SubProcess {
   name: string;
 }
 
+export interface Cost {
+  name: string;
+  cost: string;
+}
+
 export interface ElectrifiedState {
   value: {
     subProcesses: SubProcess[];
+    directCosts: Cost[];
+    indirectCosts: Cost[];
+    directCostFactor: number;
+    indirectCostFactor: number;
+    workingCapitalFactor: number;
+    bottomUpCalc: boolean;
   };
 }
 
 export const electrifiedSlice = createSlice({
   name: "electrified",
   initialState: {
-    value: { subProcesses: new Array<SubProcess>() },
+    value: {
+      subProcesses: new Array<SubProcess>(),
+      directCosts: [{ name: "", cost: "" }],
+      indirectCosts: [{ name: "", cost: "" }],
+      directCostFactor: 0.33,
+      indirectCostFactor: 0.5,
+      workingCapitalFactor: 0.05,
+      bottomUpCalc: false,
+    },
   },
   reducers: {
     addSubProcess: (state, action: PayloadAction<SubProcess>) => {
@@ -37,10 +56,63 @@ export const electrifiedSlice = createSlice({
     deleteSubProcess: (state, action: PayloadAction<number>) => {
       state.value.subProcesses.splice(action.payload, 1);
     },
+    setBottomUpCalc: (state, action: PayloadAction<boolean>) => {
+      state.value.bottomUpCalc = action.payload;
+    },
+    setDirectCostFactor: (state, action: PayloadAction<number>) => {
+      state.value.directCostFactor = action.payload;
+    },
+    setIndirectCostFactor: (state, action: PayloadAction<number>) => {
+      state.value.indirectCostFactor = action.payload;
+    },
+    setWorkingCapitalFactor: (state, action: PayloadAction<number>) => {
+      state.value.workingCapitalFactor = action.payload;
+    },
+    addDirectCost: (state, action: PayloadAction<Cost>) => {
+      state.value.directCosts.push(action.payload);
+    },
+    updateDirectCost: (
+      state,
+      action: PayloadAction<{ index: number; cost: Cost }>,
+    ) => {
+      if (action.payload.index < state.value.directCosts.length) {
+        state.value.directCosts[action.payload.index] = action.payload.cost;
+      }
+    },
+    deleteDirectCost: (state, action: PayloadAction<number>) => {
+      state.value.directCosts.splice(action.payload, 1);
+    },
+    addIndirectCost: (state, action: PayloadAction<Cost>) => {
+      state.value.indirectCosts.push(action.payload);
+    },
+    updateIndirectCost: (
+      state,
+      action: PayloadAction<{ index: number; cost: Cost }>,
+    ) => {
+      if (action.payload.index < state.value.indirectCosts.length) {
+        state.value.indirectCosts[action.payload.index] = action.payload.cost;
+      }
+    },
+    deleteIndirectCost: (state, action: PayloadAction<number>) => {
+      state.value.indirectCosts.splice(action.payload, 1);
+    },
   },
 });
 
-export const { addSubProcess, updateSubProcess, deleteSubProcess } =
-  electrifiedSlice.actions;
+export const {
+  addSubProcess,
+  updateSubProcess,
+  deleteSubProcess,
+  setBottomUpCalc,
+  setDirectCostFactor,
+  setIndirectCostFactor,
+  setWorkingCapitalFactor,
+  addDirectCost,
+  updateDirectCost,
+  deleteDirectCost,
+  addIndirectCost,
+  updateIndirectCost,
+  deleteIndirectCost,
+} = electrifiedSlice.actions;
 
 export default electrifiedSlice.reducer;

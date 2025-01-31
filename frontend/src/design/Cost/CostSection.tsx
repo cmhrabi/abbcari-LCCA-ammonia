@@ -5,6 +5,9 @@ import HelpIcon from "../../assets/help_icons/help.svg";
 import ErrorIcon from "../../assets/help_icons/error.svg";
 import Button from "../../design/Button/Button";
 import { XCircleIcon } from "@heroicons/react/24/outline";
+import DeleteCostModal from "../../components/DeleteCostModal/DeleteCostModal";
+import { useDisclosure } from "@nextui-org/react";
+import Text from "../Text/Text";
 
 export interface InputProps
   extends React.InputHTMLAttributes<HTMLInputElement> {
@@ -14,12 +17,20 @@ export interface InputProps
   noIcon?: boolean;
   name?: string;
   cost?: string;
+  addRow: () => void;
+  rows: { name: string; cost: string }[];
+  editRow: (index: number, name: string, cost: string) => void;
+  deleteRow: (index: number) => void;
 }
 
 const CostInput: React.FC<InputProps> = ({
   label,
   helpMessage,
   error,
+  addRow,
+  deleteRow,
+  editRow,
+  rows,
   noIcon = false,
 }) => {
   const inputNameVariant = cva(
@@ -28,13 +39,15 @@ const CostInput: React.FC<InputProps> = ({
       variants: {
         background: {
           default: "bg-white",
-          //   secondary: "bg-grey-light",
           blue: "bg-primary-input",
         },
         focus: {
           error: "outline-none border-danger shadow-input",
           noError:
             "focus:outline-none focus:border-tertiary focus:shadow-input",
+        },
+        start: {
+          true: "ps-7",
         },
       },
     },
@@ -43,13 +56,15 @@ const CostInput: React.FC<InputProps> = ({
 
   const [focused, setFocused] = React.useState(false);
   const onFocus = () => setFocused(true);
-  const onBlur = () => setFocused(false);
   const handleSnoozeHelp = () => setFocused(false);
+  const [currDeleteIndex, setCurrDeleteIndex] = React.useState<number | null>(
+    null,
+  );
+  const { isOpen, onOpenChange, onOpen } = useDisclosure();
 
-  const [rows, setRows] = React.useState([{ name: "", cost: "", error: "" }]);
-
-  const addRow = () => {
-    setRows([...rows, { name: "", cost: "", error: "" }]);
+  const handleDelete = (index: number) => {
+    setCurrDeleteIndex(index);
+    onOpen();
   };
 
   return (
@@ -77,31 +92,45 @@ const CostInput: React.FC<InputProps> = ({
       {rows.map((row, index) => (
         <div key={index} className="space-y-4">
           <div className="flex flex-col space-y-2">
-            <div className="flex gap-x-5 gap-y-10 w-80">
+            <div className="flex gap-x-5 gap-y-10 w-100">
               <input
                 className={inputNameVariant({
                   background: "default",
-                  focus: row.error ? "error" : "noError",
+                  focus: error ? "error" : "noError",
                 })}
+                type="text"
+                value={row.name}
+                onChange={(e) => editRow(index, e.target.value, row.cost)}
                 placeholder="Name"
               />
-
-              <input
-                className={inputNameVariant({
-                  background: "blue",
-                  focus: row.error ? "error" : "noError",
-                })}
-                placeholder="Cost"
-              />
+              <div className="relative">
+                <div className="absolute inset-y-0 start-0 flex items-center ps-3.5 pointer-events-none">
+                  <Text color="grey-label" textSize="sub3">
+                    $
+                  </Text>
+                </div>
+                <input
+                  className={inputNameVariant({
+                    background: "blue",
+                    focus: error ? "error" : "noError",
+                    start: true,
+                  })}
+                  type="number"
+                  value={row.cost}
+                  onChange={(e) => editRow(index, row.name, e.target.value)}
+                  placeholder="Cost"
+                />
+              </div>
               <Button
                 isIconOnly
                 color="transparent"
+                onClick={() => handleDelete(index)}
               >
                 <XCircleIcon className="size-5 text-grey-blue" />
               </Button>
             </div>
             <div className="flex flex-row space-x-1 space-y-9">
-              {label && !noIcon && row.error && (
+              {label && !noIcon && error && (
                 <img
                   onClick={onFocus}
                   alt="Error Icon"
@@ -111,7 +140,7 @@ const CostInput: React.FC<InputProps> = ({
                   className="cursor-pointer"
                 />
               )}
-              {label && row.error && (
+              {label && error && (
                 <img
                   onClick={onFocus}
                   alt="Error Icon"
@@ -130,6 +159,11 @@ const CostInput: React.FC<InputProps> = ({
           + Add a new cost
         </Button>
       </div>
+      <DeleteCostModal
+        deleteCost={() => deleteRow(currDeleteIndex as number)}
+        isOpen={isOpen}
+        onOpenChange={onOpenChange}
+      />
     </div>
   );
 };
