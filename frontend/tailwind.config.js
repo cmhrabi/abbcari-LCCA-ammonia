@@ -60,11 +60,25 @@ export const theme = {
           lineHeight: "25px",
         },
       ],
+      sub4: [
+        "14px",
+        {
+          fontWeight: 600,
+          lineHeight: "20px",
+        },
+      ],
       body: [
         "14px",
         {
           fontWeight: 400,
           lineHeight: "20px",
+        },
+      ],
+      modal: [
+        "24px",
+        {
+          fontWeight: 700,
+          lineHeight: "32px",
         },
       ],
       "button-sm": [
@@ -156,6 +170,7 @@ export const plugins = [
           primary: {
             hover: "#384E9E",
             "alert-border": "rgba(1, 114, 203, 0.10)",
+            input: "#E7ECFF",
             DEFAULT: "#506AC7",
           },
           secondary: {
@@ -204,7 +219,7 @@ export const plugins = [
             blue: "#697D95",
             dark: "#404040",
             label: "#4F5E71",
-            bg: "#F2F2F2",
+            bg: "#F5F5F5",
             DEFAULT: "#E8EDF1",
           },
           lightblue: {

@@ -6,6 +6,8 @@ import { useAppSelector } from "../hooks";
 import Wizard from "../design/Wizard/Wizard";
 import General from "../components/AnalysisForm/General";
 import FirstTechnology from "../components/AnalysisForm/FirstTechnology";
+import Review from "../components/AnalysisForm/Review";
+import SecondTechnology from "../components/AnalysisForm/SecondTechnology";
 
 const Analysis = () => {
   const analysisName = useAppSelector((state) => state.name.value.analysisName);
@@ -36,10 +38,10 @@ const Analysis = () => {
                 title: "General",
               },
               {
-                title: "1st Technology",
+                title: "Electrified Process",
               },
               {
-                title: "2nd Technology",
+                title: "Conventional Natural Gas Process",
               },
               {
                 title: "Review",
@@ -49,6 +51,8 @@ const Analysis = () => {
         </div>
         {currStep === 0 && <General setCurrStep={setCurrStep} />}
         {currStep === 1 && <FirstTechnology setCurrStep={setCurrStep} />}
+        {currStep === 2 && <SecondTechnology setCurrStep={setCurrStep} />}
+        {currStep === 3 && <Review setCurrStep={setCurrStep} />}
       </div>
     </>
   );

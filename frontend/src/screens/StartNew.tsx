@@ -54,7 +54,7 @@ const StartNew = () => {
               value={nameValues.analysisName}
               onChange={(e) => dispatch(setAnalysisName(e.target.value))}
               label={<Text textSize="sub3">Enter a name for your project</Text>}
-              placeholder="Name"
+              placeholder="P2A vs. HB Analysis"
               noIcon
             />
           </div>
@@ -65,13 +65,13 @@ const StartNew = () => {
           >
             <Radio
               value="phi"
-              label="There is existing infrastructure"
-              description="Are you replacing an existing technology?"
+              label="Replace an existing plant"
+              description="There is an existing chemical process to produce ammonia and you are looking to replace it."
             />
             <Radio
               value="psi"
-              label="There is no existing infrastructure"
-              description="Are you deciding between which technologies to start implementing?"
+              label="Build a new plant"
+              description="There is no existing chemical process to produce ammonia. You are interested in comparing two chemical processes."
             />
           </RadioGroup>
           {nameValues.type && nameValues.analysisName && (
@@ -82,10 +82,11 @@ const StartNew = () => {
                   onChange={(e) => dispatch(setTech1Name(e.target.value))}
                   label={
                     <Text textSize="sub3">
-                      What is the name of the first technology you would like to
-                      compare?
+                      What is the name of the electrified process you would like
+                      to compare?
                     </Text>
                   }
+                  placeholder="P2A"
                   noIcon
                 />
               </div>
@@ -95,10 +96,11 @@ const StartNew = () => {
                   onChange={(e) => dispatch(setTech2Name(e.target.value))}
                   label={
                     <Text textSize="sub3">
-                      What is the name of the second technology you would like
-                      to compare?
+                      What is the name of the conventional natural gas process
+                      you would like to compare?
                     </Text>
                   }
+                  placeholder="Haber-Bosch"
                   noIcon
                 />
               </div>

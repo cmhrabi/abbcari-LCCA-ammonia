@@ -6,7 +6,11 @@ export default {
 };
 
 const SelectDemo = () => {
-  const options = ["Calum", "Stuti", "Adnan"];
+  const options = [
+    { value: "Calum", label: "Calum" },
+    { value: "Stuti", label: "Stuti" },
+    { value: "Adnan", label: "Adnan" },
+  ];
 
   return (
     <div className="grid grid-cols-3 gap-4 items-end">

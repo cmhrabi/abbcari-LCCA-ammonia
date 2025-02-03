@@ -6,35 +6,40 @@ import ProcessCard from "../ProcessCard/ProcessCard";
 import CostSection from "../../design/Cost/CostSection";
 import { Checkbox, useDisclosure } from "@nextui-org/react";
 import { XCircleIcon } from "@heroicons/react/24/outline";
-import SubProcessModal from "../SubProcessModal/SubProcessModal";
+import ConvSubProcessModal from "../SubProcessModal/SubProcessModal";
 import {
   addDirectCost,
   addIndirectCost,
   deleteDirectCost,
   deleteIndirectCost,
   setBottomUpCalc,
+  setDepreciationPercent,
   setDirectCostFactor,
+  setDuration,
   setIndirectCostFactor,
   setWorkingCapitalCost,
   setWorkingCapitalFactor,
   updateDirectCost,
   updateIndirectCost,
-} from "../../Slices/electrifiedSlice";
+} from "../../Slices/conventionalSlice";
 import Input from "../../design/Input/Input";
 import DeleteProcessModal from "../DeleteProcessModal/DeleteProcessModal";
 
-interface FirstTechnologyProps {
+interface SecondTechnologyProps {
   setCurrStep: (arg0: number) => void;
 }
 
-const FirstTechnology: React.FC<FirstTechnologyProps> = ({ setCurrStep }) => {
-  const tech1Name = useAppSelector((state) => state.name.value.tech1Name);
+const SecondTechnology: React.FC<SecondTechnologyProps> = ({ setCurrStep }) => {
+  const tech2Name = useAppSelector((state) => state.name.value.tech2Name);
+  const analysisType = useAppSelector((state) => state.name.value.type);
   const subProcesses = useAppSelector(
-    (state) => state.electrified.value.subProcesses,
+    (state) => state.conventional.value.subProcesses,
   );
-  const electrifiedValues = useAppSelector((state) => state.electrified.value);
+  const conventionalValues = useAppSelector(
+    (state) => state.conventional.value,
+  );
   const bottomUpCalc = useAppSelector(
-    (state) => state.electrified.value.bottomUpCalc,
+    (state) => state.conventional.value.bottomUpCalc,
   );
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
   const dispatch = useAppDispatch();
@@ -92,7 +97,7 @@ const FirstTechnology: React.FC<FirstTechnologyProps> = ({ setCurrStep }) => {
     <>
       <div className="py-2.5">
         <Text color="secondary" textSize="sub3">
-          Inputs for the &quot;{tech1Name}&quot; technology
+          Inputs for the &quot;{tech2Name}&quot; technology
         </Text>
       </div>
       <div className="grid grid-cols-1 gap-y-14">
@@ -109,14 +114,14 @@ const FirstTechnology: React.FC<FirstTechnologyProps> = ({ setCurrStep }) => {
               Use bottom-up cost estimation
             </Checkbox>
           </div>
-          {electrifiedValues.bottomUpCalc && (
+          {conventionalValues.bottomUpCalc && (
             <div className="flex flex-row gap-x-20">
               <CostSection
                 type="text"
                 label="Direct costs"
                 onChange={() => {}}
                 helpMessage="Test"
-                rows={electrifiedValues.directCosts}
+                rows={conventionalValues.directCosts}
                 editRow={(index, name, cost) => {
                   dispatch(
                     updateDirectCost({ index: index, cost: { name, cost } }),
@@ -133,7 +138,7 @@ const FirstTechnology: React.FC<FirstTechnologyProps> = ({ setCurrStep }) => {
                 type="number"
                 label="Indirect costs"
                 helpMessage="Test"
-                rows={electrifiedValues.indirectCosts}
+                rows={conventionalValues.indirectCosts}
                 editRow={(index, name, cost) => {
                   dispatch(
                     updateIndirectCost({
@@ -156,7 +161,7 @@ const FirstTechnology: React.FC<FirstTechnologyProps> = ({ setCurrStep }) => {
                   onChange={(e) => {
                     dispatch(setWorkingCapitalCost(e.target.value));
                   }}
-                  value={electrifiedValues.workingCapitalCost}
+                  value={conventionalValues.workingCapitalCost}
                   start={
                     <Text textSize="sub3" color="grey-blue">
                       $
@@ -167,7 +172,7 @@ const FirstTechnology: React.FC<FirstTechnologyProps> = ({ setCurrStep }) => {
               </div>
             </div>
           )}
-          {!electrifiedValues.bottomUpCalc && (
+          {!conventionalValues.bottomUpCalc && (
             <div className="grid grid-cols-3 gap-x-40 gap-y-5">
               <Input
                 type="number"
@@ -175,7 +180,7 @@ const FirstTechnology: React.FC<FirstTechnologyProps> = ({ setCurrStep }) => {
                 onChange={(e) => {
                   dispatch(setDirectCostFactor(parseFloat(e.target.value)));
                 }}
-                value={electrifiedValues.directCostFactor}
+                value={conventionalValues.directCostFactor}
                 helpMessage="The direct cost factor includes expenses directly tied to the physical creation of a project. This includes, but is not limited to:"
               />
               <Input
@@ -184,7 +189,7 @@ const FirstTechnology: React.FC<FirstTechnologyProps> = ({ setCurrStep }) => {
                 onChange={(e) => {
                   dispatch(setIndirectCostFactor(parseFloat(e.target.value)));
                 }}
-                value={electrifiedValues.indirectCostFactor}
+                value={conventionalValues.indirectCostFactor}
                 helpMessage="The indirect cost factor includes expenses not directly linked to production but necessary for project completion. This includes, but is not limited to:"
               />
               <Input
@@ -193,12 +198,45 @@ const FirstTechnology: React.FC<FirstTechnologyProps> = ({ setCurrStep }) => {
                 onChange={(e) => {
                   dispatch(setWorkingCapitalFactor(parseFloat(e.target.value)));
                 }}
-                value={electrifiedValues.workingCapitalFactor}
+                value={conventionalValues.workingCapitalFactor}
                 helpMessage="The worker capital cost are the costs associated with labor and employee-related expenses."
               />
             </div>
           )}
         </div>
+        {analysisType === "phi" && (
+          <div className="shadow-card rounded-[10px] border-1 border-grey py-5 px-10">
+            <div className="grid grid-cols-4 gap-x-20 gap-y-5">
+              <Input
+                type="number"
+                label="Depreciation percent"
+                onChange={(e) => {
+                  dispatch(setDepreciationPercent(parseFloat(e.target.value)));
+                }}
+                value={conventionalValues.depreciationPercent}
+                end={
+                  <Text color="grey-blue" textSize="input">
+                    %
+                  </Text>
+                }
+              />
+              <Input
+                type="number"
+                label="Duration of use"
+                onChange={(e) => {
+                  dispatch(setDuration(parseFloat(e.target.value)));
+                }}
+                value={conventionalValues.duration}
+                end={
+                  <Text color="grey-blue" textSize="input">
+                    years
+                  </Text>
+                }
+                helpMessage="The worker capital cost are the costs associated with labor and employee-related expenses."
+              />
+            </div>
+          </div>
+        )}
         <div>
           <div className="flex flex-row justify-between items-end pb-2">
             <Text color="secondary" textSize="sub3">
@@ -240,7 +278,7 @@ const FirstTechnology: React.FC<FirstTechnologyProps> = ({ setCurrStep }) => {
                     >
                       <XCircleIcon className="size-5 text-grey-blue" />
                     </Button>
-                    <SubProcessModal
+                    <ConvSubProcessModal
                       isOpen={isOpenEdit}
                       onOpenChange={() => handleClose(i)}
                       editID={i}
@@ -261,17 +299,17 @@ const FirstTechnology: React.FC<FirstTechnologyProps> = ({ setCurrStep }) => {
           </div>
         </div>
         <div className="space-x-6">
-          <Button color="grey" onClick={() => setCurrStep(0)}>
+          <Button color="grey" onClick={() => setCurrStep(1)}>
             Back
           </Button>
-          <Button color="primary" onClick={() => setCurrStep(2)}>
+          <Button color="primary" onClick={() => setCurrStep(3)}>
             Next
           </Button>
         </div>
       </div>
-      <SubProcessModal isOpen={isOpen} onOpenChange={onOpenChange} />
+      <ConvSubProcessModal isOpen={isOpen} onOpenChange={onOpenChange} />
     </>
   );
 };
 
-export default FirstTechnology;
+export default SecondTechnology;

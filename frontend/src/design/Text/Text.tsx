@@ -3,16 +3,7 @@ import { cva } from "class-variance-authority";
 
 export interface TextProps extends React.HTMLAttributes<HTMLDivElement> {
   textSize?: TextSize;
-  color?:
-    | "black"
-    | "white"
-    | "primary"
-    | "secondary"
-    | "tertiary"
-    | "success"
-    | "warning"
-    | "danger"
-    | "grey-label";
+  color?: TextColor;
   font?: "default" | "josefin";
   align?: "left" | "center" | "right";
   children: React.ReactNode;
@@ -24,7 +15,9 @@ export type TextSize =
   | "sub1"
   | "sub2"
   | "sub3"
+  | "sub4"
   | "body"
+  | "modal"
   | "button-sm"
   | "button-md"
   | "button-lg"
@@ -33,6 +26,18 @@ export type TextSize =
   | "help-message"
   | "alert-title"
   | "nav-title";
+
+export type TextColor =
+  | "black"
+  | "white"
+  | "primary"
+  | "secondary"
+  | "tertiary"
+  | "success"
+  | "warning"
+  | "danger"
+  | "grey-label"
+  | "grey-blue";
 
 const Text: React.FC<TextProps> = ({
   textSize = "body",
@@ -50,7 +55,9 @@ const Text: React.FC<TextProps> = ({
         sub1: "text-sub1 uppercase",
         sub2: "text-sub2",
         sub3: "text-sub3",
+        sub4: "text-sub4",
         body: "text-body",
+        modal: "text-modal",
         "button-sm": "text-button-sm",
         "button-md": "text-button-md",
         "button-lg": "text-button-lg",
@@ -70,6 +77,7 @@ const Text: React.FC<TextProps> = ({
         warning: "text-warning",
         danger: "text-danger",
         "grey-label": "text-grey-label",
+        "grey-blue": "text-grey-blue",
       },
       font: {
         default: "font-sans",
