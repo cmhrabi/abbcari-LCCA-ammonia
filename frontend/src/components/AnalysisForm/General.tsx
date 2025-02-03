@@ -65,7 +65,6 @@ const General: React.FC<GeneralProps> = ({ setCurrStep }) => {
   const [yearError, setYearError] = useState({ startYear: "", finalYear: "" });
 
   const years = Array.from({ length: 26 }, (_, i) => 2025 + i);
-
   return (
     <>
       <div className="py-2.5">
@@ -124,7 +123,6 @@ const General: React.FC<GeneralProps> = ({ setCurrStep }) => {
               helpMessage="The province(s) you want to influence the projected cost based on its geographical location on the electricity grid."
             />
           </div>
-
           <Input
             label="Discount rate"
             onChange={(e) => dispatch(setDiscount(e.target.value))}
