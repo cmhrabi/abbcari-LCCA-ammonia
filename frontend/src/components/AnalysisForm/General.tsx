@@ -9,8 +9,6 @@ import {
   setDiscount,
   setProvince,
   setElectricalAmmonia,
-  setEfficiency,
-  setBaseAmmonia,
   setPlantOperatingHours,
   setStartYear,
   setFinalYear,
@@ -31,8 +29,6 @@ const General: React.FC<GeneralProps> = ({ setCurrStep }) => {
     if (
       generalValues.discount &&
       generalValues.electricalAmmonia &&
-      generalValues.efficiency &&
-      generalValues.baseAmmonia &&
       generalValues.plantOperatingHours &&
       !generalValues.province.includes("No Selection") &&
       generalValues.startYear &&
@@ -44,6 +40,31 @@ const General: React.FC<GeneralProps> = ({ setCurrStep }) => {
     }
   }, [generalValues]);
 
+  useEffect(() => {
+    if (generalValues.startYear >= generalValues.finalYear) {
+      setYearError({
+        startYear: "Final year must be greater than start year.",
+        finalYear: "",
+      });
+    } else {
+      setYearError({ startYear: "", finalYear: "" });
+    }
+  }, [generalValues.startYear]);
+
+  useEffect(() => {
+    if (generalValues.startYear >= generalValues.finalYear) {
+      setYearError({
+        startYear: "",
+        finalYear: "Final year must be greater than start year.",
+      });
+    } else {
+      setYearError({ startYear: "", finalYear: "" });
+    }
+  }, [generalValues.finalYear]);
+
+  const [yearError, setYearError] = useState({ startYear: "", finalYear: "" });
+
+  const years = Array.from({ length: 26 }, (_, i) => 2025 + i);
   return (
     <>
       <div className="py-2.5">
@@ -52,69 +73,68 @@ const General: React.FC<GeneralProps> = ({ setCurrStep }) => {
         </Text>
       </div>
       <div className="grid grid-cols-1 gap-y-10">
-        <div className="grid grid-cols-2 gap-x-24 gap-y-12 max-w-md">
-          <Input
+        <div className="grid grid-cols-4 gap-x-14 gap-y-12 max-w-4xl">
+          <Select
             label="Start year"
             onChange={(e) => dispatch(setStartYear(parseInt(e.target.value)))}
             value={generalValues.startYear}
+            options={years.map((year) => ({
+              value: year,
+              label: year.toString(),
+            }))}
+            error={yearError.startYear}
             noIcon
-            type="number"
           />
-          <Input
+          <Select
             label="Final year"
             onChange={(e) => dispatch(setFinalYear(parseInt(e.target.value)))}
             value={generalValues.finalYear}
+            options={years.map((year) => ({
+              value: year,
+              label: year.toString(),
+            }))}
+            error={yearError.finalYear}
             noIcon
-            type="number"
           />
-        </div>
-        <div className="grid grid-cols-2 gap-x-24 gap-y-12 max-w-screen-lg">
+          <div className="col-span-2">
+            <Select
+              label="Province(s) used in analysis"
+              onChange={(e) => dispatch(setProvince(e.target.value))}
+              value={generalValues.province}
+              options={[
+                { value: "No Selection", label: "No Selection" },
+                { value: "Alberta", label: "Alberta" },
+                { value: "British Columbia", label: "British Columbia" },
+                { value: "Manitoba", label: "Manitoba" },
+                { value: "New Brunswick", label: "New Brunswick" },
+                {
+                  value: "Newfoundland and Labrador",
+                  label: "Newfoundland and Labrador",
+                },
+                { value: "Nova Scotia", label: "Nova Scotia" },
+                { value: "Ontario", label: "Ontario" },
+                {
+                  value: "Prince Edward Island",
+                  label: "Prince Edward Island",
+                },
+                { value: "Quebec", label: "Quebec" },
+                { value: "Saskatchewan", label: "Saskatchewan" },
+              ]}
+              helpMessage="The province(s) you want to influence the projected cost based on its geographical location on the electricity grid."
+            />
+          </div>
           <Input
             label="Discount rate"
             onChange={(e) => dispatch(setDiscount(e.target.value))}
             value={generalValues.discount}
             placeholder="Value"
             helpMessage="The rate at which future costs are adjusted to reflect the present value."
-          />
-          <Select
-            label="Province(s) used in analysis"
-            onChange={(e) => dispatch(setProvince(e.target.value))}
-            value={generalValues.province}
-            options={[
-              "No Selection",
-              "Alberta",
-              "British Columbia",
-              "Manitoba",
-              "New Brunswick",
-              "Newfoundland and Labrador",
-              "Nova Scotia",
-              "Ontario",
-              "Prince Edward Island",
-              "Quebec",
-              "Saskatchewan",
-            ]}
-            helpMessage="The province(s) you want to influence the projected cost based on its geographical location on the electricity grid."
-          />
-          <Input
-            label="Electrical ammonia demand in target year (in petajoules)"
-            onChange={(e) => dispatch(setElectricalAmmonia(e.target.value))}
-            value={generalValues.electricalAmmonia}
-            placeholder="Value"
-            helpMessage="The amount of electricity that is required to generate ammonia. This value will be used to derive the installed and purchased costs."
-          />
-          <Input
-            label="Efficiency of the technology"
-            onChange={(e) => dispatch(setEfficiency(e.target.value))}
-            value={generalValues.efficiency}
-            placeholder="Value"
-            helpMessage="The effectiveness of the technology performing its intended function relative to the carbon emission produced."
-          />
-          <Input
-            label="Base electrical ammonia production rate (in petajoules)"
-            onChange={(e) => dispatch(setBaseAmmonia(e.target.value))}
-            value={generalValues.baseAmmonia}
-            placeholder="Value"
-            helpMessage="The current amount of ammonia that can be produced by your new technology. It will be used to calculate future production rates as the technology advances."
+            end={
+              <Text color="grey-blue" textSize="input">
+                %
+              </Text>
+            }
+            type="number"
           />
           <Input
             label="Plant operating hours"
@@ -124,7 +144,27 @@ const General: React.FC<GeneralProps> = ({ setCurrStep }) => {
             value={generalValues.plantOperatingHours}
             type="number"
             helpMessage="The number of hours a plant operates in a year. This value will be used to calculate the operating cost for a plant constructed in a year."
+            end={
+              <Text color="grey-blue" textSize="input">
+                /year
+              </Text>
+            }
           />
+          <div className="text-nowrap overflow-visible">
+            <Input
+              label="Electrical ammonia demand in target year"
+              onChange={(e) => dispatch(setElectricalAmmonia(e.target.value))}
+              value={generalValues.electricalAmmonia}
+              placeholder="Value"
+              helpMessage="The amount of electricity that is required to generate ammonia. This value will be used to derive the installed and purchased costs."
+              end={
+                <Text color="grey-blue" textSize="input">
+                  pJ
+                </Text>
+              }
+              type="number"
+            />
+          </div>
         </div>
         <div className="space-x-6">
           <Button color="grey" onClick={() => navigate("/analysis/start")}>

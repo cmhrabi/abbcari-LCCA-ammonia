@@ -18,26 +18,25 @@ const HelpMessage: React.FC<HelpMessageProps> = ({
     variants: {
       type: {
         error: "bg-danger",
-        info: "bg-tertiary",
+        info: "bg-grey",
       },
     },
   });
 
-  const color = type == "error" ? "#D21C1C" : "#0172CB";
+  const color = type == "error" ? "#D21C1C" : "#E8EDF1";
+  const textColor = type == "error" ? "white" : "black";
 
   return (
     <div className="absolute z-10 top-0 -translate-y-full">
-      <div className="flex">
+      <div className="flex text-wrap">
         <div className={variants({ type: type })}>
-          <Text color="white" textSize="input">
+          <Text color={textColor} textSize="input">
             {children}
           </Text>
           {type != "error" && (
             <img
               src={CloseIcon}
               onClick={onSnooze}
-              width={20}
-              height={20}
               className="cursor-pointer"
             />
           )}
