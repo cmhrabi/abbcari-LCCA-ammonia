@@ -90,66 +90,67 @@ const CostInput: React.FC<InputProps> = ({
         {label && <label className={`${labelVariant({})}`}>{label}</label>}
       </div>
       {rows.map((row, index) => (
-        <div key={index} className="space-y-4">
-          <div className="flex flex-col space-y-2">
-            <div className="flex gap-x-5 gap-y-10 w-100">
+        <div
+          key={index}
+          className="flex flex-col flex-grow space-y-2 min-w-0 w-fit"
+        >
+          <div className="flex flex-shrink flex-grow gap-x-5 w-fit">
+            <input
+              className={inputNameVariant({
+                background: "default",
+                focus: error ? "error" : "noError",
+              })}
+              value={row.name}
+              onChange={(e) => editRow(index, e.target.value, row.cost)}
+              placeholder="Name"
+            />
+            <div className="relative block w-full">
+              <div className="absolute inset-y-0 start-0 flex items-center ps-3.5 pointer-events-none">
+                <Text color="grey-label" textSize="sub3">
+                  $
+                </Text>
+              </div>
               <input
                 className={inputNameVariant({
-                  background: "default",
+                  background: "blue",
                   focus: error ? "error" : "noError",
+                  start: true,
                 })}
-                type="text"
-                value={row.name}
-                onChange={(e) => editRow(index, e.target.value, row.cost)}
-                placeholder="Name"
+                type="number"
+                value={row.cost}
+                onChange={(e) => editRow(index, row.name, e.target.value)}
+                placeholder="Cost"
               />
-              <div className="relative">
-                <div className="absolute inset-y-0 start-0 flex items-center ps-3.5 pointer-events-none">
-                  <Text color="grey-label" textSize="sub3">
-                    $
-                  </Text>
-                </div>
-                <input
-                  className={inputNameVariant({
-                    background: "blue",
-                    focus: error ? "error" : "noError",
-                    start: true,
-                  })}
-                  type="number"
-                  value={row.cost}
-                  onChange={(e) => editRow(index, row.name, e.target.value)}
-                  placeholder="Cost"
-                />
-              </div>
-              <Button
-                isIconOnly
-                color="transparent"
-                onClick={() => handleDelete(index)}
-              >
-                <XCircleIcon className="size-5 text-grey-blue" />
-              </Button>
             </div>
-            <div className="flex flex-row space-x-1 space-y-9">
-              {label && !noIcon && error && (
-                <img
-                  onClick={onFocus}
-                  alt="Error Icon"
-                  src={HelpIcon}
-                  width={16}
-                  height={16}
-                  className="cursor-pointer"
-                />
-              )}
-              {label && error && (
-                <img
-                  onClick={onFocus}
-                  alt="Error Icon"
-                  src={ErrorIcon}
-                  width={16}
-                  height={16}
-                />
-              )}
-            </div>
+            <Button
+              isIconOnly
+              color="transparent"
+              onClick={() => handleDelete(index)}
+              size="noPadding"
+            >
+              <XCircleIcon className="size-5 text-grey-blue" />
+            </Button>
+          </div>
+          <div className="flex flex-row space-x-1 space-y-9">
+            {label && !noIcon && error && (
+              <img
+                onClick={onFocus}
+                alt="Error Icon"
+                src={HelpIcon}
+                width={16}
+                height={16}
+                className="cursor-pointer"
+              />
+            )}
+            {label && error && (
+              <img
+                onClick={onFocus}
+                alt="Error Icon"
+                src={ErrorIcon}
+                width={16}
+                height={16}
+              />
+            )}
           </div>
         </div>
       ))}

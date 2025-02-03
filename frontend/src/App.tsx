@@ -4,8 +4,6 @@ import ViewOrCreate from "./screens/ViewOrCreate";
 import Home from "./screens/Home";
 import StartNew from "./screens/StartNew";
 import Analysis from "./screens/Analysis";
-import Review from "./components/AnalysisForm/Review";
-import { element } from "prop-types";
 
 const routes = [
   {

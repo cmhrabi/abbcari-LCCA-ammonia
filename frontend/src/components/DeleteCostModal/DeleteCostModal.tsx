@@ -21,15 +21,24 @@ const DeleteCostModal: React.FC<DeleteCostModalProps> = ({
   deleteCost,
 }) => {
   return (
-    <Modal isOpen={isOpen} onOpenChange={onOpenChange} radius="sm" size="4xl">
+    <Modal
+      isOpen={isOpen}
+      onOpenChange={onOpenChange}
+      radius="sm"
+      size="2xl"
+      classNames={{
+        body: "px-16 py-10 rounded-b-[10px]",
+        header: "pt-5 border-t-3 border-danger",
+      }}
+    >
       <ModalContent>
         <ModalHeader>
-          <Text color="secondary" textSize="sub1">
+          <Text color="black" textSize="modal">
             Delete a cost
           </Text>
         </ModalHeader>
         <ModalBody>
-          <Text color="primary" textSize="body">
+          <Text color="secondary" textSize="button-lg">
             Are you sure you want to delete this cost? You will not be able to
             undo this action.
           </Text>

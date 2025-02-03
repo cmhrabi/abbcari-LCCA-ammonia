@@ -9,18 +9,21 @@ import {
 import Button from "../../design/Button/Button";
 import Text from "../../design/Text/Text";
 import Input from "../../design/Input/Input";
-import { addSubProcess, updateSubProcess } from "../../Slices/electrifiedSlice";
+import {
+  addSubProcess,
+  updateSubProcess,
+} from "../../Slices/conventionalSlice";
 import { useAppDispatch } from "../../hooks";
 import { ProcessCardInfo } from "../ProcessCard/ProcessCard";
 
-interface SubProcessModalProps {
+interface ConvSubProcessModalProps {
   isOpen: boolean;
   onOpenChange: (open: boolean) => void;
   info?: ProcessCardInfo;
   editID?: number;
 }
 
-const SubProcessModal: React.FC<SubProcessModalProps> = ({
+const ConvSubProcessModal: React.FC<ConvSubProcessModalProps> = ({
   isOpen,
   onOpenChange,
   info,
@@ -211,4 +214,4 @@ const SubProcessModal: React.FC<SubProcessModalProps> = ({
   );
 };
 
-export default SubProcessModal;
+export default ConvSubProcessModal;

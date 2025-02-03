@@ -5,8 +5,6 @@ export interface GeneralState {
     discount: string;
     province: string[];
     electricalAmmonia: string;
-    efficiency: string;
-    baseAmmonia: string;
     plantOperatingHours: number;
     startYear: number;
     finalYear: number;
@@ -22,8 +20,6 @@ export const generalSlice = createSlice({
       discount: "",
       province: "No Selection",
       electricalAmmonia: "",
-      efficiency: "",
-      baseAmmonia: "",
       plantOperatingHours: 8000,
     },
   },
@@ -43,12 +39,6 @@ export const generalSlice = createSlice({
     setElectricalAmmonia: (state, action: PayloadAction<string>) => {
       state.value.electricalAmmonia = action.payload;
     },
-    setEfficiency: (state, action: PayloadAction<string>) => {
-      state.value.efficiency = action.payload;
-    },
-    setBaseAmmonia: (state, action: PayloadAction<string>) => {
-      state.value.baseAmmonia = action.payload;
-    },
     setPlantOperatingHours: (state, action: PayloadAction<number>) => {
       state.value.plantOperatingHours = action.payload;
     },
@@ -61,8 +51,6 @@ export const {
   setDiscount,
   setProvince,
   setElectricalAmmonia,
-  setEfficiency,
-  setBaseAmmonia,
   setPlantOperatingHours,
 } = generalSlice.actions;
 

@@ -15,9 +15,15 @@ const Review: React.FC<ReviewProps> = ({ setCurrStep }) => {
   const generalValues = useAppSelector((state) => state.general.value);
   const tech1Name = useAppSelector((state) => state.name.value.tech1Name);
   const tech2Name = useAppSelector((state) => state.name.value.tech2Name);
-  const subProcesses = useAppSelector(
+  const analysisType = useAppSelector((state) => state.name.value.type);
+  const conValues = useAppSelector((state) => state.conventional.value);
+  const conSubProcesses = useAppSelector(
+    (state) => state.conventional.value.subProcesses,
+  );
+  const elecSubProcesses = useAppSelector(
     (state) => state.electrified.value.subProcesses,
   );
+  const elecValues = useAppSelector((state) => state.electrified.value);
 
   const [disabled] = useState(true);
   const UpsideDownIcon: React.FC<UpsideDownIconProps> = () => {
@@ -70,8 +76,6 @@ const Review: React.FC<ReviewProps> = ({ setCurrStep }) => {
             <div className="col-span-2">
               <Text>Province used in analysis: {generalValues.province}</Text>
             </div>
-            {/* <p>Efficiency: {generalValues.efficiency}</p> */}
-            {/* <p>Base Ammonia: {generalValues.baseAmmonia}</p> */}
             <div className="col-span-2">
               <Text>
                 Plant Operating Hours: {generalValues.plantOperatingHours}
@@ -98,20 +102,18 @@ const Review: React.FC<ReviewProps> = ({ setCurrStep }) => {
             </div>
           }
         >
-          <div className="grid grid-cols-4 pt-1 pb-4 px-8 gap-y-3">
-            <Text>Direct cost factor: </Text>
-            <Text>Indirect cost factor: </Text>
-            <Text>Working capital cost: </Text>
-            <Text>Depreciation percentage: </Text>
-            <Text>Duration of use: </Text>
-            {/* <p>Efficiency: {generalValues.efficiency}</p> */}
-            {/* <p>Base Ammonia: {generalValues.baseAmmonia}</p> */}
+          <div className="grid grid-cols-3 pt-1 pb-4 px-6 gap-y-3">
+            <Text>Direct cost factor: {elecValues.directCostFactor}</Text>
+            <Text>Indirect cost factor: {elecValues.indirectCostFactor}</Text>
+            <Text>
+              Working capital cost factor: {elecValues.workingCapitalFactor}
+            </Text>
           </div>
           <div className="px-6 mb-2">
             <Text textSize="sub4">Subprocess for {tech1Name}</Text>
           </div>
           <div className="grid grid-cols-1 gap-y-2">
-            {subProcesses.map((subProcess, index) => (
+            {elecSubProcesses.map((subProcess, index) => (
               <ProcessCard
                 key={index}
                 info={{
@@ -126,7 +128,6 @@ const Review: React.FC<ReviewProps> = ({ setCurrStep }) => {
               />
             ))}
           </div>
-          {/* </div> */}
         </AccordionItem>
 
         <AccordionItem
@@ -140,29 +141,51 @@ const Review: React.FC<ReviewProps> = ({ setCurrStep }) => {
               <Button
                 size="noPadding"
                 color="transparent"
-                onClick={() => setCurrStep(1)}
+                onClick={() => setCurrStep(2)}
               >
                 Edit
               </Button>
             </div>
           }
         >
-          <div className="grid grid-cols-4 pt-1 pb-4 px-8 gap-y-3">
-            <Text>Direct cost factor: </Text>
-            <Text>Indirect cost factor: </Text>
-            <Text>Working capital cost: </Text>
-            <Text>Depreciation percentage: </Text>
-            <Text>Duration of use: </Text>
-            {/* <p>Efficiency: {generalValues.efficiency}</p> */}
-            {/* <p>Base Ammonia: {generalValues.baseAmmonia}</p> */}
+          <div className="grid grid-cols-3 pt-1 pb-4 px-6 gap-y-3">
+            <Text>Direct cost factor: {conValues.directCostFactor}</Text>
+            <Text>Indirect cost factor: {conValues.indirectCostFactor}</Text>
+            <Text>
+              Working capital cost factor: {conValues.workingCapitalFactor}
+            </Text>
+            {analysisType == "phi" && (
+              <>
+                <Text>
+                  Depreciation percent: {conValues.depreciationPercent}
+                </Text>
+                <Text>Duration of use: {conValues.duration}</Text>
+              </>
+            )}
           </div>
-          <div className="px-6">
-            <Text textSize="sub4">Subtechnologies for {tech2Name}</Text>
+          <div className="px-6 mb-2">
+            <Text textSize="sub4">Subprocess for {tech2Name}</Text>
+          </div>
+          <div className="grid grid-cols-1 gap-y-2">
+            {conSubProcesses.map((subProcess, index) => (
+              <ProcessCard
+                key={index}
+                info={{
+                  baseCost: subProcess.baseCost,
+                  learningRate: subProcess.learningRate,
+                  scalingFactor: subProcess.scalingFactor,
+                  installationFactor: subProcess.installationFactor,
+                  energyRequirement: subProcess.energyRequirement,
+                  efficiency: subProcess.efficiency,
+                  name: subProcess.name,
+                }}
+              />
+            ))}
           </div>
         </AccordionItem>
       </Accordion>
       <div className="space-x-6 mt-32">
-        <Button color="grey" onClick={() => setCurrStep(1)}>
+        <Button color="grey" onClick={() => setCurrStep(2)}>
           Back
         </Button>
         <Button color="primary" disabled={disabled}>

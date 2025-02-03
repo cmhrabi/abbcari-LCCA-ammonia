@@ -74,7 +74,7 @@ export const theme = {
           lineHeight: "20px",
         },
       ],
-      modal:[
+      modal: [
         "24px",
         {
           fontWeight: 700,

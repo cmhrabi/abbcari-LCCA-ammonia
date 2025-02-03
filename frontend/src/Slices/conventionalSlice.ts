@@ -15,7 +15,7 @@ export interface Cost {
   cost: string;
 }
 
-export interface ElectrifiedState {
+export interface ConventionalState {
   value: {
     subProcesses: SubProcess[];
     directCosts: Cost[];
@@ -25,11 +25,13 @@ export interface ElectrifiedState {
     indirectCostFactor: number;
     workingCapitalFactor: number;
     bottomUpCalc: boolean;
+    depreciationPercent: number;
+    duration: number;
   };
 }
 
-export const electrifiedSlice = createSlice({
-  name: "electrified",
+export const conventionalSlice = createSlice({
+  name: "conventional",
   initialState: {
     value: {
       subProcesses: new Array<SubProcess>(),
@@ -40,6 +42,8 @@ export const electrifiedSlice = createSlice({
       indirectCostFactor: 0.5,
       workingCapitalFactor: 0.05,
       bottomUpCalc: false,
+      depreciationPercent: 0.1,
+      duration: 5,
     },
   },
   reducers: {
@@ -72,6 +76,12 @@ export const electrifiedSlice = createSlice({
     },
     setWorkingCapitalCost: (state, action: PayloadAction<string>) => {
       state.value.workingCapitalCost = action.payload;
+    },
+    setDepreciationPercent: (state, action: PayloadAction<number>) => {
+      state.value.depreciationPercent = action.payload;
+    },
+    setDuration: (state, action: PayloadAction<number>) => {
+      state.value.duration = action.payload;
     },
     addDirectCost: (state, action: PayloadAction<Cost>) => {
       state.value.directCosts.push(action.payload);
@@ -119,6 +129,8 @@ export const {
   addIndirectCost,
   updateIndirectCost,
   deleteIndirectCost,
-} = electrifiedSlice.actions;
+  setDepreciationPercent,
+  setDuration,
+} = conventionalSlice.actions;
 
-export default electrifiedSlice.reducer;
+export default conventionalSlice.reducer;

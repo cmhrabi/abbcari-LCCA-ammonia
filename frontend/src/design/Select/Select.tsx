@@ -8,7 +8,8 @@ interface SelectProps extends React.SelectHTMLAttributes<HTMLSelectElement> {
   label?: string;
   helpMessage?: string;
   error?: string;
-  options: string[];
+  options: { value: number | string; label: string }[];
+  noIcon?: boolean;
 }
 
 const Select: React.FC<SelectProps> = ({
@@ -16,6 +17,7 @@ const Select: React.FC<SelectProps> = ({
   helpMessage,
   error,
   options,
+  noIcon = false,
   ...props
 }) => {
   const inputVariants = cva(
@@ -47,12 +49,14 @@ const Select: React.FC<SelectProps> = ({
         </div>
       )}
       {error && (
-        <HelpMessage type="error" onSnooze={handleSnoozeHelp}>
-          {error}
-        </HelpMessage>
+        <div className="relative">
+          <HelpMessage type="error" onSnooze={handleSnoozeHelp}>
+            {error}
+          </HelpMessage>
+        </div>
       )}
       <div className="flex flex-row space-x-1">
-        {label && !error && (
+        {!noIcon && label && !error && (
           <img
             onClick={onFocus}
             alt="Help Icon"
@@ -79,8 +83,8 @@ const Select: React.FC<SelectProps> = ({
         {...props}
       >
         {options.map((option, index) => (
-          <option key={index} value={option}>
-            {option}
+          <option key={index} value={option.value}>
+            {option.label}
           </option>
         ))}
       </select>

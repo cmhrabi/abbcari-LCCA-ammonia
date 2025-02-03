@@ -24,12 +24,13 @@ const HelpMessage: React.FC<HelpMessageProps> = ({
   });
 
   const color = type == "error" ? "#D21C1C" : "#E8EDF1";
+  const textColor = type == "error" ? "white" : "black";
 
   return (
     <div className="absolute z-10 top-0 -translate-y-full">
-      <div className="flex">
+      <div className="flex text-wrap">
         <div className={variants({ type: type })}>
-          <Text textSize="input">
+          <Text color={textColor} textSize="input">
             {children}
           </Text>
           {type != "error" && (

@@ -36,7 +36,8 @@ export type TextColor =
   | "success"
   | "warning"
   | "danger"
-  | "grey-label";
+  | "grey-label"
+  | "grey-blue";
 
 const Text: React.FC<TextProps> = ({
   textSize = "body",
@@ -76,6 +77,7 @@ const Text: React.FC<TextProps> = ({
         warning: "text-warning",
         danger: "text-danger",
         "grey-label": "text-grey-label",
+        "grey-blue": "text-grey-blue",
       },
       font: {
         default: "font-sans",

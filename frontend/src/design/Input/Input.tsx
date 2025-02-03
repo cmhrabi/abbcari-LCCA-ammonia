@@ -50,39 +50,41 @@ const Input: React.FC<InputProps> = ({
 
   return (
     <div>
-      {helpMessage && focused && !error && (
-        <div className="relative">
-          <HelpMessage onSnooze={handleSnoozeHelp} type="info">
-            {helpMessage}
+      <div className="pb-1">
+        {helpMessage && focused && !error && (
+          <div className="relative">
+            <HelpMessage onSnooze={handleSnoozeHelp} type="info">
+              {helpMessage}
+            </HelpMessage>
+          </div>
+        )}
+        {error && (
+          <HelpMessage type="error" onSnooze={handleSnoozeHelp}>
+            {error}
           </HelpMessage>
+        )}
+        <div className="flex flex-row space-x-1">
+          {label && !noIcon && !error && (
+            <img
+              onClick={onFocus}
+              alt="Error Icon"
+              src={HelpIcon}
+              width={16}
+              height={16}
+              className="cursor-pointer"
+            />
+          )}
+          {label && error && (
+            <img
+              onClick={onFocus}
+              alt="Error Icon"
+              src={ErrorIcon}
+              width={16}
+              height={16}
+            />
+          )}
+          {label && <label className={labelVariants({})}>{label}</label>}
         </div>
-      )}
-      {error && (
-        <HelpMessage type="error" onSnooze={handleSnoozeHelp}>
-          {error}
-        </HelpMessage>
-      )}
-      <div className="flex flex-row space-x-1">
-        {label && !noIcon && !error && (
-          <img
-            onClick={onFocus}
-            alt="Error Icon"
-            src={HelpIcon}
-            width={16}
-            height={16}
-            className="cursor-pointer"
-          />
-        )}
-        {label && error && (
-          <img
-            onClick={onFocus}
-            alt="Error Icon"
-            src={ErrorIcon}
-            width={16}
-            height={16}
-          />
-        )}
-        {label && <label className={labelVariants({})}>{label}</label>}
       </div>
       <div className="relative">
         <div className="absolute inset-y-0 start-0 flex items-center ps-3.5 pointer-events-none">
