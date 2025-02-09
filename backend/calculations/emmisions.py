@@ -64,7 +64,7 @@ def main():
         "Heavy Fuel Oil": 974.465,
         "Coal": 814.77
     }
-
+    print
     print(EI_elec_n_calc(energy_intensities_data, energy_sources_generation, 0))
 
 
