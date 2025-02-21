@@ -107,7 +107,9 @@ def C_b_calc(pre_C_b, X_n, alpha):
         #print(C_b_curr)
     return C_b
 
-def pur_inst_each_calc(C_b,X_n,X_b,Y,scaling_factor,tech, reforming_val, alpha):
+def pur_inst_each_calc(C_b,X_n_inst,X_n,X_b,Y,scaling_factor,tech, reforming_val, alpha):
+    # ** check later come back to this V IMPORTANT
+
     exchange = [1.32, 1.32, 1.32, 1.3, 1.3, 1.29, 1.29, 1.28, 1.28, 1.28, 1.28, 1.28, 1.28, 1.28, 1.28,
                                1.28, 1.28, 1.28, 1.28, 1.28, 1.28, 1.28, 1.28, 1.28, 1.28]
     reforming_blue = []
@@ -116,26 +118,32 @@ def pur_inst_each_calc(C_b,X_n,X_b,Y,scaling_factor,tech, reforming_val, alpha):
     for i in range(len(X_n)):
         reforming_blue.append(8.867887126*pow((X_n[i]/X_b),alpha[tech])* exchange[i])
 
+    # print(reforming_blue)
+
     for i in range(len(X_n)):
         reforming_grey.append(6.373533174 * pow((X_n[i] / X_b), alpha[tech]) * exchange[i])
-
+    # print(reforming_grey)
     C_pur = []
     C_inst = []
     for j in range(len(X_n)):
-        C_sum = 0
-        C_sum_i = 0
 
         #not 100% C36,37
-        C = C_b[j][tech] * pow((X_n[j] / X_b), scaling_factor[tech]) + pow(reforming_blue[j] * (X_n[j] / X_b), 0.6663/1.391361257) + C_b[j][1] * pow((X_n[j] / X_b), scaling_factor[1])
+        C = (C_b[j][tech] * pow((X_n_inst[j] / X_b), scaling_factor[tech])) + (pow(reforming_blue[j] * (X_n_inst[j] / X_b), 0.6663 / 1.391361257)) + (C_b[j][1] * pow((X_n_inst[j] / X_b), scaling_factor[1]))
 
-        C_i = (1+Y[tech]) * C_b[j][tech]*pow((X_n[j] / X_b), scaling_factor[tech]) + (1+Y[1])*pow(reforming_grey[j] * (X_n[j] / X_b), 0.6663 ) + (1+Y[1])* C_b[j][1] * pow((X_n[j] / X_b), scaling_factor[1])
+        C_i = (1+Y[tech]) * C_b[j][tech]*pow((X_n_inst[j] / X_b), scaling_factor[tech]) + (1+Y[1])*pow(reforming_grey[j] * (X_n_inst[j] / X_b), 0.6663 ) + (1+Y[1])* C_b[j][1] * pow((X_n_inst[j] / X_b), scaling_factor[1])
         #
         # C_sum += C
         # C_sum_i += C_i
 
         C_pur.append(C)
         C_inst.append(C_i)
-    print(C_inst)
+    # C6
+    # print(C_b)
+    # C300
+    # print(X_n)
+    # C36
+    # print(C_pur)
+    # C37
     # print(C_inst)
 
     return C_pur, C_inst
@@ -203,6 +211,11 @@ def C_capex_calc(C_capex_o, PV_capex):
         C_capex.append(PV_capex[i + 4] * C_capex_o[i])
     return C_capex
 
+def C_capex_loss_calc(C_capex, dep_rate, use):
+    C_capex_loss = []
+    for i in range(len(C_capex)):
+        C_capex_loss.append(C_capex[i] * pow(1-dep_rate,use))
+    return C_capex_loss
 
 # # Opex
 # def PV_opex_cal(DR, t_f, t_o):
@@ -306,7 +319,17 @@ def tot_calc(ER, X_inst):
         total.append(year_tot)
     return total
 
+def tot_NG_calc(NG_req, X_n,X_inst,X_b,alpha_j,tech):
+    NG_req_i = []
+    total = []
 
+    for i in range(len(X_n)):
+        NG_req_i.append(NG_req*pow((X_n[i]/X_b), alpha_j[tech]))
+    # print(NG_req_i)
+
+    for i in range(len(NG_req_i)):
+        total.append(NG_req_i[i]*(X_inst[i]/X_b))
+    return total
 
 def C_dir_calc(t_o, t_f, water_consumption, X_inst, total_elec, elec_price):  #C113
     C_dir = []
@@ -369,7 +392,7 @@ def C_opex_o_calc(t_f, t_o, X_n_inst, C_indir_dir, C_dir): # C121
         # Ammonia calorific value is 18.6 GJ/Tonne
         installed_capacity = 1000000000*X_n_inst[i]*1000/(18.6 * 8000)
         operating_labour = (2.13* math.pow(installed_capacity, 0.242)*7*8000/24)*37.5/1000000
-
+        # print(operating_labour)
         # Operating supervision
         operating_supervision = operating_supervision_share * operating_labour
 
@@ -410,10 +433,10 @@ def C_opex_calc(PV_opex, C_opex_bar):
 
 #Emissions
 
-def op_emissions_calc(X_n,X_b,t_f,t_o,op_hrs, elec_usage):
+def op_emissions_calc(X_n,X_b,t_f,t_o,op_hrs, elec_usage, onsite_upstream_emissions, water_consumption):
     # C240 water utility emission
     water_em_intensity = 0.0000281793 * 1000000
-    water_consumption = 0.190062218 #for grey H2
+    # water_consumption = 0.190062218 #for grey H2
     water_requirement = []
     water_utility_emission = []
 
@@ -425,7 +448,7 @@ def op_emissions_calc(X_n,X_b,t_f,t_o,op_hrs, elec_usage):
 
     # C222 on site up stream emissions
 
-    onsite_upstream_emissions = 10.82 # grey H2 **** thinking of changing these to inputs since same calc for p2a different iputs
+    # onsite_upstream_emissions = 10.82 # grey H2 **** thinking of changing these to inputs since same calc for p2a different iputs
     hydrogen_flow = 17.75304
     onsite_upstream = []
 
@@ -451,7 +474,7 @@ def op_emissions_calc(X_n,X_b,t_f,t_o,op_hrs, elec_usage):
             avg += electricity_em_intensity[i+j]
         avg = avg/(t_f-t_o)
         electricity_emissions.append(avg*elec_usage[i]*op_hrs*(t_f-t_o)*1000)
-
+    # print(electricity_emissions)
     # C263
     lifetime_op_emissions = []
     for i in range (len(X_n)):
@@ -459,12 +482,68 @@ def op_emissions_calc(X_n,X_b,t_f,t_o,op_hrs, elec_usage):
 
     return lifetime_op_emissions
 
+def lifetime_net_P2A(lifetime_op_emissions,X_n,X_b):
+    lifetime_net_P2A = []
+    for i in range(len(lifetime_op_emissions)):
+        lifetime_net_P2A.append(lifetime_op_emissions[i]+(2279807 * 1000*(X_n[i]/X_b)))
+    return lifetime_net_P2A
+
 def emissions_calc(lifetime_op_emissions):
     emissions = []
     emissions.append(lifetime_op_emissions[0])
     for i in range(len(lifetime_op_emissions)):
         if i != 0:
             emissions.append(lifetime_op_emissions[i]+emissions[i-1])
+    return emissions
+
+# Import Export
+def import_export_calc(Ammonia_demand, X_n):
+    ammonia_calorific_value = 18.6  # GJ/tonne
+    ammonia_density = 0.6826  # kg/L
+    canada_avg_cost_import = [
+        0.87843798873104, 0.87843798873104, 0.87843798873104, 0.86512832223511,
+        0.86512832223511, 0.85847348898715, 0.85847348898715, 0.85181865573919,
+        0.85181865573919, 0.85181865573919, 0.85181865573919, 0.85181865573919,
+        0.85181865573919, 0.85181865573919, 0.85181865573919, 0.85181865573919,
+        0.85181865573919, 0.85181865573919, 0.85181865573919, 0.85181865573919,
+        0.85181865573919, 0.85181865573919, 0.85181865573919, 0.85181865573919, 0.85181865573919
+    ]
+
+    canada_avg_revenue_export = [
+        0.89001345170197, 0.89001345170197, 0.89001345170197, 0.87652839940345,
+        0.87652839940345, 0.86978587325419, 0.86978587325419, 0.86304334710494,
+        0.86304334710494, 0.86304334710494, 0.86304334710494, 0.86304334710494,
+        0.86304334710494, 0.86304334710494, 0.86304334710494, 0.86304334710494,
+        0.86304334710494, 0.86304334710494, 0.86304334710494, 0.86304334710494,
+        0.86304334710494, 0.86304334710494, 0.86304334710494, 0.86304334710494, 0.86304334710494
+    ]
+
+    Imports_needed = []
+    import_export_i = []
+
+    for i in range(len(X_n)):
+        Imports_needed.append(Ammonia_demand[i]-X_n[i])
+    # print(Imports_needed)
+
+    for i in range(len(X_n)):
+        if Imports_needed[i] > 0:
+            import_export_i.append(1000*(Imports_needed[i]/(ammonia_density*ammonia_calorific_value))*canada_avg_cost_import[i])
+        else:
+            import_export_i.append(1000*(Imports_needed[i]/(ammonia_density*ammonia_calorific_value))*canada_avg_revenue_export[i])
+    return import_export_i
+
+def LCCA_calc(C_capex , C_opex, C_capex_grey, C_opex_grey, import_export, emissions_grey, emissions):
+    LCCA = []
+
+    for i in range(len(C_capex)):
+        if i == 0:
+            LCCA.append((C_capex[i]+C_opex[i]+C_capex_grey[i]-C_opex_grey[i]+import_export[i])*1000000/((emissions_grey[i] - emissions[i])/1000000))
+        else:
+            LCCA.append(LCCA[i-1]+(C_capex[i]+C_opex[i]+C_capex_grey[i]-C_opex_grey[i]+import_export[i])*1000000/((emissions_grey[i] - emissions[i])/1000000))
+    # print(Cumulative_PV_C)
+    return LCCA
+
+
 
 def main():
     # Inputs (Parameters)
@@ -473,7 +552,7 @@ def main():
     # Capex
     X_sat = 238.23
     X_b = 0.01486512
-    LR = [0.13, 0.1, 0.1]
+    LR = [0.13, 0.11, 0.1]
     C_b = [
         {
             "electrolysis": 2.64,
@@ -537,7 +616,6 @@ def main():
 
     C_b = C_b_calc(C_b_pre, X_n, alpha_list)
 
-    C_pur, C_inst = pur_inst_each_calc(C_b, X_n, X_b, Y, scaling_factor,2, 8.867887126, alpha_list)
 
 
     C_pur, C_inst = pur_inst_cost_calc(C_b, X_n, X_b, Y, scaling_factor)
@@ -554,7 +632,7 @@ def main():
 
 
     #P2A Stuff
-    water_consumption = 3.808056
+    water_consumption_P2A = 3.808056
     Electricity_price = [
         108.12, 108.40, 108.56, 108.51, 108.71, 108.35, 108.96, 109.03,
         109.21, 109.37, 109.71, 109.97, 110.27, 110.47, 110.74, 111.42,
@@ -567,8 +645,9 @@ def main():
 
     #Opex
     ER = ER_calc(ER_b, X_n, alpha_list)
+    # print(ER)
     total = tot_calc(ER, X_n_inst)
-    C_dir = C_dir_calc(t_o, t_f, water_consumption, X_n_inst, total, Electricity_price)
+    C_dir = C_dir_calc(t_o, t_f, water_consumption_P2A, X_n_inst, total, Electricity_price)
 
     C_opex_o = C_opex_o_calc(t_f,t_o, X_n_inst, C_indir_dir, C_dir)
 
@@ -578,10 +657,74 @@ def main():
     C_opex = C_opex_calc(PV_opex,C_opex_o)
 
     #Emissions
+    #grey
     ER_g = ER_calc(ER_grey, X_n, alpha_list)
+    # print(ER_g)
     total_g = tot_calc(ER_g, X_n_inst)
-    lifetime_op_emissions = op_emissions_calc(X_n_inst,X_b,t_f,t_o,T_op, total_g)
-    emissions_calc(lifetime_op_emissions)
+    lifetime_op_emissions_grey = op_emissions_calc(X_n_inst,X_b,t_f,t_o,T_op, total_g, 10.82,0.190062218)
+    emissions_grey = emissions_calc(lifetime_op_emissions_grey)
+
+    # print(emissions_grey)
+    #P2A
+
+
+
+    # C187
+
+    C_pur_grey, C_inst_grey = pur_inst_each_calc(C_b, X_n_inst,X_n, X_b, Y, scaling_factor,2, 8.867887126, alpha_list)
+    C_indir_dir_grey, C_capex_grey_o = capex_o_calc(C_pur_grey, C_inst_grey, S_dir, S_indir, S_wc)
+    C_capex_grey = C_capex_calc(C_capex_grey_o, PV_capex)
+
+    C_capex_grey_loss = C_capex_loss_calc(C_capex_grey, 0.118, 20)
+
+    #C186 Opex gain
+
+    NG_price = [
+        33.16, 35.54, 37.44, 39.62, 40.96, 44.49, 47.34, 50.61, 53.70, 56.75,
+        59.84, 63.02, 65.74, 68.89, 71.57, 73.86, 78.05, 81.81, 85.27, 88.65,
+        92.31, 95.31, 98.12, 101.05, 101.05, 101.05, 101.05, 101.05, 101.05,
+        101.05, 101.05, 101.05, 101.05, 101.05, 101.05, 101.05, 101.05, 101.05,
+        101.05, 101.05, 101.05, 101.05, 101.05, 101.05, 101.05, 101.05, 101.05,
+        101.05, 101.05
+    ]
+    water_consumption_grey = 0.190062218
+    total_grey = tot_NG_calc(0.887651929,X_n,X_n_inst,X_b,alpha_list,1)
+
+    C_dir_grey = C_dir_calc(t_o, t_f, water_consumption_grey, X_n_inst, total_grey, NG_price)
+    # print(C_dir_grey)
+    #
+    # print(C_indir_dir_grey)
+    C_opex_grey_o = C_opex_o_calc(t_f, t_o, X_n_inst, C_indir_dir_grey, C_dir_grey)
+    # print(C_opex_grey_o)
+    C_opex_grey = C_opex_calc(PV_opex,C_opex_grey_o)
+    # print(C_opex_grey)
+
+    # import Export calc
+    Ammonia_demand = [
+    5.71031170, 12.65180775, 21.02357730, 31.05332624, 34.40098668, 38.10953699,
+    42.21788237, 46.76912219, 51.81100206, 57.39641474, 63.58395504, 70.43853447,
+    78.03206226, 86.44419970, 95.76319586, 106.08681338, 117.52335407, 130.19279505,
+    144.22804740, 159.77635053, 177.00081675, 196.08214248, 217.22050388, 240.63765678, 273.64783562
+]
+
+    import_export = import_export_calc(Ammonia_demand,X_n)
+
+    #P2A Emissions C259
+    # ER calced above
+    # print(total)
+    lifetime_op_emissions= op_emissions_calc(X_n_inst, X_b, t_f, t_o, T_op, total,0,1.586690153)
+    # print(lifetime_op_emissions)
+    lifetime_op_emissions = lifetime_net_P2A(lifetime_op_emissions,X_n_inst, X_b)
+    # print(lifetime_op_emissions)
+    emissions = emissions_calc(lifetime_op_emissions)
+    # print(emissions)
+
+
+
+    # LCCA Calculation
+    #                   C177            C187*           C186            C280        C267            C259
+    LCCA = LCCA_calc(C_capex,C_opex,C_capex_grey_loss,C_opex_grey,import_export, emissions_grey, emissions)
+    print(LCCA)
 
 
 if __name__ == "__main__":
