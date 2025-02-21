@@ -6,7 +6,7 @@ import ProcessCard from "../ProcessCard/ProcessCard";
 import CostSection from "../../design/Cost/CostSection";
 import { Checkbox, useDisclosure } from "@nextui-org/react";
 import { XCircleIcon } from "@heroicons/react/24/outline";
-import ConvSubProcessModal from "../SubProcessModal/SubProcessModal";
+import ConvSubProcessModal from "../SubProcessModal/ConvSubProcessModal";
 import {
   addDirectCost,
   addIndirectCost,
@@ -289,6 +289,7 @@ const SecondTechnology: React.FC<SecondTechnologyProps> = ({ setCurrStep }) => {
                       onOpenChange={() => handleClose(i)}
                       deleteID={i}
                       subProcessName={info.name}
+                      conventional
                     />
                   </div>
                 );

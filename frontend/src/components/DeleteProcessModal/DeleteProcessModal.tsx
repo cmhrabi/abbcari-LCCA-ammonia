@@ -10,12 +10,14 @@ import Button from "../../design/Button/Button";
 import Text from "../../design/Text/Text";
 import { useAppDispatch } from "../../hooks";
 import { deleteSubProcess } from "../../Slices/electrifiedSlice";
+import { deleteSubProcess as deleteConvSubProcess } from "../../Slices/conventionalSlice";
 
 interface DeleteProcessModalProps {
   isOpen: boolean;
   onOpenChange: (open: boolean) => void;
   deleteID: number;
   subProcessName: string;
+  conventional?: boolean;
 }
 
 const DeleteProcessModal: React.FC<DeleteProcessModalProps> = ({
@@ -23,6 +25,7 @@ const DeleteProcessModal: React.FC<DeleteProcessModalProps> = ({
   onOpenChange,
   deleteID,
   subProcessName,
+  conventional = false,
 }) => {
   const dispatch = useAppDispatch();
   return (
@@ -54,7 +57,11 @@ const DeleteProcessModal: React.FC<DeleteProcessModalProps> = ({
           </Button>
           <Button
             color="primary"
-            onClick={() => dispatch(deleteSubProcess(deleteID))}
+            onClick={
+              conventional
+                ? () => dispatch(deleteConvSubProcess(deleteID))
+                : () => dispatch(deleteSubProcess(deleteID))
+            }
           >
             Continue
           </Button>
