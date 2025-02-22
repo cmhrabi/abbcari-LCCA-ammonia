@@ -116,12 +116,12 @@ def pur_inst_each_calc(C_b,X_n_inst,X_n,X_b,Y,scaling_factor,tech, reforming_val
     reforming_grey = []
 
     for i in range(len(X_n)):
-        reforming_blue.append(8.867887126*pow((X_n[i]/X_b),alpha[tech])* exchange[i])
+        reforming_blue.append(round(8.867887126*pow((X_n[i]/X_b),alpha[tech])* exchange[i], 5))
 
     # print(reforming_blue)
 
     for i in range(len(X_n)):
-        reforming_grey.append(6.373533174 * pow((X_n[i] / X_b), alpha[tech]) * exchange[i])
+        reforming_grey.append(round(6.373533174 * pow((X_n[i] / X_b), alpha[tech]) * exchange[i], 5))
     # print(reforming_grey)
     C_pur = []
     C_inst = []
@@ -145,7 +145,7 @@ def pur_inst_each_calc(C_b,X_n_inst,X_n,X_b,Y,scaling_factor,tech, reforming_val
     # print(C_pur)
     # C37
     # print(C_inst)
-
+    #
     return C_pur, C_inst
 
 def pur_inst_cost_calc(C_b, X_n, X_b, Y, scaling_factor):
@@ -420,9 +420,8 @@ def C_opex_o_calc(t_f, t_o, X_n_inst, C_indir_dir, C_dir): # C121
 
     return additional_cost
 
-def PV_opex_cal(DR, t_f, t_o):
-    n = t_f - t_o
-    PV_opex= (math.pow(1 + DR, n) - 1) / (DR * math.pow(1 + DR, n))
+def PV_opex_cal(DR, lifetime):
+    PV_opex= (math.pow(1 + DR, lifetime) - 1) / (DR * math.pow(1 + DR, lifetime))
     return PV_opex
 
 def C_opex_calc(PV_opex, C_opex_bar):
@@ -534,12 +533,11 @@ def import_export_calc(Ammonia_demand, X_n):
 
 def LCCA_calc(C_capex , C_opex, C_capex_grey, C_opex_grey, import_export, emissions_grey, emissions):
     LCCA = []
-
+    cumulative = 0
     for i in range(len(C_capex)):
-        if i == 0:
-            LCCA.append((C_capex[i]+C_opex[i]+C_capex_grey[i]-C_opex_grey[i]+import_export[i])*1000000/((emissions_grey[i] - emissions[i])/1000000))
-        else:
-            LCCA.append(LCCA[i-1]+(C_capex[i]+C_opex[i]+C_capex_grey[i]-C_opex_grey[i]+import_export[i])*1000000/((emissions_grey[i] - emissions[i])/1000000))
+        cumulative += C_capex[i] + C_opex[i] + C_capex_grey[i] - C_opex_grey[i] + import_export[i]
+        LCCA.append(cumulative*1000000/((emissions_grey[i] - emissions[i])/1000000))
+
     # print(Cumulative_PV_C)
     return LCCA
 
@@ -613,10 +611,12 @@ def main():
     alpha_list = []
     for i in range(len(LR)):
         alpha_list.append(alpha_j_calc(LR, i))
+    print(alpha_list)
 
     C_b = C_b_calc(C_b_pre, X_n, alpha_list)
 
-
+    # print(C_pur_g)
+    # print(C_inst_grey)
 
     C_pur, C_inst = pur_inst_cost_calc(C_b, X_n, X_b, Y, scaling_factor)
 
@@ -651,7 +651,7 @@ def main():
 
     C_opex_o = C_opex_o_calc(t_f,t_o, X_n_inst, C_indir_dir, C_dir)
 
-    PV_opex = PV_opex_cal(DR, t_f, t_o)
+    PV_opex = PV_opex_cal(DR, (t_f-t_o))
 
     #C174
     C_opex = C_opex_calc(PV_opex,C_opex_o)
@@ -671,12 +671,23 @@ def main():
 
     # C187
 
-    C_pur_grey, C_inst_grey = pur_inst_each_calc(C_b, X_n_inst,X_n, X_b, Y, scaling_factor,2, 8.867887126, alpha_list)
+    C_b_pre_grey = [2.252380011, 9.256259378, 6.373533174]
+    alpha_list_grey = [math.log(1 - 0.1) / math.log(2), math.log(1 - 0.1) / math.log(2),math.log(1 - 0.11) / math.log(2)]
+    C_b_grey = C_b_calc(C_b_pre_grey, X_n, alpha_list_grey)
+    print(C_b_grey)
+
+    inst_fact_grey = [0, 0.7, 0]
+    scaling_factor_g = [0.49, 0.5, 0.6663]
+    C_pur_grey, C_inst_grey = pur_inst_cost_calc(C_b_grey, X_n, X_b, inst_fact_grey, scaling_factor_g)
+
+    # C_pur_grey, C_inst_grey = pur_inst_each_calc(C_b, X_n_inst,X_n, X_b, Y, scaling_factor,2, 8.867887126, alpha_list)
     C_indir_dir_grey, C_capex_grey_o = capex_o_calc(C_pur_grey, C_inst_grey, S_dir, S_indir, S_wc)
     C_capex_grey = C_capex_calc(C_capex_grey_o, PV_capex)
 
-    C_capex_grey_loss = C_capex_loss_calc(C_capex_grey, 0.118, 20)
+    # print(C_capex_grey)
 
+    C_capex_grey_loss = C_capex_loss_calc(C_capex_grey, 0.118, 20)
+    print(C_capex_grey_loss)
     #C186 Opex gain
 
     NG_price = [
@@ -688,15 +699,17 @@ def main():
         101.05, 101.05
     ]
     water_consumption_grey = 0.190062218
-    total_grey = tot_NG_calc(0.887651929,X_n,X_n_inst,X_b,alpha_list,1)
-
+    total_grey = tot_NG_calc(0.887651929,X_n,X_n_inst,X_b,alpha_list_grey,2)
+    # print(total_grey)
     C_dir_grey = C_dir_calc(t_o, t_f, water_consumption_grey, X_n_inst, total_grey, NG_price)
+    # print(C_dir_grey)
     # print(C_dir_grey)
     #
     # print(C_indir_dir_grey)
     C_opex_grey_o = C_opex_o_calc(t_f, t_o, X_n_inst, C_indir_dir_grey, C_dir_grey)
-    # print(C_opex_grey_o)
-    C_opex_grey = C_opex_calc(PV_opex,C_opex_grey_o)
+    print(C_opex_grey_o)
+    PV_opex_old = PV_opex_cal(DR, 20)
+    C_opex_grey = C_opex_calc(PV_opex_old,C_opex_grey_o)
     # print(C_opex_grey)
 
     # import Export calc
@@ -722,9 +735,20 @@ def main():
 
 
     # LCCA Calculation
-    #                   C177            C187*           C186            C280        C267            C259
+
+    # print(C_capex)
+    # print(C_opex)
+    # print(C_capex_grey_loss)
+    # print(C_opex_grey)
+    # print(import_export)
+    # print(emissions_grey)
+    # print(emissions)
+
+
+    #                   C177            C187           C186 *           C280        C267            C259
     LCCA = LCCA_calc(C_capex,C_opex,C_capex_grey_loss,C_opex_grey,import_export, emissions_grey, emissions)
     print(LCCA)
+
 
 
 if __name__ == "__main__":
