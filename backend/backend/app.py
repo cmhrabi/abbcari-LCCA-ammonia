@@ -1,27 +1,25 @@
+from backend.Schemas.calculation import CalculationSchema
 from flask import Flask, request, jsonify, make_response
-from flask_sqlalchemy import SQLAlchemy
 from os import environ
+from calculations import capex
+from marshmallow import ValidationError
 
 app = Flask(__name__)
-app.config['SQLALCHEMY_DATABASE_URI'] = environ.get('DB_URL')
-db = SQLAlchemy(app)
 
-class User(db.Model):
-    __tablename__ = 'users'
+@app.route('/api/calc', methods=['POST'])
+def calc_lcca():
+    schema = CalculationSchema()
+    data = request.json
+    try:
+        # Validate request body against schema data types
+        result = schema.load(data)
+    except ValidationError as err:
+        # Return a nice message if validation fails
+        return jsonify(err.messages), 400
 
-    id = db.Column(db.Integer, primary_key=True)
-    username = db.Column(db.String(80), unique=True, nullable=False)
-    email = db.Column(db.String(120), unique=True, nullable=False)
-
-    def json(self):
-        return {'id': self.id,'username': self.username, 'email': self.email}
-
-with app.app_context():
-    db.create_all()
-
-@app.route('/test')
-def hello_world():
-    return "<p>Hello, World! change change</p>"
+    return jsonify(
+        result
+    )
 
 if __name__ == '__main__':
     app.run(host="0.0.0.0", debug=True)
