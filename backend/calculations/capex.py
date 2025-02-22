@@ -552,7 +552,7 @@ def main():
     # Capex
     X_sat = 238.23
     X_b = 0.01486512
-    LR = [0.13, 0.11, 0.1]
+    LR = [0.13, 0.1, 0.1]
     C_b = [
         {
             "electrolysis": 2.64,
@@ -723,8 +723,19 @@ def main():
 
     # LCCA Calculation
     #                   C177            C187*           C186            C280        C267            C259
+
+    print(C_capex)
+    # print(C_opex)
+    # print(C_capex_grey_loss)
+    # print(C_opex_grey)
+    # print(import_export)
+    # print(emissions_grey)
+    # print(emissions)
+
+
+    #                   C177            C187           C186 *           C280        C267            C259
     LCCA = LCCA_calc(C_capex,C_opex,C_capex_grey_loss,C_opex_grey,import_export, emissions_grey, emissions)
-    print(LCCA)
+    # print(LCCA)
 
 
 if __name__ == "__main__":
