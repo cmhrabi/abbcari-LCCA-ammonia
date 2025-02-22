@@ -1,4 +1,4 @@
-from backend.calculations.capex import X_n_calc
+from capex import X_n_calc
 import pandas as pd
 
 def d_n_calc(d_b_j: list, d_sat_j: list, n):
