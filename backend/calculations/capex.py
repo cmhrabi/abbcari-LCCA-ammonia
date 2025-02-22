@@ -599,7 +599,6 @@ def main():
 
     X_n, X_n_inst = X_n_gpt(X_sat, X_b, t_o, t_f, 0.6212)
 
-
     C_b_pre = []
 
     for i in range(len(scaling_factor)):
@@ -616,8 +615,6 @@ def main():
 
     C_b = C_b_calc(C_b_pre, X_n, alpha_list)
 
-
-
     C_pur, C_inst = pur_inst_cost_calc(C_b, X_n, X_b, Y, scaling_factor)
 
     #print(C_pur, C_inst)
@@ -629,7 +626,7 @@ def main():
 
     #C173
     C_capex = C_capex_calc(C_capex_o, PV_capex)
-
+    print(C_capex)
 
     #P2A Stuff
     water_consumption_P2A = 3.808056
