@@ -1,10 +1,10 @@
-from backend.Schemas.process import BaseProcessSchema
+from backend.Schemas.process import BaseProcessSchema, ConvProcessSchema
 from marshmallow import Schema, fields
 
 class CalculationSchema(Schema):
     name = fields.String(required=True)
     electrified = fields.Nested(BaseProcessSchema, required=True)
-    conventional = fields.Nested(BaseProcessSchema, required=True)
+    conventional = fields.Nested(ConvProcessSchema, required=True)
     lcca_type = fields.String(required=True)
     start_year = fields.Integer(required=True)
     final_year = fields.Integer(required=True)
