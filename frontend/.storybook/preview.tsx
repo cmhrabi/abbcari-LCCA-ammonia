@@ -1,5 +1,5 @@
 import type { Preview } from "@storybook/react";
-import { NextUIProvider } from "@nextui-org/react";
+import { HeroUIProvider } from "@heroui/react";
 import React from "react";
 import "./../src/index.css";
 
@@ -14,9 +14,9 @@ const preview: Preview = {
   },
   decorators: [
     (Story) => (
-      <NextUIProvider>
+      <HeroUIProvider>
         <Story />
-      </NextUIProvider>
+      </HeroUIProvider>
     ),
   ],
 };

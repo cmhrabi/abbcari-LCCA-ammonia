@@ -1,5 +1,5 @@
 import React from "react";
-import { cn, Radio as NextRadio } from "@nextui-org/react";
+import { cn, Radio as NextRadio } from "@heroui/react";
 import Text from "../Text/Text";
 
 export type RadioProps = React.ComponentProps<typeof NextRadio> & {

@@ -6,7 +6,7 @@ import ErrorIcon from "../../assets/help_icons/error.svg";
 import Button from "../../design/Button/Button";
 import { XCircleIcon } from "@heroicons/react/24/outline";
 import DeleteCostModal from "../../components/DeleteCostModal/DeleteCostModal";
-import { useDisclosure } from "@nextui-org/react";
+import { useDisclosure } from "@heroui/react";
 import Text from "../Text/Text";
 
 export interface InputProps

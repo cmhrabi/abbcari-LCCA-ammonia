@@ -1,11 +1,11 @@
 // tailwind.config.js
-import { nextui } from "@nextui-org/react";
+import { heroui } from "@heroui/react";
 
 /** @type {import('tailwindcss').Config} */
 export const content = [
   // ...
   // make sure it's pointing to the ROOT node_module
-  "./node_modules/@nextui-org/theme/dist/**/*.{js,ts,jsx,tsx}",
+  "./node_modules/@heroui/theme/dist/**/*.{js,ts,jsx,tsx}",
   // Or if using `src` directory:
   "./src/**/*.{js,ts,jsx,tsx,mdx}",
 ];
@@ -159,7 +159,7 @@ export const theme = {
 };
 export const darkMode = "class";
 export const plugins = [
-  nextui({
+  heroui({
     prefix: "theme",
     themes: {
       light: {

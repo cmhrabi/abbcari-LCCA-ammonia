@@ -5,21 +5,23 @@ import App from "./App";
 import reportWebVitals from "./reportWebVitals";
 import { store } from "./store";
 import { Provider } from "react-redux";
-import { NextUIProvider } from "@nextui-org/react";
+import { HeroUIProvider } from "@heroui/react";
 import { BrowserRouter } from "react-router-dom";
+import { ToastProvider } from "@heroui/toast";
 
 const root = ReactDOM.createRoot(
   document.getElementById("root") as HTMLElement,
 );
 root.render(
   <React.StrictMode>
-    <NextUIProvider>
+    <HeroUIProvider>
+      <ToastProvider placement="bottom-center" />
       <BrowserRouter>
         <Provider store={store}>
           <App />
         </Provider>
       </BrowserRouter>
-    </NextUIProvider>
+    </HeroUIProvider>
   </React.StrictMode>,
 );
 

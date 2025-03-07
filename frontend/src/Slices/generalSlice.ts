@@ -3,8 +3,9 @@ import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 export interface GeneralState {
   value: {
     discount: string;
-    province: string[];
-    electricalAmmonia: string;
+    province: string;
+    finalDemand: string;
+    baselineDemand: string;
     plantOperatingHours: number;
     startYear: number;
     finalYear: number;
@@ -15,12 +16,13 @@ export const generalSlice = createSlice({
   name: "general",
   initialState: {
     value: {
-      startYear: 2024,
+      startYear: 2025,
       finalYear: 2050,
       discount: "",
       province: "No Selection",
-      electricalAmmonia: "",
+      finalDemand: "",
       plantOperatingHours: 8000,
+      baselineDemand: "",
     },
   },
   reducers: {
@@ -36,11 +38,14 @@ export const generalSlice = createSlice({
     setProvince: (state, action: PayloadAction<string>) => {
       state.value.province = action.payload;
     },
-    setElectricalAmmonia: (state, action: PayloadAction<string>) => {
-      state.value.electricalAmmonia = action.payload;
+    setFinalDemand: (state, action: PayloadAction<string>) => {
+      state.value.finalDemand = action.payload;
     },
     setPlantOperatingHours: (state, action: PayloadAction<number>) => {
       state.value.plantOperatingHours = action.payload;
+    },
+    setBaselineDemand: (state, action: PayloadAction<string>) => {
+      state.value.baselineDemand = action.payload;
     },
   },
 });
@@ -50,8 +55,9 @@ export const {
   setFinalYear,
   setDiscount,
   setProvince,
-  setElectricalAmmonia,
+  setFinalDemand,
   setPlantOperatingHours,
+  setBaselineDemand,
 } = generalSlice.actions;
 
 export default generalSlice.reducer;

@@ -1,11 +1,14 @@
 import math
 from backend.Schemas.calculation import CalculationSchema
-from flask import Flask, request, jsonify, make_response
-from os import environ
+from flask import Flask, make_response, request, jsonify
+from flask_cors import CORS, cross_origin, logging
 from calculations import capex
 from marshmallow import ValidationError
+from os import environ
 
 app = Flask(__name__)
+cors = CORS(app, resources={r"*": {"origins": environ.get("FRONTEND_URL")}})
+logging.getLogger('flask_cors').level = logging.DEBUG
 
 @app.route('/api/calc', methods=['POST'])
 def calc_lcca():
