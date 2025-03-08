@@ -6,7 +6,7 @@ def X_n_calc(X_sat, X_b, t_o, t_f):
     n = t_f - t_o + 1
 
     r = 0.6212  # ((1 / (t_f - t_o)) * math.log(((0.99 * X_sat) - X_b) / (0.01 * X_b)))
-    # print(r)
+    print(r)
     X_n_cumulative = []
     X_n = []
     for i in range(n):
@@ -231,7 +231,7 @@ def C_capex_loss_calc(C_capex, dep_rate, use):
 #     C_s_bar_sum = {}
 #     PV_sum = 0
 #     i = 0
-#     # *** not sure
+#     # * not sure
 #     for key in C_s.keys():
 #         C_s_bar_sum[key] = C_s_bar[key] + C_s[key] * PV_opex[i]
 #         PV_sum += PV_opex[i]
@@ -447,7 +447,7 @@ def op_emissions_calc(X_n,X_b,t_f,t_o,op_hrs, elec_usage, onsite_upstream_emissi
 
     # C222 on site up stream emissions
 
-    # onsite_upstream_emissions = 10.82 # grey H2 **** thinking of changing these to inputs since same calc for p2a different iputs
+    # onsite_upstream_emissions = 10.82 # grey H2 ** thinking of changing these to inputs since same calc for p2a different iputs
     hydrogen_flow = 17.75304
     onsite_upstream = []
 
@@ -542,15 +542,27 @@ def LCCA_calc(C_capex , C_opex, C_capex_grey, C_opex_grey, import_export, emissi
     return LCCA
 
 
+def LCCA_psi_calc(C_capex, C_opex, C_capex_blue, C_opex_blue, import_export, emissions_blue, emissions_P2A):
+    LCCA_psi = []
+    cumulative = 0
+    for i in range(len(C_capex)):
+        cumulative+= C_capex[i] + C_opex[i] - (C_capex_blue[i] + C_opex_blue[i]) + import_export[i]
+        LCCA_psi.append(cumulative*1000000/((emissions_blue[i] - emissions_P2A[i])/1000000))
+    return LCCA_psi
+
+
 
 def main():
+
+    # Province wide stuff
+
+
     # Inputs (Parameters)
     # General
-
     # Capex
     X_sat = 238.23
     X_b = 0.01486512
-    LR = [0.13, 0.1, 0.1]
+    LR = [0.13, 0.11, 0.1]
     C_b = [
         {
             "electrolysis": 2.64,
@@ -597,6 +609,7 @@ def main():
 
     X_n, X_n_inst = X_n_gpt(X_sat, X_b, t_o, t_f, 0.6212)
 
+
     C_b_pre = []
 
     for i in range(len(scaling_factor)):
@@ -606,28 +619,29 @@ def main():
             C_b_pre.append(N_production_HB_C_b_calc(scaling_factor[i]))
         if i == 2:
             C_b_pre.append(HB_electolyser_case_C_b_calc(scaling_factor[i]))
+
     alpha_list = []
     for i in range(len(LR)):
         alpha_list.append(alpha_j_calc(LR, i))
     # print(alpha_list)
 
     C_b = C_b_calc(C_b_pre, X_n, alpha_list)
-    # print(C_b)
 
     # print(C_pur_g)
     # print(C_inst_grey)
 
     C_pur, C_inst = pur_inst_cost_calc(C_b, X_n, X_b, Y, scaling_factor)
 
+    #print(C_pur, C_inst)
+
     C_indir_dir, C_capex_o = capex_o_calc(C_pur, C_inst, S_dir, S_indir, S_wc)
-    # print(C_capex_o)
 
 
     PV_capex = PV_capex_calc(DR, t_f, t_o)
 
     #C173
     C_capex = C_capex_calc(C_capex_o, PV_capex)
-    # print(C_capex)
+
 
     #P2A Stuff
     water_consumption_P2A = 3.808056
@@ -659,6 +673,7 @@ def main():
     ER_g = ER_calc(ER_grey, X_n, alpha_list)
     # print(ER_g)
     total_g = tot_calc(ER_g, X_n_inst)
+    # print(total_g)
     lifetime_op_emissions_grey = op_emissions_calc(X_n_inst,X_b,t_f,t_o,T_op, total_g, 10.82,0.190062218)
     emissions_grey = emissions_calc(lifetime_op_emissions_grey)
 
@@ -680,8 +695,8 @@ def main():
 
     # C_pur_grey, C_inst_grey = pur_inst_each_calc(C_b, X_n_inst,X_n, X_b, Y, scaling_factor,2, 8.867887126, alpha_list)
     C_indir_dir_grey, C_capex_grey_o = capex_o_calc(C_pur_grey, C_inst_grey, S_dir, S_indir, S_wc)
-    print(C_capex_grey_o)
     C_capex_grey = C_capex_calc(C_capex_grey_o, PV_capex)
+
     # print(C_capex_grey)
 
     C_capex_grey_loss = C_capex_loss_calc(C_capex_grey, 0.118, 20)
@@ -698,7 +713,6 @@ def main():
     ]
     water_consumption_grey = 0.190062218
     total_grey = tot_NG_calc(0.887651929,X_n,X_n_inst,X_b,alpha_list_grey,2)
-    print(total_grey)
     # print(total_grey)
     C_dir_grey = C_dir_calc(t_o, t_f, water_consumption_grey, X_n_inst, total_grey, NG_price)
     # print(C_dir_grey)
@@ -734,7 +748,7 @@ def main():
 
 
     # LCCA Calculation
-    #                   C177            C187*           C186            C280        C267            C259
+
     # print(C_capex)
     # print(C_opex)
     # print(C_capex_grey_loss)
@@ -748,5 +762,68 @@ def main():
     LCCA = LCCA_calc(C_capex,C_opex,C_capex_grey_loss,C_opex_grey,import_export, emissions_grey, emissions)
     # print(LCCA)
 
-if __name__ == "__main__":
+    # LCCA_PSI Calc
+
+    # C194
+    C_b_pre_blue = [2.252380011, 9.256259378, 8.867887126]
+    alpha_list_blue = [math.log(1 - 0.1) / math.log(2), math.log(1 - 0.1) / math.log(2),math.log(1 - 0.11) / math.log(2)]
+    C_b_blue = C_b_calc(C_b_pre_blue, X_n, alpha_list_blue)
+    # print(C_b_grey)
+
+    inst_fact_blue = [0, 0.7, 0]
+    scaling_factor_blue = [0.49, 0.5, 0.6663]
+    C_pur_blue, C_inst_blue = pur_inst_cost_calc(C_b_blue, X_n, X_b, inst_fact_blue, scaling_factor_blue)
+
+    # C_pur_grey, C_inst_grey = pur_inst_each_calc(C_b, X_n_inst,X_n, X_b, Y, scaling_factor,2, 8.867887126, alpha_list)
+    C_indir_dir_blue, C_capex_blue_o = capex_o_calc(C_pur_blue, C_inst_blue, S_dir, S_indir, S_wc)
+    C_capex_blue = C_capex_calc(C_capex_blue_o, PV_capex)
+
+    # print(C_capex_blue)
+
+    # C195
+    water_consumption_blue = 0.190062218
+    total_blue = tot_NG_calc(1.08490791302,X_n,X_n_inst,X_b,alpha_list_blue,2)
+    # print(total_grey)
+    C_dir_blue = C_dir_calc(t_o, t_f, water_consumption_blue, X_n_inst, total_blue, NG_price)
+    # print(C_dir_grey)
+    # print(C_dir_grey)
+    #
+    # print(C_indir_dir_grey)
+    C_opex_blue_o = C_opex_o_calc(t_f, t_o, X_n_inst, C_indir_dir_blue, C_dir_blue)
+    # C193
+    # print(C_opex_blue_o)
+    C_opex_blue = C_opex_calc(PV_opex_old,C_opex_blue_o)
+
+    #Emissions
+    #blue
+    ER_blue = [
+        [0.023434011, 0],
+        [0.034624043, 0],
+        [0.0778, 0]
+    ]
+
+    ER_bl = ER_calc(ER_blue, X_n, alpha_list_blue)
+    # print(ER_bl)
+
+    # lifetime_op_emissions= op_emissions_calc(X_n_inst, X_b, t_f, t_o, T_op, total,0,1.586690153)
+    # # print(lifetime_op_emissions)
+    # lifetime_op_emissions = lifetime_net_P2A(lifetime_op_emissions,X_n_inst, X_b)
+    # # print(lifetime_op_emissions)
+    # emissions = emissions_calc(lifetime_op_emissions)
+
+    total_b = tot_calc(ER_bl, X_n_inst)
+    # print(total_b)
+    # C272
+    lifetime_op_emissions_blue = op_emissions_calc(X_n_inst,X_b,t_f,t_o,T_op, total_b, 7.48,0.190062218)
+    # print(lifetime_op_emissions_blue)
+    lifetime_op_emissions_blue = lifetime_net_P2A(lifetime_op_emissions_blue,X_n_inst, X_b)
+    # print(lifetime_op_emissions_blue)
+    emissions_blue = emissions_calc(lifetime_op_emissions_blue)
+    # print(emissions_blue)
+
+    LCCA_psi = LCCA_psi_calc(C_capex,C_opex,C_capex_blue,C_opex_blue,import_export, emissions_blue, emissions)
+
+    print(LCCA_psi)
+
+if _name_ == "_main_":
     main()
