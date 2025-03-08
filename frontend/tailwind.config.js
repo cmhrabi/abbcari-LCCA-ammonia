@@ -144,6 +144,27 @@ export const theme = {
           lineHeight: "16px",
         },
       ],
+      "results-title": [
+        "20px",
+        {
+          fontWeight: 600,
+          lineHeight: "20px",
+        },
+      ],
+      "value": [
+        "24px",
+        {
+          fontWeight: 700,
+          lineHeight: "20px",
+        },
+      ],
+      "chart-title": [
+        "16px",
+        {
+          fontWeight: 700,
+          lineHeight: "20px",
+        },
+      ],
     },
     borderRadius: {
       "3px": "3px",

@@ -4,6 +4,7 @@ import Text from "../../design/Text/Text";
 import Button from "../../design/Button/Button";
 import { useAppSelector } from "../../hooks";
 import ProcessCard from "../ProcessCard/ProcessCard";
+import { useNavigate } from "react-router-dom";
 
 interface ReviewProps {
   setCurrStep: (arg0: number) => void;
@@ -26,6 +27,7 @@ const Review: React.FC<ReviewProps> = ({ setCurrStep }) => {
   const elecValues = useAppSelector((state) => state.electrified.value);
 
   const [disabled] = useState(true);
+  const navigate = useNavigate();
   const UpsideDownIcon: React.FC<UpsideDownIconProps> = () => {
     return (
       <svg
@@ -188,7 +190,11 @@ const Review: React.FC<ReviewProps> = ({ setCurrStep }) => {
         <Button color="grey" onClick={() => setCurrStep(2)}>
           Back
         </Button>
-        <Button color="primary" disabled={disabled}>
+        <Button 
+          color="primary" 
+          // disabled={disabled}
+          onClick={() => navigate("/analysis/results")}
+        >
           Calculate
         </Button>
       </div>

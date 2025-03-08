@@ -27,7 +27,7 @@ const HelpMessage: React.FC<HelpMessageProps> = ({
   const textColor = type == "error" ? "white" : "black";
 
   return (
-    <div className="absolute z-10 top-0 -translate-y-full">
+    <div className="absolute z-10 top-0 -translate-y-full left-0 w-auto max-w-max">
       <div className="flex text-wrap">
         <div className={variants({ type: type })}>
           <Text color={textColor} textSize="input">
