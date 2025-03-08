@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import Text from "../Text/Text";
 import { cva } from "class-variance-authority";
 import Button from "../Button/Button";
-import { Accordion, AccordionItem } from "@nextui-org/react";
+import { Accordion, AccordionItem } from "@heroui/react";
 import { useAppSelector, useAppDispatch } from "../../hooks";
 import Input from "../../design/Input/Input";
 import Select from "../../design/Select/Select";

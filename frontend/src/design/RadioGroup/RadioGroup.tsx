@@ -1,5 +1,5 @@
 import React from "react";
-import { RadioGroup as NextRadioGroup } from "@nextui-org/react";
+import { RadioGroup as NextRadioGroup } from "@heroui/react";
 import Text from "../Text/Text";
 
 export type RadioGroupProps = React.ComponentProps<typeof NextRadioGroup> & {

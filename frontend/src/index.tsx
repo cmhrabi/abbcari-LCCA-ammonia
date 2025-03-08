@@ -5,7 +5,7 @@ import App from "./App";
 import reportWebVitals from "./reportWebVitals";
 import { store } from "./store";
 import { Provider } from "react-redux";
-import { NextUIProvider } from "@nextui-org/react";
+import { HeroUIProvider } from "@heroui/react";
 import { BrowserRouter } from "react-router-dom";
 
 const root = ReactDOM.createRoot(
@@ -13,13 +13,13 @@ const root = ReactDOM.createRoot(
 );
 root.render(
   <React.StrictMode>
-    <NextUIProvider>
+    <HeroUIProvider>
       <BrowserRouter>
         <Provider store={store}>
           <App />
         </Provider>
       </BrowserRouter>
-    </NextUIProvider>
+    </HeroUIProvider>
   </React.StrictMode>,
 );
 
