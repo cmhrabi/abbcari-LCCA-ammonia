@@ -55,7 +55,7 @@ const cleanData = (
   conventionalSlice: ConventionalState,
   nameSlice: NameState,
   generalSlice: GeneralState,
-): Payload => {
+): { error: string; payload: Payload | null } => {
   const electrifiedSubProcesses = electrifiedSlice.value.subProcesses.map(
     (subProcess) => {
       return {
@@ -85,35 +85,46 @@ const cleanData = (
     },
   );
 
+  if (electrifiedSubProcesses.length <= 0) {
+    return { error: "Please add electrified sub processes", payload: null };
+  }
+
+  if (conventionalSubProcesses.length <= 0) {
+    return { error: "Please add conventional sub processes", payload: null };
+  }
+
   conventionalSubProcesses[0].ng_req = 0.887651929;
 
   return {
-    name: nameSlice.value.analysisName,
-    electrified: {
-      name: nameSlice.value.tech1Name,
-      direct_cost_factor: electrifiedSlice.value.directCostFactor,
-      indirect_cost_factor: electrifiedSlice.value.indirectCostFactor,
-      wc_cost_factor: electrifiedSlice.value.workingCapitalFactor,
-      subprocesses: electrifiedSubProcesses,
+    error: "",
+    payload: {
+      name: nameSlice.value.analysisName,
+      electrified: {
+        name: nameSlice.value.tech1Name,
+        direct_cost_factor: electrifiedSlice.value.directCostFactor,
+        indirect_cost_factor: electrifiedSlice.value.indirectCostFactor,
+        wc_cost_factor: electrifiedSlice.value.workingCapitalFactor,
+        subprocesses: electrifiedSubProcesses,
+      },
+      conventional: {
+        name: nameSlice.value.tech2Name,
+        direct_cost_factor: conventionalSlice.value.directCostFactor,
+        indirect_cost_factor: conventionalSlice.value.indirectCostFactor,
+        wc_cost_factor: conventionalSlice.value.workingCapitalFactor,
+        depreciation: conventionalSlice.value.depreciationPercent,
+        duration: conventionalSlice.value.duration,
+        subprocesses: conventionalSubProcesses,
+        onsite_upstream_emmisions: 10.82,
+      },
+      lcca_type: nameSlice.value.type,
+      start_year: generalSlice.value.startYear,
+      final_year: generalSlice.value.finalYear,
+      discount_rate: parseFloat(generalSlice.value.discount),
+      province: generalSlice.value.province,
+      operating_hours: generalSlice.value.plantOperatingHours,
+      final_demand: parseFloat(generalSlice.value.finalDemand),
+      baseline_demand: parseFloat(generalSlice.value.baselineDemand),
     },
-    conventional: {
-      name: nameSlice.value.tech2Name,
-      direct_cost_factor: conventionalSlice.value.directCostFactor,
-      indirect_cost_factor: conventionalSlice.value.indirectCostFactor,
-      wc_cost_factor: conventionalSlice.value.workingCapitalFactor,
-      depreciation: conventionalSlice.value.depreciationPercent,
-      duration: conventionalSlice.value.duration,
-      subprocesses: conventionalSubProcesses,
-      onsite_upstream_emmisions: 10.82,
-    },
-    lcca_type: nameSlice.value.type,
-    start_year: generalSlice.value.startYear,
-    final_year: generalSlice.value.finalYear,
-    discount_rate: parseFloat(generalSlice.value.discount),
-    province: generalSlice.value.province,
-    operating_hours: generalSlice.value.plantOperatingHours,
-    final_demand: parseFloat(generalSlice.value.finalDemand),
-    baseline_demand: parseFloat(generalSlice.value.baselineDemand),
   };
 };
 

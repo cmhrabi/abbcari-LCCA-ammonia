@@ -49,13 +49,10 @@ const Review: React.FC<ReviewProps> = ({ setCurrStep }) => {
       nameSlice,
       generalSlice,
     );
-    const result = await postAnalysis(data);
-    console.log(result);
-    const respone = await result.response;
-    if (result.error !== "") {
+    if (data.error !== "") {
       addToast({
         title: "Error in analysis",
-        description: result.error,
+        description: data.error,
         classNames: {
           base: "bg-danger-bg rounded-3px border-danger",
           description: "text-grey-dark",
@@ -63,8 +60,28 @@ const Review: React.FC<ReviewProps> = ({ setCurrStep }) => {
         },
         severity: "danger",
       });
-    } else {
-      setAnalysisOutput(respone);
+      return;
+    }
+
+    if (data.payload) {
+      const result = await postAnalysis(data.payload);
+      if (result) {
+        const response = await result.response;
+        if (result.error !== "") {
+          addToast({
+            title: "Error in analysis",
+            description: result.error,
+            classNames: {
+              base: "bg-danger-bg rounded-3px border-danger",
+              description: "text-grey-dark",
+              icon: "text-danger",
+            },
+            severity: "danger",
+          });
+        } else {
+          setAnalysisOutput(response);
+        }
+      }
     }
   };
 

@@ -198,3 +198,5 @@ const General: React.FC<GeneralProps> = ({ setCurrStep }) => {
     </>
   );
 };
+
+export default General;
