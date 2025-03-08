@@ -8,10 +8,11 @@ import Select from "../../design/Select/Select";
 import {
   setDiscount,
   setProvince,
-  setElectricalAmmonia,
+  setFinalDemand,
   setPlantOperatingHours,
   setStartYear,
   setFinalYear,
+  setBaselineDemand,
 } from "../../Slices/generalSlice";
 
 interface GeneralProps {
@@ -28,7 +29,7 @@ const General: React.FC<GeneralProps> = ({ setCurrStep }) => {
   useEffect(() => {
     if (
       generalValues.discount &&
-      generalValues.electricalAmmonia &&
+      generalValues.finalDemand &&
       generalValues.plantOperatingHours &&
       !generalValues.province.includes("No Selection") &&
       generalValues.startYear &&
@@ -123,6 +124,36 @@ const General: React.FC<GeneralProps> = ({ setCurrStep }) => {
               helpMessage="The province(s) you want to influence the projected cost based on its geographical location on the electricity grid."
             />
           </div>
+          <div className="text-nowrap overflow-visible col-span-2">
+            <Input
+              label="Current electrical ammonia production"
+              onChange={(e) => dispatch(setBaselineDemand(e.target.value))}
+              value={generalValues.baselineDemand}
+              placeholder="Value"
+              helpMessage="The amount of electricity that is required to generate ammonia. This value will be used to derive the installed and purchased costs."
+              end={
+                <Text color="grey-blue" textSize="input">
+                  pJ
+                </Text>
+              }
+              type="number"
+            />
+          </div>
+          <div className="text-nowrap overflow-visible col-span-2">
+            <Input
+              label="Electrical ammonia demand in target year"
+              onChange={(e) => dispatch(setFinalDemand(e.target.value))}
+              value={generalValues.finalDemand}
+              placeholder="Value"
+              helpMessage="The amount of electricity that is required to generate ammonia. This value will be used to derive the installed and purchased costs."
+              end={
+                <Text color="grey-blue" textSize="input">
+                  pJ
+                </Text>
+              }
+              type="number"
+            />
+          </div>
           <Input
             label="Discount rate"
             onChange={(e) => dispatch(setDiscount(e.target.value))}
@@ -150,21 +181,6 @@ const General: React.FC<GeneralProps> = ({ setCurrStep }) => {
               </Text>
             }
           />
-          <div className="text-nowrap overflow-visible">
-            <Input
-              label="Electrical ammonia demand in target year"
-              onChange={(e) => dispatch(setElectricalAmmonia(e.target.value))}
-              value={generalValues.electricalAmmonia}
-              placeholder="Value"
-              helpMessage="The amount of electricity that is required to generate ammonia. This value will be used to derive the installed and purchased costs."
-              end={
-                <Text color="grey-blue" textSize="input">
-                  pJ
-                </Text>
-              }
-              type="number"
-            />
-          </div>
         </div>
         <div className="space-x-6">
           <Button color="grey" onClick={() => navigate("/analysis/start")}>

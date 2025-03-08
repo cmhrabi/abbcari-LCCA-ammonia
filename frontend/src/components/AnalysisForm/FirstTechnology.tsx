@@ -4,7 +4,7 @@ import Button from "../../design/Button/Button";
 import { useAppDispatch, useAppSelector } from "../../hooks";
 import ProcessCard from "../ProcessCard/ProcessCard";
 import CostSection from "../../design/Cost/CostSection";
-import { Checkbox, useDisclosure } from "@nextui-org/react";
+import { Checkbox, useDisclosure } from "@heroui/react";
 import { XCircleIcon } from "@heroicons/react/24/outline";
 import SubProcessModal from "../SubProcessModal/SubProcessModal";
 import {

@@ -2,7 +2,7 @@ import React from "react";
 import {
   Breadcrumbs as NextBreadcrumbs,
   BreadcrumbItem,
-} from "@nextui-org/react";
+} from "@heroui/react";
 import { useNavigate } from "react-router-dom";
 
 interface BreadcrumbsProps {

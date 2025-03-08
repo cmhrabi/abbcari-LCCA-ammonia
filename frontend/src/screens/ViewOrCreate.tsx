@@ -9,7 +9,7 @@ import {
 } from "@heroicons/react/24/solid";
 import { useNavigate } from "react-router-dom";
 import NoLoginModal from "../components/NoLoginModal/NoLoginModal";
-import { useDisclosure } from "@nextui-org/react";
+import { useDisclosure } from "@heroui/react";
 
 const descriptionText = `
   A dynamic modeling tool that allows you to analyze strategies and scenarios to reduce carbon emissions for hydrogen production for the upcoming decades. Levelized cost of carbon abatement (LCCA) is a new time-dependent parameter that can be used to inform decision-making practices.

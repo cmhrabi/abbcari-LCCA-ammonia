@@ -5,7 +5,7 @@ import {
   ModalHeader,
   ModalBody,
   ModalFooter,
-} from "@nextui-org/react";
+} from "@heroui/react";
 import Button from "../../design/Button/Button";
 import Text from "../../design/Text/Text";
 import { WrenchScrewdriverIcon } from "@heroicons/react/24/solid";

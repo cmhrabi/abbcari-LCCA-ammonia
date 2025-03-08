@@ -25,7 +25,10 @@ export type TextSize =
   | "input"
   | "help-message"
   | "alert-title"
-  | "nav-title";
+  | "nav-title"
+  | "results-title"
+  | "value"
+  | "chart-title";
 
 export type TextColor =
   | "black"
@@ -66,6 +69,9 @@ const Text: React.FC<TextProps> = ({
         "help-message": "text-help-message",
         "alert-title": "text-alert-title",
         "nav-title": "text-nav-title",
+        "results-title": "text-results-title",
+        "value": "text-value",
+        "chart-title": "text-chart-title",
       },
       color: {
         black: "text-black",
