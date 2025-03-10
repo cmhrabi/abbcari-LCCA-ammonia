@@ -19,10 +19,11 @@ interface LCCAData {
   LCCA: number[];
   capex_elec: number[];
   capex_conv: number[];
+  capex_loss_conv: number[];
   opex_elec: number[];
   opex_conv: number[];
   import_export: number[];
-  emissions_e: number[];
+  emissions_elec: number[];
   emissions_conv: number[];
 }
 
@@ -85,12 +86,12 @@ const Review = () => {
           <div className="pt-4 grid grid-cols-3 gap-7">
             <ResultsCard
               title="Your initial investment"
-              value={`$${(lccaData.capex_elec[0] + lccaData.opex_elec[0]).toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, " ")} Million`}
+              value={`$${(lccaData.capex_elec[0] + lccaData.opex_elec[0] + lccaData.capex_loss_conv[0]).toFixed(2)} Million`}
               caption={`if you implemented the ${tech1Name} technology`}
             />
             <ResultsCard
               title="Emissions reduced"
-              value={`${(lccaData.emissions_conv[lccaData.emissions_conv.length - 1] - lccaData.emissions_e[lccaData.emissions_e.length - 1]).toExponential(2).replace(/\B(?=(\d{3})+(?!\d))/g, " ")} tCO2eq`}
+              value={`${(lccaData.emissions_conv[lccaData.emissions_conv.length - 1] - lccaData.emissions_elec[lccaData.emissions_elec.length - 1]).toExponential(2)} tCO2eq`}
               caption={`over ${finalYear - startYear} years`}
             />
             <ResultsCard
@@ -98,9 +99,7 @@ const Review = () => {
               value={`$${(
                 lccaData.LCCA.reduce((average, a) => average + a, 0) /
                 lccaData.LCCA.length
-              )
-                .toFixed(2)
-                .replace(/\B(?=(\d{3})+(?!\d))/g, " ")}/tCO2eq`}
+              ).toFixed(2)}/tCO2eq`}
               caption={`over ${finalYear - startYear} years`}
             />
           </div>
@@ -140,7 +139,7 @@ const Review = () => {
                 },
                 {
                   id: "Electrical",
-                  data: constructData(lccaData.emissions_e),
+                  data: constructData(lccaData.emissions_elec),
                 },
               ]}
             />
