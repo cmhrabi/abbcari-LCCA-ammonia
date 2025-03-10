@@ -91,17 +91,17 @@ const Review = () => {
             <ResultsCard
               title="Emissions reduced"
               value={`${(lccaData.emissions_conv[lccaData.emissions_conv.length - 1] - lccaData.emissions_e[lccaData.emissions_e.length - 1]).toExponential(2).replace(/\B(?=(\d{3})+(?!\d))/g, " ")} tCO2eq`}
-              caption={`over 10 years`}
+              caption={`over ${finalYear - startYear} years`}
             />
             <ResultsCard
-              title="Total Cost per tonne of CO2eq"
-              value={`$${lccaData.LCCA.reduce(
-                (partialSum, a) => partialSum + a,
-                0,
+              title="Average yearly cost per tonne of CO2 abated"
+              value={`$${(
+                lccaData.LCCA.reduce((average, a) => average + a, 0) /
+                lccaData.LCCA.length
               )
                 .toFixed(2)
                 .replace(/\B(?=(\d{3})+(?!\d))/g, " ")}/tCO2eq`}
-              caption={`over 10 years`}
+              caption={`over ${finalYear - startYear} years`}
             />
           </div>
           <div className="flex flex-row">
