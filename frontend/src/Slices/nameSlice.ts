@@ -12,7 +12,12 @@ export interface NameState {
 export const nameSlice = createSlice({
   name: "name",
   initialState: {
-    value: { analysisName: "", tech1Name: "", tech2Name: "", type: "" },
+    value: {
+      analysisName: "P2A vs Grey",
+      tech1Name: "P2A",
+      tech2Name: "Grey",
+      type: "",
+    },
   },
   reducers: {
     setAnalysisName: (state, action: PayloadAction<string>) => {
@@ -27,10 +32,23 @@ export const nameSlice = createSlice({
     setType: (state, action: PayloadAction<string>) => {
       state.value.type = action.payload;
     },
+    resetState: (state) => {
+      state.value = {
+        analysisName: "P2A vs Grey",
+        tech1Name: "P2A",
+        tech2Name: "Grey",
+        type: "",
+      };
+    },
   },
 });
 
-export const { setAnalysisName, setTech1Name, setTech2Name, setType } =
-  nameSlice.actions;
+export const {
+  setAnalysisName,
+  setTech1Name,
+  setTech2Name,
+  setType,
+  resetState,
+} = nameSlice.actions;
 
 export default nameSlice.reducer;

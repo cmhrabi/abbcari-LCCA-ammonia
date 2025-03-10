@@ -34,7 +34,36 @@ export const conventionalSlice = createSlice({
   name: "conventional",
   initialState: {
     value: {
-      subProcesses: new Array<SubProcess>(),
+      subProcesses: [
+        {
+          name: "SubProcess 1",
+          baseCost: 6.373533174,
+          installationFactor: 0,
+          scalingFactor: 0.6663,
+          learningRate: 0.11,
+          efficiency: 1,
+          energyRequirement: 0.017,
+          ng_req: 0.887651929,
+        },
+        {
+          name: "SubProcess 2",
+          baseCost: 2.252380011,
+          installationFactor: 0,
+          scalingFactor: 0.49,
+          learningRate: 0.1,
+          efficiency: 1,
+          energyRequirement: 0.034624043,
+        },
+        {
+          name: "SubProcess 3",
+          baseCost: 9.256259378,
+          installationFactor: 0.7,
+          scalingFactor: 0.5,
+          learningRate: 0.1,
+          efficiency: 1,
+          energyRequirement: 0.0778,
+        },
+      ],
       directCosts: [{ name: "", cost: "" }],
       indirectCosts: [{ name: "", cost: "" }],
       workingCapitalCost: "",
@@ -42,8 +71,8 @@ export const conventionalSlice = createSlice({
       indirectCostFactor: 0.5,
       workingCapitalFactor: 0.05,
       bottomUpCalc: false,
-      depreciationPercent: 0.1,
-      duration: 5,
+      depreciationPercent: 0.118,
+      duration: 20,
     },
   },
   reducers: {
@@ -111,6 +140,49 @@ export const conventionalSlice = createSlice({
     deleteIndirectCost: (state, action: PayloadAction<number>) => {
       state.value.indirectCosts.splice(action.payload, 1);
     },
+    resetState: (state) => {
+      state.value = {
+        subProcesses: [
+          {
+            name: "SubProcess 1",
+            baseCost: 6.373533174,
+            installationFactor: 0,
+            scalingFactor: 0.6663,
+            learningRate: 0.11,
+            efficiency: 1,
+            energyRequirement: 0.017,
+            ng_req: 0.887651929,
+          },
+          {
+            name: "SubProcess 2",
+            baseCost: 2.252380011,
+            installationFactor: 0,
+            scalingFactor: 0.49,
+            learningRate: 0.1,
+            efficiency: 1,
+            energyRequirement: 0.034624043,
+          },
+          {
+            name: "SubProcess 3",
+            baseCost: 9.256259378,
+            installationFactor: 0.7,
+            scalingFactor: 0.5,
+            learningRate: 0.1,
+            efficiency: 1,
+            energyRequirement: 0.0778,
+          },
+        ],
+        directCosts: [{ name: "", cost: "" }],
+        indirectCosts: [{ name: "", cost: "" }],
+        workingCapitalCost: "",
+        directCostFactor: 0.33,
+        indirectCostFactor: 0.5,
+        workingCapitalFactor: 0.05,
+        bottomUpCalc: false,
+        depreciationPercent: 0.118,
+        duration: 20,
+      };
+    },
   },
 });
 
@@ -131,6 +203,7 @@ export const {
   deleteIndirectCost,
   setDepreciationPercent,
   setDuration,
+  resetState,
 } = conventionalSlice.actions;
 
 export default conventionalSlice.reducer;

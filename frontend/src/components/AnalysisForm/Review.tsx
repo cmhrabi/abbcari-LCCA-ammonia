@@ -6,6 +6,7 @@ import { useAppSelector } from "../../hooks";
 import ProcessCard from "../ProcessCard/ProcessCard";
 import { cleanData, LCCAOutput, postAnalysis } from "../../api";
 import { addToast } from "@heroui/toast";
+import { useNavigate } from "react-router-dom";
 
 interface ReviewProps {
   setCurrStep: (arg0: number) => void;
@@ -26,21 +27,13 @@ const Review: React.FC<ReviewProps> = ({ setCurrStep }) => {
     (state) => state.electrified.value.subProcesses,
   );
   const elecValues = useAppSelector((state) => state.electrified.value);
-  const [analysisOutput, setAnalysisOutput] = useState<LCCAOutput | null>({
-    LCCA: [],
-    capex_conv: [],
-    capex_elec: [],
-    emissions_conv: [],
-    emissions_e: [],
-    import_export: [],
-    opex_conv: [],
-    opex_elec: [],
-  });
 
   const electrifiedSlice = useAppSelector((state) => state.electrified);
   const conventionalSlice = useAppSelector((state) => state.conventional);
   const nameSlice = useAppSelector((state) => state.name);
   const generalSlice = useAppSelector((state) => state.general);
+
+  const navigate = useNavigate();
 
   const onSubmit = async () => {
     const data = cleanData(
@@ -79,7 +72,9 @@ const Review: React.FC<ReviewProps> = ({ setCurrStep }) => {
             severity: "danger",
           });
         } else {
-          setAnalysisOutput(response);
+          navigate("/analysis/results", {
+            state: { lccaData: response },
+          });
         }
       }
     }
@@ -130,14 +125,25 @@ const Review: React.FC<ReviewProps> = ({ setCurrStep }) => {
           <div className="grid grid-cols-4 pt-1 pb-4 px-8 gap-y-3">
             <Text>Start year: {generalValues.startYear}</Text>
             <Text>Target year: {generalValues.finalYear}</Text>
-            <Text>Discount rate: {generalValues.discount}</Text>
-            <Text>Electrical ammonia: {generalValues.finalDemand}</Text>
+            <Text>Discount rate: {generalValues.discount}%</Text>
             <div className="col-span-2">
               <Text>Province used in analysis: {generalValues.province}</Text>
             </div>
             <div className="col-span-2">
               <Text>
                 Plant Operating Hours: {generalValues.plantOperatingHours}
+              </Text>
+            </div>
+            <div className="col-span-2">
+              <Text>
+                Current electrical ammonia production:{" "}
+                {parseFloat(generalValues.baselineDemand).toFixed(4)} pJ
+              </Text>
+            </div>
+            <div className="col-span-2">
+              <Text>
+                Electrical ammonia in target year:{" "}
+                {parseFloat(generalValues.finalDemand).toFixed(2)} pJ
               </Text>
             </div>
           </div>
@@ -162,10 +168,10 @@ const Review: React.FC<ReviewProps> = ({ setCurrStep }) => {
           }
         >
           <div className="grid grid-cols-3 pt-1 pb-4 px-6 gap-y-3">
-            <Text>Direct cost factor: {elecValues.directCostFactor}</Text>
-            <Text>Indirect cost factor: {elecValues.indirectCostFactor}</Text>
+            <Text>Direct cost factor: {elecValues.directCostFactor}%</Text>
+            <Text>Indirect cost factor: {elecValues.indirectCostFactor}%</Text>
             <Text>
-              Working capital cost factor: {elecValues.workingCapitalFactor}
+              Working capital cost factor: {elecValues.workingCapitalFactor}%
             </Text>
           </div>
           <div className="px-6 mb-2">
@@ -208,17 +214,17 @@ const Review: React.FC<ReviewProps> = ({ setCurrStep }) => {
           }
         >
           <div className="grid grid-cols-3 pt-1 pb-4 px-6 gap-y-3">
-            <Text>Direct cost factor: {conValues.directCostFactor}</Text>
-            <Text>Indirect cost factor: {conValues.indirectCostFactor}</Text>
+            <Text>Direct cost factor: {conValues.directCostFactor}%</Text>
+            <Text>Indirect cost factor: {conValues.indirectCostFactor}%</Text>
             <Text>
-              Working capital cost factor: {conValues.workingCapitalFactor}
+              Working capital cost factor: {conValues.workingCapitalFactor}%
             </Text>
             {analysisType == "phi" && (
               <>
                 <Text>
-                  Depreciation percent: {conValues.depreciationPercent}
+                  Depreciation percent: {conValues.depreciationPercent}%
                 </Text>
-                <Text>Duration of use: {conValues.duration}</Text>
+                <Text>Duration of use: {conValues.duration} years</Text>
               </>
             )}
           </div>
@@ -243,14 +249,6 @@ const Review: React.FC<ReviewProps> = ({ setCurrStep }) => {
           </div>
         </AccordionItem>
       </Accordion>
-      <div>
-        {analysisOutput &&
-          analysisOutput.LCCA.map((lcca, index) => (
-            <div key={index}>
-              <Text>LCCA: {lcca}</Text>
-            </div>
-          ))}
-      </div>
       <div className="space-x-6 mt-32">
         <Button color="grey" onClick={() => setCurrStep(2)}>
           Back

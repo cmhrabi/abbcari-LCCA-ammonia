@@ -8308,7 +8308,7 @@ fresh@0.5.2:
     eslint-config-prettier "^9.1.0"
     eslint-plugin-prettier "^5.2.1"
     framer-motion "^11.8.0"
-    frontend "file:../../.cache/yarn/v6/npm-frontend-0.1.0-db233fdd-c6a5-4dd0-b950-9d3090da393c-1741466224868/node_modules/frontend"
+    frontend "file:../../../.cache/yarn/v6/npm-frontend-0.1.0-0ea452a5-82e3-4478-97a5-ac0bb3969741-1741557371999/node_modules/frontend"
     prettier "^3.4.1"
     react "^18.3.1"
     react-dom "^18.3.1"

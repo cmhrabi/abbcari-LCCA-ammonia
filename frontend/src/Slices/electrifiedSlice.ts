@@ -32,7 +32,35 @@ export const electrifiedSlice = createSlice({
   name: "electrified",
   initialState: {
     value: {
-      subProcesses: new Array<SubProcess>(),
+      subProcesses: [
+        {
+          name: "SubProcess 1",
+          baseCost: 2.001468915,
+          installationFactor: 0.33,
+          scalingFactor: 1,
+          learningRate: 0.13,
+          efficiency: 0.4,
+          energyRequirement: 0.986181293,
+        },
+        {
+          name: "SubProcess 2",
+          baseCost: 2.252380011,
+          installationFactor: 0,
+          scalingFactor: 0.49,
+          learningRate: 0.1,
+          efficiency: 1,
+          energyRequirement: 0.034624043,
+        },
+        {
+          name: "SubProcess 3",
+          baseCost: 9.256259378,
+          installationFactor: 0.7,
+          scalingFactor: 0.5,
+          learningRate: 0.1,
+          efficiency: 1,
+          energyRequirement: 0.0778,
+        },
+      ],
       directCosts: [{ name: "", cost: "" }],
       indirectCosts: [{ name: "", cost: "" }],
       workingCapitalCost: "",
@@ -101,6 +129,46 @@ export const electrifiedSlice = createSlice({
     deleteIndirectCost: (state, action: PayloadAction<number>) => {
       state.value.indirectCosts.splice(action.payload, 1);
     },
+    resetState: (state) => {
+      state.value = {
+        subProcesses: [
+          {
+            name: "SubProcess 1",
+            baseCost: 2.001468915,
+            installationFactor: 0.33,
+            scalingFactor: 1,
+            learningRate: 0.13,
+            efficiency: 0.4,
+            energyRequirement: 0.986181293,
+          },
+          {
+            name: "SubProcess 2",
+            baseCost: 2.252380011,
+            installationFactor: 0,
+            scalingFactor: 0.49,
+            learningRate: 0.1,
+            efficiency: 1,
+            energyRequirement: 0.034624043,
+          },
+          {
+            name: "SubProcess 3",
+            baseCost: 9.256259378,
+            installationFactor: 0.7,
+            scalingFactor: 0.5,
+            learningRate: 0.1,
+            efficiency: 1,
+            energyRequirement: 0.0778,
+          },
+        ],
+        directCosts: [{ name: "", cost: "" }],
+        indirectCosts: [{ name: "", cost: "" }],
+        workingCapitalCost: "",
+        directCostFactor: 0.33,
+        indirectCostFactor: 0.5,
+        workingCapitalFactor: 0.05,
+        bottomUpCalc: false,
+      };
+    },
   },
 });
 
@@ -119,6 +187,7 @@ export const {
   addIndirectCost,
   updateIndirectCost,
   deleteIndirectCost,
+  resetState,
 } = electrifiedSlice.actions;
 
 export default electrifiedSlice.reducer;

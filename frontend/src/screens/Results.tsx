@@ -2,188 +2,159 @@ import React from "react";
 import NavBar from "../components/NavBar/NavBar";
 import Text from "../design/Text/Text";
 import Breadcrumbs from "../design/Breadcumbs/Breadcrumbs";
-import { useAppSelector } from "../hooks";
+import { useAppDispatch, useAppSelector } from "../hooks";
 import ResultsCard from "../design/ResultsCard/ResultsCard";
-import { Serie } from "@nivo/line";
 import AdjustableCard from "../design/AdjustableCard/AdjustableCard";
 import LCCALineChart from "../components/Charts/LCCALineChart";
 import CostChart from "../components/Charts/CostChart";
 import Button from "../design/Button/Button";
+import { useLocation, useNavigate } from "react-router-dom";
+import EmissionsChart from "../components/Charts/EmmissionsChart";
+import { resetState as resetStateName } from "../Slices/nameSlice";
+import { resetState as resetStateGeneral } from "../Slices/generalSlice";
+import { resetState as resetStateConventional } from "../Slices/conventionalSlice";
+import { resetState as resetStateElectrified } from "../Slices/electrifiedSlice";
 
-const data: Serie[] = [
-    {
-        id: "LCCA",
-        data: [
-            { x: 2025, y: 70000 },
-            { x: 2030, y: 100000 },
-            { x: 2035, y: 50000 },
-            { x: 2040, y: 10000 },
-            { x: 2045, y: 20000 },
-            { x: 2050, y: 10000 },
-            { x: 2055, y: 10000 },
-            { x: 2060, y: 10000 },
-        ],
-    },
-    // {
-    //     id: "carbon price",
-    //     data: [
-    //         { x: 2025, y: 100 },
-    //         { x: 2030, y: 20000 },
-    //         { x: 2035, y: 20000 },
-    //         { x: 2040, y: 20000 },
-    //         { x: 2045, y: 200 },
-    //         { x: 2050, y: 200 },
-    //         { x: 2055, y: 200 },
-    //         { x: 2060, y: 200 },
-    //     ],
-    // },
-];
-
-const cost_data: Serie[] = [
-    {
-        id: "CAPEX",
-        data: [
-            { x: 2025, y: 70000 },
-            { x: 2030, y: 100000 },
-            { x: 2035, y: 50000 },
-            { x: 2040, y: 10000 },
-            { x: 2045, y: 20000 },
-            { x: 2050, y: 10000 },
-            { x: 2055, y: 10000 },
-            { x: 2060, y: 10000 },
-        ],
-    },
-    {
-        id: "OPEX",
-        data: [
-            { x: 2025, y: 100 },
-            { x: 2030, y: 20000 },
-            { x: 2035, y: 20000 },
-            { x: 2040, y: 20000 },
-            { x: 2045, y: 200 },
-            { x: 2050, y: 200 },
-            { x: 2055, y: 200 },
-            { x: 2060, y: 200 },
-        ],
-    },
-    {
-        id: "Import/Export",
-        data: [
-            { x: 2025, y: 100 },
-            { x: 2030, y: 20000 },
-            { x: 2035, y: 20000 },
-            { x: 2040, y: 20000 },
-            { x: 2045, y: 200 },
-            { x: 2050, y: 200 },
-            { x: 2055, y: 200 },
-            { x: 2060, y: 200 },
-        ],
-    },
-]
-
-
-// const CustomDashedSolidLines = ({ series, lineGenerator, xScale, yScale }) => {
-//     return (
-//         <>
-//             {series.map(({ id, data, color }) => (
-//                 <path
-//                     key={id}
-//                     d={lineGenerator(
-//                         data.map((d) => ({ x: xScale(d.data.x), y: yScale(d.data.y) }))
-//                     )}
-//                     fill="none"
-//                     stroke={color}
-//                     strokeWidth={3}
-//                     strokeDasharray={id === "carbon price" ? "6 6" : "0"} // Dashed for Carbon Price, Solid for others
-//                 />
-//             ))}
-//         </>
-//     );
-// };
-
-
-
+interface LCCAData {
+  LCCA: number[];
+  capex_elec: number[];
+  capex_conv: number[];
+  opex_elec: number[];
+  opex_conv: number[];
+  import_export: number[];
+  emissions_e: number[];
+  emissions_conv: number[];
+}
 
 const Review = () => {
-    const analysisName = useAppSelector((state) => state.name.value.analysisName);
-    const tech1Name = useAppSelector((state) => state.name.value.tech1Name);
-    const tech2Name = useAppSelector((state) => state.name.value.tech2Name);
+  const analysisName = useAppSelector((state) => state.name.value.analysisName);
+  const tech1Name = useAppSelector((state) => state.name.value.tech1Name);
+  const tech2Name = useAppSelector((state) => state.name.value.tech2Name);
+  const startYear = useAppSelector((state) => state.general.value.startYear);
+  const finalYear = useAppSelector((state) => state.general.value.finalYear);
 
-    return (
-        <>
-            <NavBar title="COMPASS" />
-            <div className="py-11 max-w-6xl m-auto">
-                <Breadcrumbs
-                    items={[
-                        { label: "LCCA Analysis", link: "/analysis" },
-                        { label: "Start New", link: "/analysis/start" },
-                        { label: `${analysisName} Analysis`, link: "" },
-                    ]}
-                />
-                <div>
-                    <Text color="secondary" textSize="h2">
-                        “{tech1Name} vs. {tech2Name}” Results
-                    </Text>
-                </div>
+  const dispatch = useAppDispatch();
+  const navigate = useNavigate();
+  const onClickStartnew = () => {
+    dispatch(resetStateName());
+    dispatch(resetStateGeneral());
+    dispatch(resetStateConventional());
+    dispatch(resetStateElectrified());
+    navigate("/analysis/start");
+  };
 
-                <div className="pt-12 pb-3 justify-between flex flex-row items-end">
-                    <Text color="secondary" textSize="results-title">
-                        Overview
-                    </Text>
-                    <Button
-                    color="primary"
-                >
-                    Export to PDF
-                </Button>
-                </div>       
-                <div className="space-y-12">
-                <div className="pt-4 grid grid-cols-3 gap-7">
-                    <ResultsCard
-                        title="Your initial investment"
-                        value="$10,987,000"
-                        caption={`if you implemented the ${tech1Name} technology`}
-                    />
-                    <ResultsCard
-                        title="Emissions reduced"
-                        value="5,800,000 tCO2eq"
-                        caption={`in 10 years`}
-                    />
-                    <ResultsCard
-                        title="Projected savings"
-                        value="$32,007,786"
-                        caption={`in 10 years`}  
-                    />
-                </div>
-                <div className="flex flex-row">
-                    <div className="w-2/3">
-                        <LCCALineChart title="Projected LCCA (Levelized cost of carbon abatement) from 2025 to 2060 ($/tCO2eq)" data={data} />
-                    </div>
-                    <div className="w-1/3">
-                        <AdjustableCard />
-                    </div>
-                </div>
-                <div className="grid grid-cols-2 gap-x-7">
-                    <CostChart
-                        cost_title="Total cost of implementing the technology"
-                        cost_data={cost_data}
-                    />
-                    <CostChart
-                        cost_title="Emissions breakdown"
-                        cost_data={cost_data}
-                    />
-                </div>
-                </div>
+  const location = useLocation();
+  const lccaData = location.state.lccaData as LCCAData;
 
-                <div className="pt-14 space-x-5">
-                <Button
-                    color="grey"
-                >
-                    Start another analysis
-                </Button>
-                </div>
+  const removeNegatives = (data: number[]) => {
+    return data.map((value) => (value < 0 ? 0 : value));
+  };
+
+  const constructData = (data: number[]) => {
+    const chart_data = data.map((value, index) => {
+      return { x: startYear + index, y: value };
+    });
+    return chart_data;
+  };
+
+  return (
+    <>
+      <NavBar title="COMPASS" />
+      <div className="py-11 max-w-6xl m-auto">
+        <Breadcrumbs
+          items={[
+            { label: "LCCA Analysis", link: "/" },
+            { label: "Start New", link: "/analysis/start" },
+            { label: `${analysisName} Analysis`, link: "/analysis/main" },
+            { label: "Results", link: "" },
+          ]}
+        />
+        <div>
+          <Text color="secondary" textSize="h2">
+            “{tech1Name} vs. {tech2Name}” Results
+          </Text>
+        </div>
+
+        <div className="pt-12 pb-3 justify-between flex flex-row items-end">
+          <Text color="secondary" textSize="results-title">
+            Overview
+          </Text>
+          <Button color="primary">Export to PDF</Button>
+        </div>
+        <div className="space-y-12">
+          <div className="pt-4 grid grid-cols-3 gap-7">
+            <ResultsCard
+              title="Your initial investment"
+              value={`$${(lccaData.capex_elec[0] + lccaData.opex_elec[0]).toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, " ")} Million`}
+              caption={`if you implemented the ${tech1Name} technology`}
+            />
+            <ResultsCard
+              title="Emissions reduced"
+              value={`${(lccaData.emissions_conv[lccaData.emissions_conv.length - 1] - lccaData.emissions_e[lccaData.emissions_e.length - 1]).toExponential(2).replace(/\B(?=(\d{3})+(?!\d))/g, " ")} tCO2eq`}
+              caption={`over 10 years`}
+            />
+            <ResultsCard
+              title="Total Cost per tonne of CO2eq"
+              value={`$${lccaData.LCCA.reduce(
+                (partialSum, a) => partialSum + a,
+                0,
+              )
+                .toFixed(2)
+                .replace(/\B(?=(\d{3})+(?!\d))/g, " ")}/tCO2eq`}
+              caption={`over 10 years`}
+            />
+          </div>
+          <div className="flex flex-row">
+            <div className="w-2/3">
+              <LCCALineChart
+                title="Projected LCCA (Levelized cost of carbon abatement) from 2025 to 2060 ($/tCO2eq)"
+                data={[{ id: "LCCA", data: constructData(lccaData.LCCA) }]}
+                minY={0}
+                maxY={
+                  Math.max(...lccaData.LCCA) + Math.max(...lccaData.LCCA) * 0.1
+                }
+              />
             </div>
-        </>
-    );
+            <div className="w-1/3">
+              <AdjustableCard />
+            </div>
+          </div>
+          <div className="grid grid-cols-2 gap-x-7">
+            <CostChart
+              cost_title="Total Cost of Implementing the Electrified Process"
+              cost_data={[
+                { id: "CAPEX", data: constructData(lccaData.capex_elec) },
+                {
+                  id: "Import/Export",
+                  data: constructData(removeNegatives(lccaData.import_export)),
+                },
+                { id: "OPEX", data: constructData(lccaData.opex_elec) },
+              ]}
+            />
+            <EmissionsChart
+              emissions_title="Cumulative Lifetime Emissions"
+              emissions_data={[
+                {
+                  id: "Conventional",
+                  data: constructData(lccaData.emissions_conv),
+                },
+                {
+                  id: "Electrical",
+                  data: constructData(lccaData.emissions_e),
+                },
+              ]}
+            />
+          </div>
+        </div>
+
+        <div className="pt-14 space-x-5">
+          <Button color="grey" onClick={onClickStartnew}>
+            Start another analysis
+          </Button>
+        </div>
+      </div>
+    </>
+  );
 };
 
 export default Review;

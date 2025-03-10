@@ -18,11 +18,11 @@ export const generalSlice = createSlice({
     value: {
       startYear: 2025,
       finalYear: 2050,
-      discount: "",
-      province: "No Selection",
-      finalDemand: "",
+      discount: "0.07",
+      province: "Ontario",
+      finalDemand: "238.23",
       plantOperatingHours: 8000,
-      baselineDemand: "",
+      baselineDemand: "0.01486512",
     },
   },
   reducers: {
@@ -47,6 +47,17 @@ export const generalSlice = createSlice({
     setBaselineDemand: (state, action: PayloadAction<string>) => {
       state.value.baselineDemand = action.payload;
     },
+    resetState: (state) => {
+      state.value = {
+        startYear: 2025,
+        finalYear: 2050,
+        discount: "0.07",
+        province: "Ontario",
+        finalDemand: "238.23",
+        plantOperatingHours: 8000,
+        baselineDemand: "0.01486512",
+      };
+    },
   },
 });
 
@@ -58,6 +69,7 @@ export const {
   setFinalDemand,
   setPlantOperatingHours,
   setBaselineDemand,
+  resetState,
 } = generalSlice.actions;
 
 export default generalSlice.reducer;
