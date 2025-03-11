@@ -18,7 +18,7 @@ export const generalSlice = createSlice({
     value: {
       startYear: 2025,
       finalYear: 2050,
-      discount: "0.07",
+      discount: "7",
       province: "Ontario",
       finalDemand: "238.23",
       plantOperatingHours: 8000,
@@ -51,7 +51,7 @@ export const generalSlice = createSlice({
       state.value = {
         startYear: 2025,
         finalYear: 2050,
-        discount: "0.07",
+        discount: "7",
         province: "Ontario",
         finalDemand: "238.23",
         plantOperatingHours: 8000,

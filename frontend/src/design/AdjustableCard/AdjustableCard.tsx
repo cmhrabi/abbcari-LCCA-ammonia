@@ -7,7 +7,11 @@ import Input from "../../design/Input/Input";
 import Select from "../../design/Select/Select";
 import { setDiscount, setProvince } from "../../Slices/generalSlice";
 
-const AdjustableCard: React.FC = () => {
+interface AdjustableCardProps {
+  onClickAdjust: () => void;
+}
+
+const AdjustableCard: React.FC<AdjustableCardProps> = ({ onClickAdjust }) => {
   const generalValues = useAppSelector((state) => state.general.value);
   const dispatch = useAppDispatch();
 
@@ -66,19 +70,10 @@ const AdjustableCard: React.FC = () => {
                 }
               />
             </div>
-            <div className="pt-5">
-              {/* <Input
-                                label="Electrical ammonia"
-                                onChange={(e) => dispatch(setElectricalAmmonia(e.target.value))}
-                                value={generalValues.electricalAmmonia}
-                                helpMessage="The amount of electrical ammonia used in the analysis."
-                            /> */}
-            </div>
           </div>
         </AccordionItem>
 
         <AccordionItem
-          // className="bg-grey-bg"
           title={
             <div className="justify-between flex flex-row px-4">
               <Text textSize="sub3">CAPEX</Text>
@@ -89,7 +84,6 @@ const AdjustableCard: React.FC = () => {
           <Input label="Cost" />
         </AccordionItem>
         <AccordionItem
-          // className="bg-grey-bg"
           title={
             <div className="justify-between flex flex-row px-4">
               <Text textSize="sub3">OPEX</Text>
@@ -100,7 +94,6 @@ const AdjustableCard: React.FC = () => {
           <Input label="Cost" />
         </AccordionItem>
         <AccordionItem
-          // className="bg-grey-bg"
           title={
             <div className="justify-between flex flex-row px-4">
               <Text textSize="sub3">Import/Export</Text>
@@ -113,7 +106,9 @@ const AdjustableCard: React.FC = () => {
       </Accordion>
 
       <div className="flex justify-end pt-4">
-        <Button color="primary">Save Changes</Button>
+        <Button color="primary" onClick={onClickAdjust}>
+          Save Changes
+        </Button>
       </div>
     </div>
   );
