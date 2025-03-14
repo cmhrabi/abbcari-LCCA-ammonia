@@ -16,7 +16,7 @@ import {
 } from "../Slices/nameSlice";
 
 const descriptionText = `
-  A dynamic modeling tool that allows you to analyze strategies and scenarios to reduce carbon emissions for hydrogen production for the upcoming decades. Levelized cost of carbon abatement (LCCA) is a new time-dependent parameter that can be used to inform decision-making practices.
+  A dynamic modeling tool that allows you to analyze strategies and scenarios to reduce carbon emissions for ammonia production process for the upcoming decades. Levelized cost of carbon abatement (LCCA) is a new time-dependent parameter that can be used to inform decision-making practices.
 `;
 
 const StartNew = () => {
@@ -83,38 +83,36 @@ const StartNew = () => {
               description="There is no existing chemical process to produce ammonia. You are interested in comparing two chemical processes."
             />
           </RadioGroup>
-          {nameValues.type && nameValues.analysisName && (
-            <div className="grid grid-cols-1 gap-y-14">
-              <div className="max-w-xl">
-                <Input
-                  value={nameValues.tech1Name}
-                  onChange={(e) => dispatch(setTech1Name(e.target.value))}
-                  label={
-                    <Text textSize="sub3">
-                      What is the name of the electrified process you would like
-                      to compare?
-                    </Text>
-                  }
-                  placeholder="Electrified Process"
-                  noIcon
-                />
-              </div>
-              <div className="max-w-xl">
-                <Input
-                  value={nameValues.tech2Name}
-                  onChange={(e) => dispatch(setTech2Name(e.target.value))}
-                  label={
-                    <Text textSize="sub3">
-                      What is the name of the conventional natural gas process
-                      you would like to compare?
-                    </Text>
-                  }
-                  placeholder="Conventional Process"
-                  noIcon
-                />
-              </div>
+          <div className="grid grid-cols-1 gap-y-14">
+            <div className="max-w-xl">
+              <Input
+                value={nameValues.tech1Name}
+                onChange={(e) => dispatch(setTech1Name(e.target.value))}
+                label={
+                  <Text textSize="sub3">
+                    What is the name of the electrified process you would like
+                    to compare?
+                  </Text>
+                }
+                placeholder="E.g. Power to Ammonia"
+                noIcon
+              />
             </div>
-          )}
+            <div className="max-w-xl">
+              <Input
+                value={nameValues.tech2Name}
+                onChange={(e) => dispatch(setTech2Name(e.target.value))}
+                label={
+                  <Text textSize="sub3">
+                    What is the name of the conventional natural gas process you
+                    would like to compare?
+                  </Text>
+                }
+                placeholder="E.g. Grey"
+                noIcon
+              />
+            </div>
+          </div>
           <div className="space-x-6">
             <Button color="grey" onClick={() => navigate("/")}>
               Cancel

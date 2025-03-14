@@ -25,6 +25,9 @@ export interface ElectrifiedState {
     indirectCostFactor: number;
     workingCapitalFactor: number;
     bottomUpCalc: boolean;
+    bottomUpProcess: SubProcess;
+    waterRequirement: string;
+    installationCost: string;
   };
 }
 
@@ -68,6 +71,17 @@ export const electrifiedSlice = createSlice({
       indirectCostFactor: 50,
       workingCapitalFactor: 5,
       bottomUpCalc: false,
+      installationCost: "",
+      waterRequirement: "",
+      bottomUpProcess: {
+        name: "",
+        baseCost: 0,
+        installationFactor: 0,
+        scalingFactor: 0,
+        learningRate: 0,
+        efficiency: 0,
+        energyRequirement: 0,
+      },
     },
   },
   reducers: {
@@ -129,6 +143,15 @@ export const electrifiedSlice = createSlice({
     deleteIndirectCost: (state, action: PayloadAction<number>) => {
       state.value.indirectCosts.splice(action.payload, 1);
     },
+    updateBottomUpProcess: (state, action: PayloadAction<SubProcess>) => {
+      state.value.bottomUpProcess = action.payload;
+    },
+    setInstallationCost: (state, action: PayloadAction<string>) => {
+      state.value.installationCost = action.payload;
+    },
+    setWaterRequirement: (state, action: PayloadAction<string>) => {
+      state.value.waterRequirement = action.payload;
+    },
     resetState: (state) => {
       state.value = {
         subProcesses: [
@@ -167,6 +190,17 @@ export const electrifiedSlice = createSlice({
         indirectCostFactor: 50,
         workingCapitalFactor: 5,
         bottomUpCalc: false,
+        installationCost: "",
+        waterRequirement: "",
+        bottomUpProcess: {
+          name: "",
+          baseCost: 0,
+          installationFactor: 0,
+          scalingFactor: 0,
+          learningRate: 0,
+          efficiency: 0,
+          energyRequirement: 0,
+        },
       };
     },
   },
@@ -187,6 +221,9 @@ export const {
   addIndirectCost,
   updateIndirectCost,
   deleteIndirectCost,
+  updateBottomUpProcess,
+  setInstallationCost,
+  setWaterRequirement,
   resetState,
 } = electrifiedSlice.actions;
 

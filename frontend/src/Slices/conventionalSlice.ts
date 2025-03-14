@@ -1,12 +1,13 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
-export interface SubProcess {
+export interface ConvSubProcess {
   baseCost: number;
   learningRate: number;
   scalingFactor: number;
   installationFactor: number;
   energyRequirement: number;
   efficiency: number;
+  ng_req?: number;
   name: string;
 }
 
@@ -17,16 +18,21 @@ export interface Cost {
 
 export interface ConventionalState {
   value: {
-    subProcesses: SubProcess[];
+    subProcesses: ConvSubProcess[];
     directCosts: Cost[];
     indirectCosts: Cost[];
     workingCapitalCost: string;
+    installationCost: string;
     directCostFactor: number;
     indirectCostFactor: number;
     workingCapitalFactor: number;
     bottomUpCalc: boolean;
     depreciationPercent: number;
     duration: number;
+    onsightEmissions: string;
+    upstreamEmissions: string;
+    waterRequirement: string;
+    bottomUpProcess: ConvSubProcess;
   };
 }
 
@@ -67,21 +73,34 @@ export const conventionalSlice = createSlice({
       directCosts: [{ name: "", cost: "" }],
       indirectCosts: [{ name: "", cost: "" }],
       workingCapitalCost: "",
+      installationCost: "",
       directCostFactor: 33,
       indirectCostFactor: 50,
       workingCapitalFactor: 5,
       bottomUpCalc: false,
       depreciationPercent: 11.8,
       duration: 20,
+      onsightEmissions: "",
+      upstreamEmissions: "",
+      waterRequirement: "",
+      bottomUpProcess: {
+        name: "",
+        baseCost: 0,
+        installationFactor: 0,
+        scalingFactor: 0,
+        learningRate: 0,
+        efficiency: 0,
+        energyRequirement: 0,
+      },
     },
   },
   reducers: {
-    addSubProcess: (state, action: PayloadAction<SubProcess>) => {
+    addSubProcess: (state, action: PayloadAction<ConvSubProcess>) => {
       state.value.subProcesses.push(action.payload);
     },
     updateSubProcess: (
       state,
-      action: PayloadAction<{ index: number; subProcess: SubProcess }>,
+      action: PayloadAction<{ index: number; subProcess: ConvSubProcess }>,
     ) => {
       if (action.payload.index < state.value.subProcesses.length) {
         state.value.subProcesses[action.payload.index] =
@@ -140,6 +159,21 @@ export const conventionalSlice = createSlice({
     deleteIndirectCost: (state, action: PayloadAction<number>) => {
       state.value.indirectCosts.splice(action.payload, 1);
     },
+    updateBottomUpProcess: (state, action: PayloadAction<ConvSubProcess>) => {
+      state.value.bottomUpProcess = action.payload;
+    },
+    setUpstreamEmissions: (state, action: PayloadAction<string>) => {
+      state.value.upstreamEmissions = action.payload;
+    },
+    setOnsightEmissions: (state, action: PayloadAction<string>) => {
+      state.value.onsightEmissions = action.payload;
+    },
+    setWaterRequirement: (state, action: PayloadAction<string>) => {
+      state.value.waterRequirement = action.payload;
+    },
+    setInstallationCost: (state, action: PayloadAction<string>) => {
+      state.value.installationCost = action.payload;
+    },
     resetState: (state) => {
       state.value = {
         subProcesses: [
@@ -174,6 +208,7 @@ export const conventionalSlice = createSlice({
         ],
         directCosts: [{ name: "", cost: "" }],
         indirectCosts: [{ name: "", cost: "" }],
+        installationCost: "",
         workingCapitalCost: "",
         directCostFactor: 33,
         indirectCostFactor: 50,
@@ -181,6 +216,18 @@ export const conventionalSlice = createSlice({
         bottomUpCalc: false,
         depreciationPercent: 11.8,
         duration: 20,
+        onsightEmissions: "",
+        upstreamEmissions: "",
+        waterRequirement: "",
+        bottomUpProcess: {
+          name: "",
+          baseCost: 0,
+          installationFactor: 0,
+          scalingFactor: 0,
+          learningRate: 0,
+          efficiency: 0,
+          energyRequirement: 0,
+        },
       };
     },
   },
@@ -203,6 +250,11 @@ export const {
   deleteIndirectCost,
   setDepreciationPercent,
   setDuration,
+  updateBottomUpProcess,
+  setUpstreamEmissions,
+  setOnsightEmissions,
+  setWaterRequirement,
+  setInstallationCost,
   resetState,
 } = conventionalSlice.actions;
 

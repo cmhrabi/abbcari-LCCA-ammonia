@@ -17,8 +17,12 @@ import {
   setIndirectCostFactor,
   setWorkingCapitalCost,
   setWorkingCapitalFactor,
+  updateBottomUpProcess,
   updateDirectCost,
   updateIndirectCost,
+  SubProcess,
+  setInstallationCost,
+  setWaterRequirement,
 } from "../../Slices/electrifiedSlice";
 import Input from "../../design/Input/Input";
 import DeleteProcessModal from "../DeleteProcessModal/DeleteProcessModal";
@@ -36,6 +40,15 @@ const FirstTechnology: React.FC<FirstTechnologyProps> = ({ setCurrStep }) => {
   const bottomUpCalc = useAppSelector(
     (state) => state.electrified.value.bottomUpCalc,
   );
+  const [bottomUpProcess, setBottomUpProcess] = useState({
+    name: tech1Name,
+    baseCost: "",
+    installationFactor: "0",
+    scalingFactor: "100",
+    learningRate: "",
+    efficiency: "100",
+    energyRequirement: "",
+  });
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
   const dispatch = useAppDispatch();
 
@@ -78,6 +91,19 @@ const FirstTechnology: React.FC<FirstTechnologyProps> = ({ setCurrStep }) => {
   };
 
   useEffect(() => {
+    const process = {
+      baseCost: parseFloat(bottomUpProcess.baseCost),
+      learningRate: parseFloat(bottomUpProcess.learningRate),
+      scalingFactor: parseFloat(bottomUpProcess.scalingFactor),
+      installationFactor: parseFloat(bottomUpProcess.installationFactor),
+      energyRequirement: parseFloat(bottomUpProcess.energyRequirement),
+      efficiency: parseFloat(bottomUpProcess.efficiency),
+      name: tech1Name,
+    } as SubProcess;
+    dispatch(updateBottomUpProcess(process));
+  }, [bottomUpProcess]);
+
+  useEffect(() => {
     setLocalSubProcesses(subProcesses);
     setEditStates(
       subProcesses.map(() => ({ isOpenEdit: false, isOpenDelete: false })),
@@ -110,7 +136,7 @@ const FirstTechnology: React.FC<FirstTechnologyProps> = ({ setCurrStep }) => {
             </Checkbox>
           </div>
           {electrifiedValues.bottomUpCalc && (
-            <div className="flex flex-row gap-x-20">
+            <div className="flex flex-row gap-x-16">
               <CostSection
                 type="text"
                 label="Direct costs"
@@ -149,7 +175,23 @@ const FirstTechnology: React.FC<FirstTechnologyProps> = ({ setCurrStep }) => {
                   dispatch(deleteIndirectCost(index));
                 }}
               />
-              <div className="min-w-52">
+              <div className="min-w-32">
+                <Input
+                  type="number"
+                  label="Installation cost"
+                  onChange={(e) => {
+                    dispatch(setInstallationCost(e.target.value));
+                  }}
+                  value={electrifiedValues.installationCost}
+                  start={
+                    <Text textSize="sub3" color="grey-blue">
+                      $M
+                    </Text>
+                  }
+                  helpMessage="The direct cost factor includes expenses directly tied to the physical creation of a project. This includes, but is not limited to:"
+                />
+              </div>
+              <div className="min-w-32 text-nowrap">
                 <Input
                   type="number"
                   label="Working capital cost"
@@ -159,7 +201,7 @@ const FirstTechnology: React.FC<FirstTechnologyProps> = ({ setCurrStep }) => {
                   value={electrifiedValues.workingCapitalCost}
                   start={
                     <Text textSize="sub3" color="grey-blue">
-                      $
+                      $M
                     </Text>
                   }
                   helpMessage="The direct cost factor includes expenses directly tied to the physical creation of a project. This includes, but is not limited to:"
@@ -167,7 +209,7 @@ const FirstTechnology: React.FC<FirstTechnologyProps> = ({ setCurrStep }) => {
               </div>
             </div>
           )}
-          {!electrifiedValues.bottomUpCalc && (
+          {!bottomUpCalc && (
             <div className="grid grid-cols-3 gap-x-40 gap-y-5">
               <Input
                 type="number"
@@ -199,67 +241,187 @@ const FirstTechnology: React.FC<FirstTechnologyProps> = ({ setCurrStep }) => {
             </div>
           )}
         </div>
-        <div>
-          <div className="flex flex-row justify-between items-end pb-2">
-            <Text color="secondary" textSize="sub3">
-              Subprocesses
-            </Text>
-            <Button color="transparent" size="noPadding" onClick={onOpen}>
-              + Add Subprocess
-            </Button>
-          </div>
-          <div className="grid gap-4 grid-cols-1">
-            {localSubProcesses.length > 0 ? (
-              localSubProcesses.map((subP, i) => {
-                const info = {
-                  baseCost: subP.baseCost,
-                  learningRate: subP.learningRate,
-                  scalingFactor: subP.scalingFactor,
-                  installationFactor: subP.installationFactor,
-                  energyRequirement: subP.energyRequirement,
-                  efficiency: subP.efficiency,
-                  name: subP.name,
-                };
-                const { isOpenEdit, isOpenDelete } = editStates[i];
-
-                return (
-                  <div
-                    key={i}
-                    className="flex flex-row items-center justify-between"
-                  >
-                    <ProcessCard
-                      info={info}
-                      handleEdit={() => handleOpenEdit(i)}
-                    />
-                    <Button
-                      isIconOnly
-                      color="transparent"
-                      onClick={() => {
-                        handleOpenDelete(i);
-                      }}
-                    >
-                      <XCircleIcon className="size-5 text-grey-blue" />
-                    </Button>
-                    <SubProcessModal
-                      isOpen={isOpenEdit}
-                      onOpenChange={() => handleClose(i)}
-                      editID={i}
-                      info={info}
-                    />
-                    <DeleteProcessModal
-                      isOpen={isOpenDelete}
-                      onOpenChange={() => handleClose(i)}
-                      deleteID={i}
-                      subProcessName={info.name}
-                    />
-                  </div>
-                );
-              })
-            ) : (
-              <ProcessCard />
-            )}
+        <div className="shadow-card rounded-[10px] border-1 border-grey py-5 px-10">
+          <div className="grid grid-cols-3 gap-x-40 gap-y-5">
+            <Input
+              type="number"
+              label="Water Requirement"
+              onChange={(e) => {
+                dispatch(setWaterRequirement(e.target.value));
+              }}
+              value={electrifiedValues.waterRequirement}
+              end={
+                <Text color="grey-blue" textSize="input">
+                  tH<sub>2</sub>O/tNH<sub>3</sub>
+                </Text>
+              }
+            />
           </div>
         </div>
+        {bottomUpCalc ? (
+          <div className="shadow-card rounded-[10px] border-1 border-grey py-5 px-10 grid grid-cols-3 gap-x-8 gap-y-8">
+            <Input
+              type="number"
+              label="Baseline cost"
+              value={electrifiedValues.bottomUpProcess.baseCost}
+              start={
+                <Text textSize="sub3" color="grey-blue">
+                  $M
+                </Text>
+              }
+              onChange={(e) =>
+                setBottomUpProcess({
+                  ...bottomUpProcess,
+                  baseCost: e.target.value,
+                })
+              }
+            />
+            <Input
+              type="number"
+              label="Learning rate"
+              value={electrifiedValues.bottomUpProcess.learningRate}
+              onChange={(e) =>
+                setBottomUpProcess({
+                  ...bottomUpProcess,
+                  learningRate: e.target.value,
+                })
+              }
+              end={
+                <Text textSize="sub3" color="grey-blue">
+                  %
+                </Text>
+              }
+            />
+            <Input
+              type="number"
+              label="Scaling factor"
+              value={electrifiedValues.bottomUpProcess.scalingFactor}
+              onChange={(e) =>
+                setBottomUpProcess({
+                  ...bottomUpProcess,
+                  scalingFactor: e.target.value,
+                })
+              }
+              end={
+                <Text textSize="sub3" color="grey-blue">
+                  %
+                </Text>
+              }
+            />
+            <Input
+              type="number"
+              label="Installation factor"
+              value={electrifiedValues.bottomUpProcess.installationFactor}
+              onChange={(e) =>
+                setBottomUpProcess({
+                  ...bottomUpProcess,
+                  installationFactor: e.target.value,
+                })
+              }
+              end={
+                <Text textSize="sub3" color="grey-blue">
+                  %
+                </Text>
+              }
+            />
+            <Input
+              type="number"
+              label="Efficiency of process"
+              value={electrifiedValues.bottomUpProcess.efficiency}
+              onChange={(e) =>
+                setBottomUpProcess({
+                  ...bottomUpProcess,
+                  efficiency: e.target.value,
+                })
+              }
+              end={
+                <Text textSize="sub3" color="grey-blue">
+                  %
+                </Text>
+              }
+            />
+            <div className="text-nowrap">
+              <Input
+                type="number"
+                label="Energy requirement at base capacity"
+                value={electrifiedValues.bottomUpProcess.energyRequirement}
+                onChange={(e) =>
+                  setBottomUpProcess({
+                    ...bottomUpProcess,
+                    energyRequirement: e.target.value,
+                  })
+                }
+                end={
+                  <Text color="grey-blue" textSize="input">
+                    pJ/year
+                  </Text>
+                }
+              />
+            </div>
+          </div>
+        ) : (
+          <div>
+            <div className="flex flex-row justify-between items-end pb-2">
+              <Text color="secondary" textSize="sub3">
+                Subprocesses
+              </Text>
+              <Button color="transparent" size="noPadding" onClick={onOpen}>
+                + Add subprocess
+              </Button>
+            </div>
+            <div className="grid gap-4 grid-cols-1">
+              {localSubProcesses.length > 0 ? (
+                localSubProcesses.map((subP, i) => {
+                  const info = {
+                    baseCost: subP.baseCost,
+                    learningRate: subP.learningRate,
+                    scalingFactor: subP.scalingFactor,
+                    installationFactor: subP.installationFactor,
+                    energyRequirement: subP.energyRequirement,
+                    efficiency: subP.efficiency,
+                    name: subP.name,
+                  };
+                  const { isOpenEdit, isOpenDelete } = editStates[i];
+
+                  return (
+                    <div
+                      key={i}
+                      className="flex flex-row items-center justify-between"
+                    >
+                      <ProcessCard
+                        info={info}
+                        handleEdit={() => handleOpenEdit(i)}
+                      />
+                      <Button
+                        isIconOnly
+                        color="transparent"
+                        onClick={() => {
+                          handleOpenDelete(i);
+                        }}
+                      >
+                        <XCircleIcon className="size-5 text-grey-blue" />
+                      </Button>
+                      <SubProcessModal
+                        isOpen={isOpenEdit}
+                        onOpenChange={() => handleClose(i)}
+                        editID={i}
+                        info={info}
+                      />
+                      <DeleteProcessModal
+                        isOpen={isOpenDelete}
+                        onOpenChange={() => handleClose(i)}
+                        deleteID={i}
+                        subProcessName={info.name}
+                      />
+                    </div>
+                  );
+                })
+              ) : (
+                <ProcessCard />
+              )}
+            </div>
+          </div>
+        )}
         <div className="space-x-6">
           <Button color="grey" onClick={() => setCurrStep(0)}>
             Back

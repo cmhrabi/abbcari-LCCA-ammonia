@@ -47,7 +47,7 @@ const CostInput: React.FC<InputProps> = ({
             "focus:outline-none focus:border-tertiary focus:shadow-input",
         },
         start: {
-          true: "ps-7",
+          true: "ps-9",
         },
       },
     },
@@ -107,7 +107,7 @@ const CostInput: React.FC<InputProps> = ({
             <div className="relative block w-full">
               <div className="absolute inset-y-0 start-0 flex items-center ps-3.5 pointer-events-none">
                 <Text color="grey-label" textSize="sub3">
-                  $
+                  $M
                 </Text>
               </div>
               <input
@@ -119,7 +119,6 @@ const CostInput: React.FC<InputProps> = ({
                 type="number"
                 value={row.cost}
                 onChange={(e) => editRow(index, row.name, e.target.value)}
-                placeholder="Cost"
               />
             </div>
             <Button

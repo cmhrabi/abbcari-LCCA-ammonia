@@ -1,10 +1,10 @@
-import React, { useState } from "react";
+import React from "react";
 import { Accordion, AccordionItem } from "@heroui/react";
 import Text from "../../design/Text/Text";
 import Button from "../../design/Button/Button";
 import { useAppSelector } from "../../hooks";
 import ProcessCard from "../ProcessCard/ProcessCard";
-import { cleanData, LCCAOutput, postAnalysis } from "../../api";
+import { cleanData, postAnalysis } from "../../api";
 import { addToast } from "@heroui/toast";
 import { useNavigate } from "react-router-dom";
 
@@ -103,10 +103,11 @@ const Review: React.FC<ReviewProps> = ({ setCurrStep }) => {
         selectionMode="multiple"
         variant="splitted"
         className="space-y-26"
+        defaultExpandedKeys={"1"}
       >
         <AccordionItem
           className="shadow-card rounded-[10px] mb-7 mt-8 bg-grey-bg"
-          key="Upside-Down"
+          key="1"
           aria-label="General Inputs"
           indicator={<UpsideDownIcon />}
           title={
@@ -122,25 +123,20 @@ const Review: React.FC<ReviewProps> = ({ setCurrStep }) => {
             </div>
           }
         >
-          <div className="grid grid-cols-4 pt-1 pb-4 px-8 gap-y-3">
+          <div className="grid grid-cols-2 pt-1 pb-4 px-8 gap-y-3">
             <Text>Start year: {generalValues.startYear}</Text>
-            <Text>Target year: {generalValues.finalYear}</Text>
+
             <Text>Discount rate: {generalValues.discount}%</Text>
-            <div className="col-span-2">
-              <Text>Province used in analysis: {generalValues.province}</Text>
-            </div>
-            <div className="col-span-2">
-              <Text>
-                Plant Operating Hours: {generalValues.plantOperatingHours}
-              </Text>
-            </div>
-            <div className="col-span-2">
-              <Text>
-                Current electrical ammonia production:{" "}
-                {parseFloat(generalValues.baselineDemand).toFixed(4)} pJ
-              </Text>
-            </div>
-            <div className="col-span-2">
+            <Text>Target year: {generalValues.finalYear}</Text>
+            <Text>Province used in analysis: {generalValues.province}</Text>
+            <Text>
+              Plant Operating Hours: {generalValues.plantOperatingHours}
+            </Text>
+            <Text>
+              Current electrical ammonia production:{" "}
+              {parseFloat(generalValues.baselineDemand).toFixed(4)} pJ
+            </Text>
+            <div>
               <Text>
                 Electrical ammonia in target year:{" "}
                 {parseFloat(generalValues.finalDemand).toFixed(2)} pJ
@@ -243,6 +239,7 @@ const Review: React.FC<ReviewProps> = ({ setCurrStep }) => {
                   energyRequirement: subProcess.energyRequirement,
                   efficiency: subProcess.efficiency,
                   name: subProcess.name,
+                  ngReq: subProcess.ng_req,
                 }}
               />
             ))}

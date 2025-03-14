@@ -19,8 +19,14 @@ import {
   setIndirectCostFactor,
   setWorkingCapitalCost,
   setWorkingCapitalFactor,
+  ConvSubProcess,
   updateDirectCost,
   updateIndirectCost,
+  updateBottomUpProcess,
+  setWaterRequirement,
+  setUpstreamEmissions,
+  setOnsightEmissions,
+  setInstallationCost,
 } from "../../Slices/conventionalSlice";
 import Input from "../../design/Input/Input";
 import DeleteProcessModal from "../DeleteProcessModal/DeleteProcessModal";
@@ -48,6 +54,15 @@ const SecondTechnology: React.FC<SecondTechnologyProps> = ({ setCurrStep }) => {
     subProcesses.map(() => ({ isOpenEdit: false, isOpenDelete: false })),
   );
   const [localSubProcesses, setLocalSubProcesses] = useState(subProcesses);
+  const [bottomUpProcess, setBottomUpProcess] = useState({
+    name: tech2Name,
+    baseCost: "",
+    installationFactor: "0",
+    scalingFactor: "100",
+    learningRate: "",
+    efficiency: "100",
+    energyRequirement: "",
+  });
 
   const handleOpenEdit = (index: number) => {
     setEditStates(
@@ -83,6 +98,19 @@ const SecondTechnology: React.FC<SecondTechnologyProps> = ({ setCurrStep }) => {
   };
 
   useEffect(() => {
+    const process = {
+      baseCost: parseFloat(bottomUpProcess.baseCost),
+      learningRate: parseFloat(bottomUpProcess.learningRate),
+      scalingFactor: parseFloat(bottomUpProcess.scalingFactor),
+      installationFactor: parseFloat(bottomUpProcess.installationFactor),
+      energyRequirement: parseFloat(bottomUpProcess.energyRequirement),
+      efficiency: parseFloat(bottomUpProcess.efficiency),
+      name: tech2Name,
+    } as ConvSubProcess;
+    dispatch(updateBottomUpProcess(process));
+  }, [bottomUpProcess]);
+
+  useEffect(() => {
     setLocalSubProcesses(subProcesses);
     setEditStates(
       subProcesses.map(() => ({ isOpenEdit: false, isOpenDelete: false })),
@@ -115,7 +143,7 @@ const SecondTechnology: React.FC<SecondTechnologyProps> = ({ setCurrStep }) => {
             </Checkbox>
           </div>
           {conventionalValues.bottomUpCalc && (
-            <div className="flex flex-row gap-x-20">
+            <div className="flex flex-row gap-x-16">
               <CostSection
                 type="text"
                 label="Direct costs"
@@ -154,7 +182,23 @@ const SecondTechnology: React.FC<SecondTechnologyProps> = ({ setCurrStep }) => {
                   dispatch(deleteIndirectCost(index));
                 }}
               />
-              <div className="min-w-52">
+              <div className="min-w-32">
+                <Input
+                  type="number"
+                  label="Installation cost"
+                  onChange={(e) => {
+                    dispatch(setInstallationCost(e.target.value));
+                  }}
+                  value={conventionalValues.installationCost}
+                  start={
+                    <Text textSize="sub3" color="grey-blue">
+                      $M
+                    </Text>
+                  }
+                  helpMessage="The direct cost factor includes expenses directly tied to the physical creation of a project. This includes, but is not limited to:"
+                />
+              </div>
+              <div className="min-w-32 text-nowrap">
                 <Input
                   type="number"
                   label="Working capital cost"
@@ -164,7 +208,7 @@ const SecondTechnology: React.FC<SecondTechnologyProps> = ({ setCurrStep }) => {
                   value={conventionalValues.workingCapitalCost}
                   start={
                     <Text textSize="sub3" color="grey-blue">
-                      $
+                      $M
                     </Text>
                   }
                   helpMessage="The direct cost factor includes expenses directly tied to the physical creation of a project. This includes, but is not limited to:"
@@ -204,101 +248,250 @@ const SecondTechnology: React.FC<SecondTechnologyProps> = ({ setCurrStep }) => {
             </div>
           )}
         </div>
-        {analysisType === "phi" && (
-          <div className="shadow-card rounded-[10px] border-1 border-grey py-5 px-10">
-            <div className="grid grid-cols-4 gap-x-20 gap-y-5">
-              <Input
-                type="number"
-                label="Depreciation percent"
-                onChange={(e) => {
-                  dispatch(setDepreciationPercent(parseFloat(e.target.value)));
-                }}
-                value={conventionalValues.depreciationPercent}
-                end={
-                  <Text color="grey-blue" textSize="input">
-                    %
-                  </Text>
-                }
-              />
-              <Input
-                type="number"
-                label="Duration of use"
-                onChange={(e) => {
-                  dispatch(setDuration(parseFloat(e.target.value)));
-                }}
-                value={conventionalValues.duration}
-                end={
-                  <Text color="grey-blue" textSize="input">
-                    years
-                  </Text>
-                }
-                helpMessage="The worker capital cost are the costs associated with labor and employee-related expenses."
-              />
-            </div>
-          </div>
-        )}
-        <div>
-          <div className="flex flex-row justify-between items-end pb-2">
-            <Text color="secondary" textSize="sub3">
-              Subprocesses
-            </Text>
-            <Button color="transparent" size="noPadding" onClick={onOpen}>
-              + Add Subprocess
-            </Button>
-          </div>
-          <div className="grid gap-4 grid-cols-1">
-            {localSubProcesses.length > 0 ? (
-              localSubProcesses.map((subP, i) => {
-                const info = {
-                  baseCost: subP.baseCost,
-                  learningRate: subP.learningRate,
-                  scalingFactor: subP.scalingFactor,
-                  installationFactor: subP.installationFactor,
-                  energyRequirement: subP.energyRequirement,
-                  efficiency: subP.efficiency,
-                  name: subP.name,
-                };
-                const { isOpenEdit, isOpenDelete } = editStates[i];
-
-                return (
-                  <div
-                    key={i}
-                    className="flex flex-row items-center justify-between"
-                  >
-                    <ProcessCard
-                      info={info}
-                      handleEdit={() => handleOpenEdit(i)}
-                    />
-                    <Button
-                      isIconOnly
-                      color="transparent"
-                      onClick={() => {
-                        handleOpenDelete(i);
-                      }}
-                    >
-                      <XCircleIcon className="size-5 text-grey-blue" />
-                    </Button>
-                    <ConvSubProcessModal
-                      isOpen={isOpenEdit}
-                      onOpenChange={() => handleClose(i)}
-                      editID={i}
-                      info={info}
-                    />
-                    <DeleteProcessModal
-                      isOpen={isOpenDelete}
-                      onOpenChange={() => handleClose(i)}
-                      deleteID={i}
-                      subProcessName={info.name}
-                      conventional
-                    />
-                  </div>
-                );
-              })
-            ) : (
-              <ProcessCard />
+        <div className="shadow-card rounded-[10px] border-1 border-grey py-5 px-10">
+          <div className="grid grid-cols-3 gap-x-40 gap-y-5">
+            <Input
+              type="number"
+              label="Water Requirement"
+              onChange={(e) => {
+                dispatch(setWaterRequirement(e.target.value));
+              }}
+              value={conventionalValues.waterRequirement}
+              end={
+                <Text color="grey-blue" textSize="input">
+                  tH<sub>2</sub>O/tNH<sub>3</sub>
+                </Text>
+              }
+            />
+            <Input
+              type="number"
+              label="Onsite Emissions"
+              onChange={(e) => {
+                dispatch(setOnsightEmissions(e.target.value));
+              }}
+              value={conventionalValues.onsightEmissions}
+              end={
+                <Text color="grey-blue" textSize="input">
+                  kgCO<sub>2</sub>/kgH<sub>2</sub>
+                </Text>
+              }
+              helpMessage="The worker capital cost are the costs associated with labor and employee-related expenses."
+            />
+            <Input
+              type="number"
+              label="Upstream Emissions"
+              onChange={(e) => {
+                dispatch(setUpstreamEmissions(e.target.value));
+              }}
+              value={conventionalValues.upstreamEmissions}
+              end={
+                <Text color="grey-blue" textSize="input">
+                  kgCO<sub>2</sub>/kgH<sub>2</sub>
+                </Text>
+              }
+              helpMessage="The worker capital cost are the costs associated with labor and employee-related expenses."
+            />
+            {analysisType === "phi" && (
+              <>
+                <Input
+                  type="number"
+                  label="Depreciation percent"
+                  onChange={(e) => {
+                    dispatch(
+                      setDepreciationPercent(parseFloat(e.target.value)),
+                    );
+                  }}
+                  value={conventionalValues.depreciationPercent}
+                  end={
+                    <Text color="grey-blue" textSize="input">
+                      %
+                    </Text>
+                  }
+                />
+                <Input
+                  type="number"
+                  label="Duration of use"
+                  onChange={(e) => {
+                    dispatch(setDuration(parseFloat(e.target.value)));
+                  }}
+                  value={conventionalValues.duration}
+                  end={
+                    <Text color="grey-blue" textSize="input">
+                      years
+                    </Text>
+                  }
+                  helpMessage="The worker capital cost are the costs associated with labor and employee-related expenses."
+                />
+              </>
             )}
           </div>
         </div>
+        {bottomUpCalc ? (
+          <div className="shadow-card rounded-[10px] border-1 border-grey py-5 px-10 grid grid-cols-3 gap-x-8 gap-y-8">
+            <Input
+              type="number"
+              label="Baseline cost"
+              value={conventionalValues.bottomUpProcess.baseCost}
+              start={
+                <Text textSize="sub3" color="grey-blue">
+                  $M
+                </Text>
+              }
+              onChange={(e) =>
+                setBottomUpProcess({
+                  ...bottomUpProcess,
+                  baseCost: e.target.value,
+                })
+              }
+            />
+            <Input
+              type="number"
+              label="Learning rate"
+              value={conventionalValues.bottomUpProcess.learningRate}
+              onChange={(e) =>
+                setBottomUpProcess({
+                  ...bottomUpProcess,
+                  learningRate: e.target.value,
+                })
+              }
+              end={
+                <Text textSize="sub3" color="grey-blue">
+                  %
+                </Text>
+              }
+            />
+            <Input
+              type="number"
+              label="Scaling factor"
+              value={conventionalValues.bottomUpProcess.scalingFactor}
+              onChange={(e) =>
+                setBottomUpProcess({
+                  ...bottomUpProcess,
+                  scalingFactor: e.target.value,
+                })
+              }
+              end={
+                <Text textSize="sub3" color="grey-blue">
+                  %
+                </Text>
+              }
+            />
+            <Input
+              type="number"
+              label="Installation factor"
+              value={conventionalValues.bottomUpProcess.installationFactor}
+              onChange={(e) =>
+                setBottomUpProcess({
+                  ...bottomUpProcess,
+                  installationFactor: e.target.value,
+                })
+              }
+              end={
+                <Text textSize="sub3" color="grey-blue">
+                  %
+                </Text>
+              }
+            />
+            <Input
+              type="number"
+              label="Efficiency of process"
+              value={conventionalValues.bottomUpProcess.efficiency}
+              onChange={(e) =>
+                setBottomUpProcess({
+                  ...bottomUpProcess,
+                  efficiency: e.target.value,
+                })
+              }
+              end={
+                <Text textSize="sub3" color="grey-blue">
+                  %
+                </Text>
+              }
+            />
+            <div className="text-nowrap">
+              <Input
+                type="number"
+                label="Energy requirement at base capacity"
+                value={conventionalValues.bottomUpProcess.energyRequirement}
+                onChange={(e) =>
+                  setBottomUpProcess({
+                    ...bottomUpProcess,
+                    energyRequirement: e.target.value,
+                  })
+                }
+                end={
+                  <Text color="grey-blue" textSize="input">
+                    pJ/year
+                  </Text>
+                }
+              />
+            </div>
+          </div>
+        ) : (
+          <div>
+            <div className="flex flex-row justify-between items-end pb-2">
+              <Text color="secondary" textSize="sub3">
+                Subprocesses
+              </Text>
+              <Button color="transparent" size="noPadding" onClick={onOpen}>
+                + Add subprocess
+              </Button>
+            </div>
+            <div className="grid gap-4 grid-cols-1">
+              {localSubProcesses.length > 0 ? (
+                localSubProcesses.map((subP, i) => {
+                  const info = {
+                    baseCost: subP.baseCost,
+                    learningRate: subP.learningRate,
+                    scalingFactor: subP.scalingFactor,
+                    installationFactor: subP.installationFactor,
+                    energyRequirement: subP.energyRequirement,
+                    efficiency: subP.efficiency,
+                    ngReq: subP.ng_req,
+                    name: subP.name,
+                  };
+                  const { isOpenEdit, isOpenDelete } = editStates[i];
+
+                  return (
+                    <div
+                      key={i}
+                      className="flex flex-row items-center justify-between"
+                    >
+                      <ProcessCard
+                        info={info}
+                        handleEdit={() => handleOpenEdit(i)}
+                      />
+                      <Button
+                        isIconOnly
+                        color="transparent"
+                        onClick={() => {
+                          handleOpenDelete(i);
+                        }}
+                      >
+                        <XCircleIcon className="size-5 text-grey-blue" />
+                      </Button>
+                      <ConvSubProcessModal
+                        isOpen={isOpenEdit}
+                        onOpenChange={() => handleClose(i)}
+                        editID={i}
+                        info={info}
+                      />
+                      <DeleteProcessModal
+                        isOpen={isOpenDelete}
+                        onOpenChange={() => handleClose(i)}
+                        deleteID={i}
+                        subProcessName={info.name}
+                        conventional
+                      />
+                    </div>
+                  );
+                })
+              ) : (
+                <ProcessCard />
+              )}
+            </div>
+          </div>
+        )}
         <div className="space-x-6">
           <Button color="grey" onClick={() => setCurrStep(1)}>
             Back

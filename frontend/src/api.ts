@@ -20,6 +20,7 @@ type Process = {
   indirect_cost_factor: number;
   wc_cost_factor: number;
   subprocesses: SubProcess[];
+  waterRequirement: number;
   depreciation?: number; // Optional field for conventional process
   duration?: number; // Optional field for conventional process
   onsite_upstream_emmisions?: number; // Optional field for conventional process
@@ -80,7 +81,7 @@ const cleanData = (
         learning_rate: subProcess.learningRate / 100,
         efficiency: subProcess.efficiency / 100,
         energy_req: subProcess.energyRequirement,
-        ng_req: 0,
+        ng_req: subProcess.ng_req,
       };
     },
   );
@@ -93,8 +94,6 @@ const cleanData = (
     return { error: "Please add conventional sub processes", payload: null };
   }
 
-  conventionalSubProcesses[0].ng_req = 0.887651929;
-
   return {
     error: "",
     payload: {
@@ -105,6 +104,7 @@ const cleanData = (
         indirect_cost_factor: electrifiedSlice.value.indirectCostFactor / 100,
         wc_cost_factor: electrifiedSlice.value.workingCapitalFactor / 100,
         subprocesses: electrifiedSubProcesses,
+        waterRequirement: parseFloat(electrifiedSlice.value.waterRequirement),
       },
       conventional: {
         name: nameSlice.value.tech2Name,
@@ -114,7 +114,10 @@ const cleanData = (
         depreciation: conventionalSlice.value.depreciationPercent / 100,
         duration: conventionalSlice.value.duration,
         subprocesses: conventionalSubProcesses,
-        onsite_upstream_emmisions: 10.82,
+        waterRequirement: parseFloat(conventionalSlice.value.waterRequirement),
+        onsite_upstream_emmisions:
+          parseFloat(conventionalSlice.value.onsightEmissions) +
+          parseFloat(conventionalSlice.value.upstreamEmissions),
       },
       lcca_type: nameSlice.value.type,
       start_year: generalSlice.value.startYear,
