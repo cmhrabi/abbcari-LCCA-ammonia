@@ -818,10 +818,10 @@ def pur_inst_cost_calc(C_b, X_n, X_b, Y, scaling_factor):
 
     return C_pur, C_inst
 
-def cost_projection(cost, X_n, exchange_rate,alpha):
+def cost_projection(cost, X_n, exchange_rate,alpha,scaling_factor,Y):
 
     C = []
-
+    C_post = []
 
     canada_us_exchange_rate = exchange_rate
     # [1.32, 1.32, 1.32, 1.3, 1.3, 1.29, 1.29, 1.28, 1.28, 1.28, 1.28, 1.28, 1.28, 1.28, 1.28,
@@ -829,10 +829,18 @@ def cost_projection(cost, X_n, exchange_rate,alpha):
     Net_ammonia_production_year = X_n[0]  # PJ/yr
 
     for i in range(len(X_n)):
+        if(i==0):
+            C.append(cost)
+            C_i = C[i] * pow((X_n[i] / Net_ammonia_production_year), scaling_factor[0])
+        else:
+            C.append(cost * pow(X_n[i] / Net_ammonia_production_year, alpha[0]) * canada_us_exchange_rate[i])
+            C_i = C[i] * pow(((X_n[i] - X_n[i - 1]) / Net_ammonia_production_year), scaling_factor[0])
 
-        C.append(cost * pow(X_n[i] / Net_ammonia_production_year, alpha[0]) * canada_us_exchange_rate[i])
+        C_post.append((1 + Y[0]) * C_i)
 
-    return C
+    print(C)
+
+    return C_post
 
 def costs_calc(C_pur, C_inst, S_dir, S_indir, S_wc):
     C_dir = []
@@ -862,6 +870,7 @@ def capex_o_calc(C_inst, C_dir, C_indir, C_wc):
 
         C_capex_o_j = C_inst[j] + C_dir[j] + C_indir[j] + C_wc[j]
         C_capex_o.append(C_capex_o_j)
+
 
     # print(C_indir_dir)
 
@@ -1214,7 +1223,7 @@ def main():
     theta = 0.1  # marketing and distribution factor
     CO2_per_ammonia = 2.013
 
-    bottom_up = False
+    bottom_up = True
 
     province = "Test"
 
@@ -1239,29 +1248,66 @@ def main():
         alpha_list.append(alpha_j_calc(LR, i))
     # print(alpha_list)
 
-    if bottom_up:
-        indirect = 0
-        direct = 0
-        installation = 0
-        wc = 0
 
-        C_indir = cost_projection(indirect, X_n, exchange_rate, alpha_list)
-        C_dir = cost_projection(direct, X_n, exchange_rate, alpha_list)
-        C_inst = cost_projection(installation, X_n, exchange_rate, alpha_list)
-        C_wc = cost_projection(wc, X_n, exchange_rate, alpha_list)
+    if bottom_up:
+
+        # P2A
+        indirect = 16.571469469353417
+        direct =  5.8849970778802945
+        installation = 17.25794186082654
+        wc = 2.4857204204030126
+
+        C_indir = cost_projection(indirect, X_n, exchange_rate, alpha_list,[1],Y)
+        C_dir = cost_projection(direct, X_n, exchange_rate, alpha_list,[1],Y)
+        C_inst = cost_projection(installation, X_n, exchange_rate, alpha_list,[1],Y)
+        C_wc = cost_projection(wc, X_n, exchange_rate, alpha_list,[1],Y)
+        print("bottom")
+        # print(C_indir)
+        # print(C_dir)
+        print(C_inst)
+        # print(C_wc)
+
+        # Grey
+        # indirect_grey = 0
+        # direct_grey = 0
+        # installation_grey = 0
+        # wc_grey = 0
+        #
+        # C_indir_grey = cost_projection(indirect_grey, X_n, exchange_rate, alpha_list,[1],Y)
+        # C_dir_grey = cost_projection(direct_grey, X_n, exchange_rate, alpha_list,[1],Y)
+        # C_inst_grey = cost_projection(installation_grey, X_n, exchange_rate, alpha_list,[1],Y)
+        # C_wc_grey = cost_projection(wc_grey, X_n, exchange_rate, alpha_list,[1],Y)
+        #
+        #
+        # # Blue
+        # indirect_blue = 0
+        # direct_blue = 0
+        # installation_blue = 0
+        # wc_blue = 0
+        #
+        # C_indir_blue = cost_projection(indirect_blue, X_n, exchange_rate, alpha_list,[1],Y)
+        # C_dir_blue = cost_projection(direct_blue, X_n, exchange_rate, alpha_list,[1],Y)
+        # C_inst_blue = cost_projection(installation_blue, X_n, exchange_rate, alpha_list,[1],Y)
+        # C_wc_blue = cost_projection(wc_blue, X_n, exchange_rate, alpha_list,[1],Y)
+
 
 
 
     C_b = C_b_calc(C_b_pre, X_n, alpha_list, exchange_rate)
-
     # print(C_pur_g)
     # print(C_inst_grey)
-
+    print(C_b)
     C_pur, C_inst = pur_inst_cost_calc(C_b, X_n, X_b, Y, scaling_factor)
 
     # print(C_pur, C_inst)
 
     C_indir_dir,C_dir,C_wc,C_indir = costs_calc(C_pur, C_inst, S_dir, S_indir, S_wc)
+
+    print("top")
+    # print(C_indir)
+    # print(C_dir)
+    print(C_inst)
+    # print(C_wc)
 
     C_capex_o = capex_o_calc(C_inst, C_dir, C_indir, C_wc)
 
@@ -1371,7 +1417,7 @@ def main():
 
     #                   C177            C187           C186 *           C280        C267            C259
     LCCA = LCCA_calc(C_capex, C_opex, C_capex_grey_loss, C_opex_grey, import_export, emissions_grey, emissions)
-    print(LCCA)
+    # print(LCCA)
 
     # LCCA_PSI Calc
 
@@ -1439,7 +1485,7 @@ def main():
 
     LCCA_psi = LCCA_psi_calc(C_capex, C_opex, C_capex_blue, C_opex_blue, import_export, emissions_blue, emissions)
 
-    print(LCCA_psi)
+    # print(LCCA_psi)
 
 
 if __name__ == "__main__":
