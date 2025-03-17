@@ -262,22 +262,6 @@ const FirstTechnology: React.FC<FirstTechnologyProps> = ({ setCurrStep }) => {
           <div className="shadow-card rounded-[10px] border-1 border-grey py-5 px-10 grid grid-cols-3 gap-x-8 gap-y-8">
             <Input
               type="number"
-              label="Baseline cost"
-              value={electrifiedValues.bottomUpProcess.baseCost}
-              start={
-                <Text textSize="sub3" color="grey-blue">
-                  $M
-                </Text>
-              }
-              onChange={(e) =>
-                setBottomUpProcess({
-                  ...bottomUpProcess,
-                  baseCost: e.target.value,
-                })
-              }
-            />
-            <Input
-              type="number"
               label="Learning rate"
               value={electrifiedValues.bottomUpProcess.learningRate}
               onChange={(e) =>
