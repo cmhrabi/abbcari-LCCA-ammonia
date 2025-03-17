@@ -23,7 +23,8 @@ const EmissionsChart: React.FC<EmissionsChartProps> = ({
       <br />
       {`Year: ${point.data.x}`}
       {", "}
-      {`Emissions (tCO2eq): ${Number(point.data.y).toExponential(2)}`}
+      Emissions (tCO<sub>2</sub>eq):{" "}
+      {`${Number(point.data.y).toExponential(2)}`}
     </div>
   );
   return (

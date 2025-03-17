@@ -56,7 +56,7 @@ const CostChart: React.FC<CostChartProps> = ({ cost_data, cost_title }) => {
             tickSize: 5,
             tickPadding: 5,
             tickRotation: 0,
-            legend: "LCCA ($/tCO2eq)",
+            legend: "Cost ($M)",
             legendOffset: -50,
             legendPosition: "middle",
           }}

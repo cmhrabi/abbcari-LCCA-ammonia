@@ -1,20 +1,29 @@
-import { ResponsiveLine, Serie } from "@nivo/line";
+import { PointTooltipProps, ResponsiveLine, Serie } from "@nivo/line";
 import Text from "../../design/Text/Text";
 import React from "react";
 
 interface LineChartProps {
   data: Serie[];
-  title: string;
-  minY: number;
-  maxY: number;
+  title: React.ReactNode;
 }
 
-const LCCALineChart: React.FC<LineChartProps> = ({
-  data,
-  title,
-  minY,
-  maxY,
-}) => {
+const LCCALineChart: React.FC<LineChartProps> = ({ data, title }) => {
+  const CustomTooltip = ({ point }: PointTooltipProps) => (
+    <div
+      style={{
+        background: "white",
+        padding: "5px 10px",
+        border: "1px solid #ccc",
+      }}
+    >
+      <strong>{point.serieId}</strong>
+      <br />
+      {`Year: ${point.data.x}`}
+      {", "}
+      LCCA ($/tCO<sub>2</sub>eq): {`${Number(point.data.y).toFixed(2)}`}
+    </div>
+  );
+
   return (
     <div className="bg-primary-50 shadow-card rounded-3px p-6 mr-7 space-y-5">
       <Text textSize="chart-title">{title}</Text>
@@ -56,6 +65,7 @@ const LCCALineChart: React.FC<LineChartProps> = ({
           pointColor={{ theme: "background" }}
           pointBorderColor={{ from: "serieColor" }}
           useMesh={true}
+          tooltip={CustomTooltip}
           legends={[
             {
               anchor: "top-left",

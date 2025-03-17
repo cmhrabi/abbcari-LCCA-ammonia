@@ -162,30 +162,54 @@ const Results = () => {
               />
               <ResultsCard
                 title="Emissions reduced"
-                value={`${(lccaDataLocal.emissions_conv[lccaDataLocal.emissions_conv.length - 1] - lccaDataLocal.emissions_elec[lccaDataLocal.emissions_elec.length - 1]).toExponential(2)} tCO2eq`}
+                value={
+                  <div>
+                    {(
+                      lccaDataLocal.emissions_conv[
+                        lccaDataLocal.emissions_conv.length - 1
+                      ] -
+                      lccaDataLocal.emissions_elec[
+                        lccaDataLocal.emissions_elec.length - 1
+                      ]
+                    ).toExponential(2)}{" "}
+                    tCO<sub>2</sub>eq
+                  </div>
+                }
                 caption={`over ${finalYear - startYear} years`}
               />
               <ResultsCard
-                title="Average yearly cost per tonne of CO2 abated"
-                value={`$${(
-                  lccaDataLocal.LCCA.reduce((average, a) => average + a, 0) /
-                  lccaDataLocal.LCCA.length
-                ).toFixed(2)}/tCO2eq`}
-                caption={`over ${finalYear - startYear} years`}
+                title={
+                  <div>
+                    Average yearly cost per tonne of CO<sub>2</sub> abated
+                  </div>
+                }
+                value={
+                  <div>
+                    $
+                    {(
+                      lccaDataLocal.LCCA.reduce(
+                        (average, a) => average + a,
+                        0,
+                      ) / lccaDataLocal.LCCA.length
+                    ).toFixed(2)}{" "}
+                    /tCO<sub>2</sub>eq
+                  </div>
+                }
+                caption={`per year`}
               />
             </div>
             <div className="flex flex-row">
               <div className="w-2/3">
                 <LCCALineChart
-                  title="Projected LCCA (Levelized cost of carbon abatement) from 2025 to 2060 ($/tCO2eq)"
+                  title={
+                    <div>
+                      Projected LCCA (Levelized cost of carbon abatement) from{" "}
+                      {startYear} to {finalYear} ($/tCO<sub>2</sub>eq)
+                    </div>
+                  }
                   data={[
                     { id: "LCCA", data: constructData(lccaDataLocal.LCCA) },
                   ]}
-                  minY={0}
-                  maxY={
-                    Math.max(...lccaDataLocal.LCCA) +
-                    Math.max(...lccaDataLocal.LCCA) * 0.1
-                  }
                 />
               </div>
               <div className="w-1/3">

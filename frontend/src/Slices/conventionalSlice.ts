@@ -80,8 +80,8 @@ export const conventionalSlice = createSlice({
       bottomUpCalc: false,
       depreciationPercent: 11.8,
       duration: 20,
-      onsightEmissions: "",
-      upstreamEmissions: "",
+      onsightEmissions: "5.41",
+      upstreamEmissions: "5.41",
       waterRequirement: "",
       bottomUpProcess: {
         name: "",

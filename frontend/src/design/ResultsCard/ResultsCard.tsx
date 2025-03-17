@@ -4,8 +4,8 @@ import { cva } from "class-variance-authority";
 import Button from "../Button/Button";
 
 interface ResultsCardProps {
-  title?: string;
-  value: string;
+  title?: React.ReactNode;
+  value: React.ReactNode;
   caption?: React.ReactNode;
   //   variant?: "home" | "primary";
   variant?: "default";
