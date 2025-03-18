@@ -1,5 +1,4 @@
 import math
-from backend.app import run_app
 
 def set_up(province):
     exchange_rate = [1.32, 1.32, 1.32, 1.3, 1.3, 1.29, 1.29, 1.28, 1.28, 1.28, 1.28, 1.28, 1.28, 1.28, 1.28, 1.28, 1.28,
