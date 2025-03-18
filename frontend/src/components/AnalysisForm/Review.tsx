@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { Accordion, AccordionItem } from "@heroui/react";
 import Text from "../../design/Text/Text";
 import Button from "../../design/Button/Button";
@@ -27,6 +27,64 @@ const Review: React.FC<ReviewProps> = ({ setCurrStep }) => {
     (state) => state.electrified.value.subProcesses,
   );
   const elecValues = useAppSelector((state) => state.electrified.value);
+  const [analysisOutput, setAnalysisOutput] = useState<LCCAOutput | null>({
+    LCCA: [],
+    capex_conv: [],
+    capex_elec: [],
+    emissions_conv: [],
+    emissions_e: [],
+    import_export: [],
+    opex_conv: [],
+    opex_elec: [],
+  });
+
+  const electrifiedSlice = useAppSelector((state) => state.electrified);
+  const conventionalSlice = useAppSelector((state) => state.conventional);
+  const nameSlice = useAppSelector((state) => state.name);
+  const generalSlice = useAppSelector((state) => state.general);
+
+  const onSubmit = async () => {
+    const data = cleanData(
+      electrifiedSlice,
+      conventionalSlice,
+      nameSlice,
+      generalSlice,
+    );
+    if (data.error !== "") {
+      addToast({
+        title: "Error in analysis",
+        description: data.error,
+        classNames: {
+          base: "bg-danger-bg rounded-3px border-danger",
+          description: "text-grey-dark",
+          icon: "text-danger",
+        },
+        severity: "danger",
+      });
+      return;
+    }
+
+    if (data.payload) {
+      const result = await postAnalysis(data.payload);
+      if (result) {
+        const response = await result.response;
+        if (result.error !== "") {
+          addToast({
+            title: "Error in analysis",
+            description: result.error,
+            classNames: {
+              base: "bg-danger-bg rounded-3px border-danger",
+              description: "text-grey-dark",
+              icon: "text-danger",
+            },
+            severity: "danger",
+          });
+        } else {
+          setAnalysisOutput(response);
+        }
+      }
+    }
+  };
 
   const electrifiedSlice = useAppSelector((state) => state.electrified);
   const conventionalSlice = useAppSelector((state) => state.conventional);
@@ -79,7 +137,6 @@ const Review: React.FC<ReviewProps> = ({ setCurrStep }) => {
       }
     }
   };
-
   const UpsideDownIcon: React.FC<UpsideDownIconProps> = () => {
     return (
       <svg
@@ -246,6 +303,14 @@ const Review: React.FC<ReviewProps> = ({ setCurrStep }) => {
           </div>
         </AccordionItem>
       </Accordion>
+      <div>
+        {analysisOutput &&
+          analysisOutput.LCCA.map((lcca, index) => (
+            <div key={index}>
+              <Text>LCCA: {lcca}</Text>
+            </div>
+          ))}
+      </div>
       <div className="space-x-6 mt-32">
         <Button color="grey" onClick={() => setCurrStep(2)}>
           Back

@@ -154,6 +154,36 @@ const General: React.FC<GeneralProps> = ({ setCurrStep }) => {
               type="number"
             />
           </div>
+          <div className="text-nowrap overflow-visible col-span-2">
+            <Input
+              label="Current electrical ammonia production"
+              onChange={(e) => dispatch(setBaselineDemand(e.target.value))}
+              value={generalValues.baselineDemand}
+              placeholder="Value"
+              helpMessage="The amount of electricity that is required to generate ammonia. This value will be used to derive the installed and purchased costs."
+              end={
+                <Text color="grey-blue" textSize="input">
+                  pJ
+                </Text>
+              }
+              type="number"
+            />
+          </div>
+          <div className="text-nowrap overflow-visible col-span-2">
+            <Input
+              label="Electrical ammonia demand in target year"
+              onChange={(e) => dispatch(setFinalDemand(e.target.value))}
+              value={generalValues.finalDemand}
+              placeholder="Value"
+              helpMessage="The amount of electricity that is required to generate ammonia. This value will be used to derive the installed and purchased costs."
+              end={
+                <Text color="grey-blue" textSize="input">
+                  pJ
+                </Text>
+              }
+              type="number"
+            />
+          </div>
           <Input
             label="Discount rate"
             onChange={(e) => dispatch(setDiscount(e.target.value))}

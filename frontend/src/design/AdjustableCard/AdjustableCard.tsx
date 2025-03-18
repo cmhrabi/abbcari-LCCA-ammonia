@@ -74,6 +74,7 @@ const AdjustableCard: React.FC<AdjustableCardProps> = ({ onClickAdjust }) => {
         </AccordionItem>
 
         <AccordionItem
+
           title={
             <div className="justify-between flex flex-row px-4">
               <Text textSize="sub3">CAPEX</Text>

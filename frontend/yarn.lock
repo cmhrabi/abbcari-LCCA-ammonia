@@ -3195,7 +3195,6 @@
     "@react-aria/utils" "^3.28.0"
     "@react-types/shared" "^3.28.0"
     "@swc/helpers" "^0.5.0"
-    clsx "^2.0.0"
 
 "@react-aria/form@3.0.13", "@react-aria/form@^3.0.13":
   version "3.0.13"
@@ -3281,6 +3280,7 @@
     "@react-types/link" "^3.5.11"
     "@react-types/shared" "^3.28.0"
     "@swc/helpers" "^0.5.0"
+    use-sync-external-store "^1.2.0"
 
 "@react-aria/listbox@3.14.1", "@react-aria/listbox@^3.14.1":
   version "3.14.1"
@@ -3430,6 +3430,11 @@
   resolved "https://registry.yarnpkg.com/@react-aria/ssr/-/ssr-3.9.7.tgz#d89d129f7bbc5148657e6c952ac31c9353183770"
   integrity sha512-GQygZaGlmYjmYM+tiNBA5C6acmiDWF52Nqd40bBp0Znk4M4hP+LTmI0lpI1BuKMw45T8RIhrAsICIfKwZvi2Gg==
   dependencies:
+    "@react-aria/i18n" "^3.12.6"
+    "@react-aria/live-announcer" "^3.4.1"
+    "@react-aria/utils" "^3.28.0"
+    "@react-types/button" "^3.11.0"
+    "@react-types/shared" "^3.28.0"
     "@swc/helpers" "^0.5.0"
 
 "@react-aria/switch@3.7.0":
@@ -3975,7 +3980,7 @@
   integrity sha512-YDQExymdgORnSvXTtOW7SMhVOinlrD3bAlyCxO+hSAVaI1Ax38pW5dUFf6H85Jn7hLpjPQmQJvNsfsJ09rDFjQ==
   dependencies:
     "@react-types/shared" "^3.28.0"
-
+    
 "@react-types/radio@3.8.7", "@react-types/radio@^3.8.7":
   version "3.8.7"
   resolved "https://registry.yarnpkg.com/@react-types/radio/-/radio-3.8.7.tgz#9fbc297ff9326d964313f2c56a07a47f447bdc08"
