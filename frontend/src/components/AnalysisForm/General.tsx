@@ -99,7 +99,7 @@ const General: React.FC<GeneralProps> = ({ setCurrStep }) => {
           />
           <div className="col-span-2">
             <Select
-              label="Province(s) used in analysis"
+              label="Province used in analysis"
               onChange={(e) => dispatch(setProvince(e.target.value))}
               value={generalValues.province}
               options={[
@@ -121,7 +121,37 @@ const General: React.FC<GeneralProps> = ({ setCurrStep }) => {
                 { value: "Quebec", label: "Quebec" },
                 { value: "Saskatchewan", label: "Saskatchewan" },
               ]}
-              helpMessage="The province(s) you want to influence the projected cost based on its geographical location on the electricity grid."
+              helpMessage="The province you want to influence the projected cost based on its geographical location on the electricity grid."
+            />
+          </div>
+          <div className="text-nowrap overflow-visible col-span-2">
+            <Input
+              label="Current electrical ammonia production"
+              onChange={(e) => dispatch(setBaselineDemand(e.target.value))}
+              value={generalValues.baselineDemand}
+              placeholder="Value"
+              helpMessage="The amount of electricity that is required to generate ammonia. This value will be used to derive the installed and purchased costs."
+              end={
+                <Text color="grey-blue" textSize="input">
+                  pJ
+                </Text>
+              }
+              type="number"
+            />
+          </div>
+          <div className="text-nowrap overflow-visible col-span-2">
+            <Input
+              label="Electrical ammonia demand in target year"
+              onChange={(e) => dispatch(setFinalDemand(e.target.value))}
+              value={generalValues.finalDemand}
+              placeholder="Value"
+              helpMessage="The amount of electricity that is required to generate ammonia. This value will be used to derive the installed and purchased costs."
+              end={
+                <Text color="grey-blue" textSize="input">
+                  pJ
+                </Text>
+              }
+              type="number"
             />
           </div>
           <div className="text-nowrap overflow-visible col-span-2">

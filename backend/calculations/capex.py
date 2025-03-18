@@ -794,8 +794,6 @@ def pur_inst_each_calc(C_b, X_n_inst, X_n, X_b, Y, scaling_factor, tech, reformi
     #
     return C_pur, C_inst
 
-
-
 def pur_inst_cost_calc(C_b, X_n, X_b, Y, scaling_factor):
     # C_i_pur & C_i_inst Calculation
     C_pur = []
@@ -871,11 +869,9 @@ def capex_o_calc(C_inst, C_dir, C_indir, C_wc):
         C_capex_o_j = C_inst[j] + C_dir[j] + C_indir[j] + C_wc[j]
         C_capex_o.append(C_capex_o_j)
 
-
     # print(C_indir_dir)
 
     return C_capex_o
-
 
 def PV_capex_calc(DR, t_f, t_o):
     n = t_f - t_o
@@ -893,6 +889,102 @@ def C_capex_calc(C_capex_o, PV_capex):
         C_capex.append(PV_capex[i + 4] * C_capex_o[i])
     return C_capex
 
+def C_capex_loss_calc(C_capex, dep_rate, use):
+    C_capex_loss = []
+    for i in range(len(C_capex)):
+        C_capex_loss.append(C_capex[i] * pow(1-dep_rate,use))
+    return C_capex_loss
+
+# # Opex
+# def PV_opex_cal(DR, t_f, t_o):
+#     n = t_f - t_o
+#     PV_opex = []
+#     for i in range(n):
+#         PV_opex.append((math.pow(1 + DR, i + 1) - 1) / (DR * math.pow(1 + DR, i + 1)))
+#     return PV_opex
+#
+#
+# def C_s_energy_calc(PV_opex, t_f, t_o, C_s):
+#     C_s_bar = {}
+#     C_s_bar_sum = {}
+#     PV_sum = 0
+#     i = 0
+#     # * not sure
+#     for key in C_s.keys():
+#         C_s_bar_sum[key] = C_s_bar[key] + C_s[key] * PV_opex[i]
+#         PV_sum += PV_opex[i]
+#
+#     for key in C_s_bar_sum.keys():
+#         C_s_bar[key] = C_s_bar_sum[key] / PV_sum
+#
+#     return C_s_bar
+#
+#
+# def ER_calc(ER_b, X_n, X_b, eff, alpha_j):
+#     ER = []
+#     ER_sum = []
+#     for i in range(len(X_n)):
+#         ER.append([])  # here i is the year where as in our paper it is tech i ***NEED TO FIX
+#         ER_sum.append({})
+#         for j in range(len(ER_b)):
+#             ER[i].append({})
+#             for key in ER_b[j].keys():
+#                 if i != 0:
+#                     ER[i][j][key] = ((1 - eff) * ER_b[j][key] * math.pow(X_n[i] / X_b, alpha_j[j]) + eff * ER_b[j][key]) * ((X_n[i] - X_n[i - 1]) / X_b)
+#                 else:
+#                     # ask not sure
+#                     ER[i][j][key] = ((1 - eff) * ER_b[j][key] * math.pow(X_n[i] / X_b, alpha_j[j]) + eff * ER_b[j][key])
+#     return ER, ER_sum
+#
+#
+# def C_j_s_calc(ER, T_op, C_s_bar):
+#     # here ER is given by tech so it is [{}] not [[{}]]
+#     C_j_s = [{}]
+#
+#     for j in range(len(ER)):
+#         for key in C_s_bar.keys():
+#             C_j_s[j][key] = ER[j][key] * C_s_bar[key] * T_op
+#
+#     return C_j_s
+#
+#
+# def C_energy_calc(C_j_s):
+#     C_energy = 0
+#
+#     for j in range(len(C_j_s)):
+#         for key in C_j_s[j].keys():
+#             C_energy += C_j_s[j][key]
+#
+#     return C_energy
+#
+#
+# def C_H2O_bar_calc(C_H2O, T_op, WR):
+#     C_H2O_bar = WR * C_H2O * T_op
+#     return C_H2O_bar
+#
+#
+# def C_opex_bar_calc(C_energy, C_H2O, C_opex_add, theta):
+#     C_opex_bar = (C_energy + C_H2O + C_opex_add) * (1 / (1 - theta))
+#     return C_opex_bar
+#
+#
+# def C_opex_calc(PV_opex, C_opex_bar):
+#     C_opex = PV_opex * C_opex_bar
+#     return C_opex
+
+# Opex Calc Excel
+
+def ER_calc(ER_b, X_n, alpha_list):  # ER_b = [[]]
+    ER = []  # Learning rate opex[tech{year[]}]
+
+    for i in range(len(ER_b)):
+        ER_i = []
+        for n in range(len(X_n)):
+            result = ((1 - ER_b[i][1]) * ER_b[i][0] * math.pow(X_n[n] / X_n[0], alpha_list[i])) + ER_b[i][1] * ER_b[i][
+                0]
+            ER_i.append(result)
+        ER.append(ER_i)
+    return ER
 
 def C_capex_loss_calc(C_capex, dep_rate, use):
     C_capex_loss = []
@@ -926,6 +1018,8 @@ def tot_calc(ER, X_inst):
         total.append(year_tot)
     return total
 
+    for i in range(len(X_n)):
+        water_requirement.append(water_consumption * (X_n[i]/X_b))
 
 def tot_NG_calc(NG_req, X_n, X_inst, X_b, alpha_j, tech):
     NG_req_i = []
@@ -1040,6 +1134,7 @@ def PV_opex_cal(DR, lifetime):
     PV_opex = (math.pow(1 + DR, lifetime) - 1) / (DR * math.pow(1 + DR, lifetime))
     return PV_opex
 
+def main():
 
 def C_opex_calc(PV_opex, C_opex_bar):
     C_opex = []
@@ -1363,7 +1458,6 @@ def main():
 
     C_capex_grey = capex_o_calc(C_inst_grey, C_dir_grey, C_indir_grey, C_wc_grey)
 
-
     # print(C_capex_grey)
 
     C_capex_grey_loss = C_capex_loss_calc(C_capex_grey, 0.118, 20)
@@ -1404,7 +1498,6 @@ def main():
     # print(lifetime_op_emissions)
     emissions = emissions_calc(lifetime_op_emissions)
     # print(emissions)
-
     # LCCA Calculation
 
     # print(C_capex)
@@ -1487,6 +1580,7 @@ def main():
 
     # print(LCCA_psi)
 
+    print(LCCA_psi)
 
-if __name__ == "__main__":
+if __name__ == "_main_":
     main()

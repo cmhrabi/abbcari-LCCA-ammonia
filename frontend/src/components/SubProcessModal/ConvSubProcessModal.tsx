@@ -38,16 +38,19 @@ const ConvSubProcessModal: React.FC<ConvSubProcessModalProps> = ({
     String(info?.learningRate),
   );
   const [scalingFactor, setScalingFactor] = useState<string | undefined>(
-    String(info?.scalingFactor),
+    String(info?.scalingFactor ?? "100"),
   );
   const [installationFactor, setInstallationFactor] = useState<
     string | undefined
-  >(String(info?.installationFactor));
+  >(String(info?.installationFactor ?? "0"));
   const [energyRequirement, setEnergyRequirement] = useState<
     string | undefined
   >(String(info?.energyRequirement));
   const [efficiency, setEfficiency] = useState<string | undefined>(
-    String(info?.efficiency),
+    String(info?.efficiency ?? "100"),
+  );
+  const [ngReq, setNgReq] = useState<string | undefined>(
+    String(info?.ngReq ?? "0"),
   );
 
   const onSubmit = () => {
@@ -70,6 +73,7 @@ const ConvSubProcessModal: React.FC<ConvSubProcessModalProps> = ({
               installationFactor: parseFloat(installationFactor),
               energyRequirement: parseFloat(energyRequirement),
               efficiency: parseFloat(efficiency),
+              ng_req: parseFloat(ngReq ?? "0"),
               name,
             },
             index: editID,
@@ -84,6 +88,7 @@ const ConvSubProcessModal: React.FC<ConvSubProcessModalProps> = ({
             installationFactor: parseFloat(installationFactor),
             energyRequirement: parseFloat(energyRequirement),
             efficiency: parseFloat(efficiency),
+            ng_req: parseFloat(ngReq ?? "0"),
             name,
           }),
         );
@@ -119,7 +124,7 @@ const ConvSubProcessModal: React.FC<ConvSubProcessModalProps> = ({
           <>
             <ModalHeader>
               <Text color="secondary" textSize="sub3">
-                {editID === undefined ? "Add a Subprocess" : "Edit Subprocess"}
+                {editID === undefined ? "Add a subprocess" : "Edit subprocess"}
               </Text>
             </ModalHeader>
             <ModalBody>
@@ -141,39 +146,59 @@ const ConvSubProcessModal: React.FC<ConvSubProcessModalProps> = ({
                   value={baseCost}
                   start={
                     <Text textSize="sub3" color="grey-blue">
-                      $
+                      $M
                     </Text>
                   }
                   onChange={(e) => setBaseCost(e.target.value)}
                 />
                 <Input
                   type="number"
-                  label="Learning Rate"
+                  label="Learning rate"
                   value={learningRate}
                   onChange={(e) => setLearningRate(e.target.value)}
+                  end={
+                    <Text textSize="sub3" color="grey-blue">
+                      %
+                    </Text>
+                  }
                 />
                 <Input
                   type="number"
-                  label="Scaling Factor"
+                  label="Scaling factor"
                   value={scalingFactor}
                   onChange={(e) => setScalingFactor(e.target.value)}
+                  end={
+                    <Text textSize="sub3" color="grey-blue">
+                      %
+                    </Text>
+                  }
                 />
                 <Input
                   type="number"
-                  label="Installation Factor"
+                  label="Installation factor"
                   value={installationFactor}
                   onChange={(e) => setInstallationFactor(e.target.value)}
+                  end={
+                    <Text textSize="sub3" color="grey-blue">
+                      %
+                    </Text>
+                  }
                 />
                 <Input
                   type="number"
-                  label="Efficiency of Process"
+                  label="Efficiency of process"
                   value={efficiency}
                   onChange={(e) => setEfficiency(e.target.value)}
+                  end={
+                    <Text textSize="sub3" color="grey-blue">
+                      %
+                    </Text>
+                  }
                 />
                 <div className="text-nowrap">
                   <Input
                     type="number"
-                    label="Energy Requirement at Base Capacity"
+                    label="Energy requirement at base capacity"
                     value={energyRequirement}
                     onChange={(e) => setEnergyRequirement(e.target.value)}
                     end={
@@ -183,6 +208,17 @@ const ConvSubProcessModal: React.FC<ConvSubProcessModalProps> = ({
                     }
                   />
                 </div>
+                <Input
+                  type="number"
+                  label="Natural gas requirement at base capacity"
+                  value={ngReq}
+                  onChange={(e) => setNgReq(e.target.value)}
+                  end={
+                    <Text color="grey-blue" textSize="input">
+                      MW
+                    </Text>
+                  }
+                />
               </div>
             </ModalBody>
             <ModalFooter>

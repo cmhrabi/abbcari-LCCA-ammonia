@@ -33,7 +33,7 @@ const Input: React.FC<InputProps> = ({
             "focus:outline-none focus:border-tertiary focus:shadow-input",
         },
         start: {
-          true: "ps-9",
+          true: "ps-11",
         },
         end: {
           true: "pe-9",
@@ -87,7 +87,7 @@ const Input: React.FC<InputProps> = ({
         </div>
       </div>
       <div className="relative">
-        <div className="absolute inset-y-0 start-0 flex items-center ps-3.5 pointer-events-none">
+        <div className="absolute inset-y-0 start-0 flex items-center ps-3.5 pe-3 pointer-events-none">
           {start}
         </div>
         <input
