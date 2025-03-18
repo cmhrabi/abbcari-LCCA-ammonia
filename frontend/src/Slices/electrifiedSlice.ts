@@ -72,7 +72,7 @@ export const electrifiedSlice = createSlice({
       workingCapitalFactor: 5,
       bottomUpCalc: false,
       installationCost: "",
-      waterRequirement: "",
+      waterRequirement: "1.58",
       bottomUpProcess: {
         name: "",
         baseCost: 0,

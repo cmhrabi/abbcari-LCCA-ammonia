@@ -7,6 +7,7 @@ class BaseProcessSchema(Schema):
     indirect_cost_factor = fields.Float(required=True)
     wc_cost_factor = fields.Float(required=True)
     subprocesses = fields.List(fields.Nested(SubProcessSchema),  required=True)
+    water_consumption = fields.Float(required=True)
 
 class ConvProcessSchema(BaseProcessSchema):
     depreciation = fields.Float(required=True)

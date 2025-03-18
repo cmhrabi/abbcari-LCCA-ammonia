@@ -1,7 +1,6 @@
 import React from "react";
 import Text from "../Text/Text";
 import { cva } from "class-variance-authority";
-import Button from "../Button/Button";
 
 interface ResultsCardProps {
   title?: React.ReactNode;

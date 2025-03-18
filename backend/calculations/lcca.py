@@ -2,6 +2,7 @@ import math
 from calculations import capex
 
 def lcca_pre_calc(data):
+    exchange_rate, electricity_em_intensity, electricity_price, NG_price = capex.set_up(data["province"])
     X_n, X_n_inst = capex.X_n_gpt(data["final_demand"], data["baseline_demand"], data["start_year"], data["final_year"], 0.6212)
     
     # capex electrified
@@ -16,37 +17,27 @@ def lcca_pre_calc(data):
         alpha_list_e.append(alpha)
         installation_factors_e.append(subprocess["installation_factor"])
         scaling_factors_e.append(subprocess["scaling_factor"])
-    C_b = capex.C_b_calc(C_b_pre_e, X_n, alpha_list_e)
+    C_b = capex.C_b_calc(C_b_pre_e, X_n, alpha_list_e, exchange_rate)
     C_pur, C_inst = capex.pur_inst_cost_calc(C_b, X_n, data["baseline_demand"], installation_factors_e, scaling_factors_e)
-    C_indir_dir, C_capex_o = capex.capex_o_calc(C_pur, C_inst, elec_tech["direct_cost_factor"], elec_tech["indirect_cost_factor"], elec_tech["wc_cost_factor"])
+    C_indir_dir, C_dir, C_wc, C_indir = capex.costs_calc(C_pur, C_inst, elec_tech["direct_cost_factor"], elec_tech["indirect_cost_factor"], elec_tech["wc_cost_factor"])
+    C_capex_o = capex.capex_o_calc(C_inst, C_dir, C_indir, C_wc)
     PV_capex = capex.PV_capex_calc(data["discount_rate"], data["final_year"], data["start_year"])
     #C173
     C_capex_e = capex.C_capex_calc(C_capex_o, PV_capex)
 
-    #P2A Stuff
-    water_consumption_e = 3.808056
-    Electricity_price = [
-        108.12, 108.40, 108.56, 108.51, 108.71, 108.35, 108.96, 109.03,
-        109.21, 109.37, 109.71, 109.97, 110.27, 110.47, 110.74, 111.42,
-        112.13, 112.70, 113.43, 114.07, 114.65, 115.15, 115.83, 116.74,
-        116.74, 116.74, 116.74, 116.74, 116.74, 116.74, 116.74, 116.74,
-        116.74, 116.74, 116.74, 116.74, 116.74, 116.74, 116.74, 116.74,
-        116.74, 116.74, 116.74, 116.74, 116.74, 116.74, 116.74, 116.74,
-        116.74
-    ]
+    prod_per_hour = (data["baseline_demand"]*1000000)/(333*18.6)
 
     #Opex electrified
     ER_e_base = [[subprocess["energy_req"], 1-subprocess["efficiency"]] for subprocess in elec_tech["subprocesses"]]
     ER_e = capex.ER_calc(ER_e_base, X_n, alpha_list_e)
     total_e = capex.tot_calc(ER_e, X_n_inst)
-    C_dir_e = capex.C_dir_calc(data["start_year"], data["final_year"], water_consumption_e, X_n_inst, total_e, Electricity_price)
+    C_dir_e = capex.C_dir_calc(data["start_year"], data["final_year"], elec_tech["water_consumption"] * prod_per_hour, X_n_inst, total_e, electricity_price)
     C_opex_o_e = capex.C_opex_o_calc(data["final_year"], data["start_year"], X_n_inst, C_indir_dir, C_dir_e)
     PV_opex_e = capex.PV_opex_cal(data["discount_rate"], data["final_year"] - data["start_year"])
     C_opex_e = capex.C_opex_calc(PV_opex_e,C_opex_o_e)
 
     #Elec Emissions C259
-    water_consumption_e = 1.586690153
-    lifetime_op_emissions_e= capex.op_emissions_calc(X_n_inst, data["baseline_demand"], data["final_year"], data["start_year"], data["operating_hours"], total_e,0,water_consumption_e)
+    lifetime_op_emissions_e= capex.op_emissions_calc(X_n_inst, data["baseline_demand"], data["final_year"], data["start_year"], data["operating_hours"], total_e,0,elec_tech["water_consumption"] * prod_per_hour, electricity_em_intensity)
     lifetime_op_emissions_e = capex.lifetime_net_P2A(lifetime_op_emissions_e,X_n_inst, data["baseline_demand"])
     emissions_e = capex.emissions_calc(lifetime_op_emissions_e)
 
@@ -63,11 +54,11 @@ def lcca_pre_calc(data):
         alpha_list_c.append(alpha)
         installation_factors_c.append(subprocess["installation_factor"])
         scaling_factors_c.append(subprocess["scaling_factor"])
-    C_b_c = capex.C_b_calc(C_b_pre_c, X_n, alpha_list_c)
+    C_b_c = capex.C_b_calc(C_b_pre_c, X_n, alpha_list_c, exchange_rate)
 
     C_pur_c, C_inst_c = capex.pur_inst_cost_calc(C_b_c, X_n, data["baseline_demand"], installation_factors_c, scaling_factors_c)
-    C_indir_dir_grey, C_capex_o_c = capex.capex_o_calc(C_pur_c, C_inst_c, conv_tech["direct_cost_factor"], conv_tech["indirect_cost_factor"], conv_tech["wc_cost_factor"])
-    C_capex_c = capex.C_capex_calc(C_capex_o_c, PV_capex)
+    C_indir_dir_c, C_dir_c, C_wc_c, C_indir_c = capex.costs_calc(C_pur, C_inst, conv_tech["direct_cost_factor"], conv_tech["indirect_cost_factor"], conv_tech["wc_cost_factor"])
+    C_capex_c = capex.capex_o_calc(C_inst_c, C_dir_c, C_indir_c, C_wc_c)
     C_capex_loss_c = capex.C_capex_loss_calc(C_capex_c, conv_tech["depreciation"], conv_tech["duration"]) if conv_tech.get("depreciation", 0) > 0 and data.get("lcca_type", "psi") == "phi" else [0] * (data["final_year"] - data["start_year"])
 
 #     #C186 Opex conventional
@@ -79,10 +70,9 @@ def lcca_pre_calc(data):
         101.05, 101.05, 101.05, 101.05, 101.05, 101.05, 101.05, 101.05, 101.05,
         101.05, 101.05
     ]
-    water_consumption_c = 0.190062218
     total_c = [sum(elements) for elements in zip(*(capex.tot_NG_calc(subprocess["ng_req"], X_n, X_n_inst, data["baseline_demand"], alpha_list_c, i) for i, subprocess in enumerate(conv_tech["subprocesses"]) if subprocess.get("ng_req", 0) > 0))]
-    C_dir_c = capex.C_dir_calc(data["start_year"], data["final_year"], water_consumption_c, X_n_inst, total_c, NG_price)
-    C_opex_o_c = capex.C_opex_o_calc(data["final_year"], data["start_year"], X_n_inst, C_indir_dir_grey, C_dir_c)
+    C_dir_c = capex.C_dir_calc(data["start_year"], data["final_year"], conv_tech["water_consumption"] * prod_per_hour, X_n_inst, total_c, NG_price)
+    C_opex_o_c = capex.C_opex_o_calc(data["final_year"], data["start_year"], X_n_inst, C_indir_dir_c, C_dir_c)
     PV_opex_c = capex.PV_opex_cal(data["discount_rate"], conv_tech["duration"])
     C_opex_c = capex.C_opex_calc(PV_opex_c, C_opex_o_c)
 
@@ -90,8 +80,8 @@ def lcca_pre_calc(data):
     ER_c_base = [[subprocess["energy_req"], 1-subprocess["efficiency"]] for subprocess in conv_tech["subprocesses"]]
     ER_c = capex.ER_calc(ER_c_base, X_n, alpha_list_c)
     total_c = capex.tot_calc(ER_c, X_n_inst)
-    lifetime_op_emissions_c = capex.op_emissions_calc(X_n_inst, data["baseline_demand"], data["final_year"], data["start_year"], data["operating_hours"], total_c, conv_tech["onsite_upstream_emmisions"],water_consumption_c)
-    emissions_c = capex. emissions_calc(lifetime_op_emissions_c)
+    lifetime_op_emissions_c = capex.op_emissions_calc(X_n_inst, data["baseline_demand"], data["final_year"], data["start_year"], data["operating_hours"], total_c, conv_tech["onsite_upstream_emmisions"],conv_tech["water_consumption"] * prod_per_hour, electricity_em_intensity)
+    emissions_c = capex.emissions_calc(lifetime_op_emissions_c)
 
     # import Export calc
     Ammonia_demand = [
