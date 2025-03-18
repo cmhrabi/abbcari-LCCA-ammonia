@@ -20,7 +20,7 @@ type Process = {
   indirect_cost_factor: number;
   wc_cost_factor: number;
   subprocesses: SubProcess[];
-  // waterRequirement: number;
+  water_consumption: number;
   depreciation?: number; // Optional field for conventional process
   duration?: number; // Optional field for conventional process
   onsite_upstream_emmisions?: number; // Optional field for conventional process
@@ -104,7 +104,7 @@ const cleanData = (
         indirect_cost_factor: electrifiedSlice.value.indirectCostFactor / 100,
         wc_cost_factor: electrifiedSlice.value.workingCapitalFactor / 100,
         subprocesses: electrifiedSubProcesses,
-        // waterRequirement: parseFloat(electrifiedSlice.value.waterRequirement),
+        water_consumption: parseFloat(electrifiedSlice.value.waterRequirement),
       },
       conventional: {
         name: nameSlice.value.tech2Name,
@@ -114,7 +114,7 @@ const cleanData = (
         depreciation: conventionalSlice.value.depreciationPercent / 100,
         duration: conventionalSlice.value.duration,
         subprocesses: conventionalSubProcesses,
-        // waterRequirement: parseFloat(conventionalSlice.value.waterRequirement),
+        water_consumption: parseFloat(conventionalSlice.value.waterRequirement),
         onsite_upstream_emmisions:
           parseFloat(conventionalSlice.value.onsightEmissions) +
           parseFloat(conventionalSlice.value.upstreamEmissions),

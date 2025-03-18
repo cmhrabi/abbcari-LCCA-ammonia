@@ -82,7 +82,7 @@ export const conventionalSlice = createSlice({
       duration: 20,
       onsightEmissions: "5.41",
       upstreamEmissions: "5.41",
-      waterRequirement: "",
+      waterRequirement: "0.0791",
       bottomUpProcess: {
         name: "",
         baseCost: 0,
@@ -216,9 +216,9 @@ export const conventionalSlice = createSlice({
         bottomUpCalc: false,
         depreciationPercent: 11.8,
         duration: 20,
-        onsightEmissions: "",
-        upstreamEmissions: "",
-        waterRequirement: "",
+        onsightEmissions: "5.41",
+        upstreamEmissions: "5.41",
+        waterRequirement: "0.0791",
         bottomUpProcess: {
           name: "",
           baseCost: 0,
