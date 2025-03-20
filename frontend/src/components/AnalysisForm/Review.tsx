@@ -1,10 +1,10 @@
-import React, { useState } from "react";
+import React from "react";
 import { Accordion, AccordionItem } from "@heroui/react";
 import Text from "../../design/Text/Text";
 import Button from "../../design/Button/Button";
 import { useAppSelector } from "../../hooks";
 import ProcessCard from "../ProcessCard/ProcessCard";
-import { cleanData, LCCAOutput, postAnalysis } from "../../api";
+import { cleanData, postAnalysis } from "../../api";
 import { addToast } from "@heroui/toast";
 import { useNavigate } from "react-router-dom";
 
