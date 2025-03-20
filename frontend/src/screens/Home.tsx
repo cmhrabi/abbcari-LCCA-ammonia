@@ -4,6 +4,7 @@ import TitleSlide from "../components/HomeSlides/TitleSlide";
 import VisualizeSlide from "../components/HomeSlides/VisualizeSlide";
 import AboutSlide from "../components/HomeSlides/AboutSlide";
 import ClimateFactsSlide from "../components/HomeSlides/ClimateFactsSlide";
+import AcknowledgementSlide from "../components/HomeSlides/AcknowledgementSlide";
 
 const Home = () => {
   return (
@@ -13,6 +14,7 @@ const Home = () => {
       <VisualizeSlide />
       <AboutSlide />
       <ClimateFactsSlide />
+      <AcknowledgementSlide />
     </div>
   );
 };

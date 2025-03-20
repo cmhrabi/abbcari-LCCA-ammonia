@@ -35,16 +35,16 @@ const SubProcessModal: React.FC<SubProcessModalProps> = ({
     String(info?.learningRate),
   );
   const [scalingFactor, setScalingFactor] = useState<string | undefined>(
-    String(info?.scalingFactor),
+    String(info?.scalingFactor ?? "100"),
   );
   const [installationFactor, setInstallationFactor] = useState<
     string | undefined
-  >(String(info?.installationFactor));
+  >(String(info?.installationFactor ?? "0"));
   const [energyRequirement, setEnergyRequirement] = useState<
     string | undefined
   >(String(info?.energyRequirement));
   const [efficiency, setEfficiency] = useState<string | undefined>(
-    String(info?.efficiency),
+    String(info?.efficiency ?? "100"),
   );
 
   const onSubmit = () => {
@@ -120,7 +120,7 @@ const SubProcessModal: React.FC<SubProcessModalProps> = ({
               </Text>
             </ModalHeader>
             <ModalBody>
-              <div className="grid grid-cols-3 gap-x-4 gap-y-6">
+              <div className="grid grid-cols-3 gap-x-8 gap-y-8">
                 <div className="col-span-2 col-start-1">
                   <Input
                     type="text"
@@ -134,43 +134,63 @@ const SubProcessModal: React.FC<SubProcessModalProps> = ({
                 <div></div>
                 <Input
                   type="number"
-                  label="Baseline Cost"
+                  label="Baseline cost"
                   value={baseCost}
                   start={
                     <Text textSize="sub3" color="grey-blue">
-                      $
+                      $M
                     </Text>
                   }
                   onChange={(e) => setBaseCost(e.target.value)}
                 />
                 <Input
                   type="number"
-                  label="Learning Rate"
+                  label="Learning rate"
                   value={learningRate}
                   onChange={(e) => setLearningRate(e.target.value)}
+                  end={
+                    <Text textSize="sub3" color="grey-blue">
+                      %
+                    </Text>
+                  }
                 />
                 <Input
                   type="number"
-                  label="Scaling Factor"
+                  label="Scaling factor"
                   value={scalingFactor}
                   onChange={(e) => setScalingFactor(e.target.value)}
+                  end={
+                    <Text textSize="sub3" color="grey-blue">
+                      %
+                    </Text>
+                  }
                 />
                 <Input
                   type="number"
-                  label="Installation Factor"
+                  label="Installation factor"
                   value={installationFactor}
                   onChange={(e) => setInstallationFactor(e.target.value)}
+                  end={
+                    <Text textSize="sub3" color="grey-blue">
+                      %
+                    </Text>
+                  }
                 />
                 <Input
                   type="number"
-                  label="Efficiency of Process"
+                  label="Efficiency of process"
                   value={efficiency}
                   onChange={(e) => setEfficiency(e.target.value)}
+                  end={
+                    <Text textSize="sub3" color="grey-blue">
+                      %
+                    </Text>
+                  }
                 />
                 <div className="text-nowrap">
                   <Input
                     type="number"
-                    label="Energy Requirement at Base Capacity"
+                    label="Energy requirement at base capacity"
                     value={energyRequirement}
                     onChange={(e) => setEnergyRequirement(e.target.value)}
                     end={

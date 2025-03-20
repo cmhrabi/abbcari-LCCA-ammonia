@@ -11,6 +11,7 @@ export interface ProcessCardInfo {
   energyRequirement: number;
   efficiency: number;
   name: string;
+  ngReq?: number;
 }
 
 interface ProcessCardProps {
@@ -49,12 +50,42 @@ const ProcessCard: React.FC<ProcessCardProps> = ({ info, handleEdit }) => {
             {info?.name}
           </Text>
         </div>
-        <Text>Baseline cost: {info?.baseCost}</Text>
-        <Text>Learning rate: {info?.learningRate}</Text>
-        <Text>Scaling factor: {info?.scalingFactor}</Text>
-        <Text>Installation factor: {info?.installationFactor}</Text>
-        <Text>Energy requirement: {info?.energyRequirement}</Text>
-        <Text>Efficiency: {info?.efficiency}</Text>
+        <Text>
+          Baseline cost:
+          <br />${info?.baseCost.toFixed(4)}
+        </Text>
+        <Text>
+          Learning rate:
+          <br />
+          {info?.learningRate}%
+        </Text>
+        <Text>
+          Scaling factor:
+          <br />
+          {info?.scalingFactor}%
+        </Text>
+        <Text>
+          Installation factor:
+          <br />
+          {info?.installationFactor}%
+        </Text>
+        <Text>
+          Efficiency:
+          <br />
+          {info?.efficiency}%
+        </Text>
+        <Text>
+          Energy requirement:
+          <br />
+          {info?.energyRequirement.toFixed(3)} MW
+        </Text>
+        {info.ngReq && info?.ngReq > 0 && (
+          <Text>
+            NG requirement:
+            <br />
+            {info?.ngReq.toFixed(3)} MW
+          </Text>
+        )}
         {handleEdit && (
           <Button color="transparent" size="small" onClick={handleEdit}>
             Edit

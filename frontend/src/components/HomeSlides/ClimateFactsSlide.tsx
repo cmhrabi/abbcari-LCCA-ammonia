@@ -4,7 +4,7 @@ import Text from "../../design/Text/Text";
 const ClimateFactsSlide: React.FC = () => {
   return (
     <div className="bg-grey-bg">
-      <div className="py-16 max-w-6xl m-auto flex justify-center">
+      <div className="py-16 max-w-6xl m-auto flex justify-center flex-col">
         <table className="w-full">
           <tbody>
             <tr>
