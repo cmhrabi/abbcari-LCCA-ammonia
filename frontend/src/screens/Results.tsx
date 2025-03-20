@@ -14,9 +14,11 @@ import { resetState as resetStateName } from "../Slices/nameSlice";
 import { resetState as resetStateGeneral } from "../Slices/generalSlice";
 import { resetState as resetStateConventional } from "../Slices/conventionalSlice";
 import { resetState as resetStateElectrified } from "../Slices/electrifiedSlice";
-import { addToast, Spinner } from "@heroui/react";
+import { addToast, Spinner, useDisclosure } from "@heroui/react";
 import { cleanData, postAnalysis } from "../api";
 import { generatePDF } from "../utils/utils";
+import StartNew from "./StartNew";
+import StartNewModal from "../components/StartNewModal/StartNew";
 
 interface LCCAData {
   LCCA: number[];
@@ -47,14 +49,9 @@ const Results = () => {
     setExportLoading(false);
   };
 
-  const dispatch = useAppDispatch();
-  const navigate = useNavigate();
-  const onClickStartnew = () => {
-    dispatch(resetStateName());
-    dispatch(resetStateGeneral());
-    dispatch(resetStateConventional());
-    dispatch(resetStateElectrified());
-    navigate("/analysis/start");
+  const { isOpen, onOpen, onOpenChange } = useDisclosure();
+  const onClickStartNew = () => {
+    onOpen();
   };
 
   const location = useLocation();
@@ -188,7 +185,7 @@ const Results = () => {
                     $
                     {(
                       lccaDataLocal.LCCA.reduce(
-                        (average, a) => average + a,
+                        (average, a) => (a > 0 ? average + a : average),
                         0,
                       ) / lccaDataLocal.LCCA.length
                     ).toFixed(2)}{" "}
@@ -250,11 +247,12 @@ const Results = () => {
           </div>
         </div>
         <div className="pt-14 space-x-5">
-          <Button color="grey" onClick={onClickStartnew}>
+          <Button color="grey" onClick={onClickStartNew}>
             Start another analysis
           </Button>
         </div>
       </div>
+      <StartNewModal isOpen={isOpen} onOpenChange={onOpenChange} />
     </>
   );
 };

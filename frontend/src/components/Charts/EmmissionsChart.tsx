@@ -27,6 +27,12 @@ const EmissionsChart: React.FC<EmissionsChartProps> = ({
       {`${Number(point.data.y).toExponential(2)}`}
     </div>
   );
+
+  const maxYear = Math.max(
+    ...emissions_data.flatMap((serie) => serie.data.map((d) => d.x as number)),
+  );
+  const tickValues =
+    maxYear > 2040 ? [2025, 2030, 2040, 2050] : [2025, 2030, 2040];
   return (
     <div className="bg-primary-50 shadow-card rounded-3px p-6 space-y-5">
       <Text textSize="chart-title">{emissions_title}</Text>
@@ -37,7 +43,7 @@ const EmissionsChart: React.FC<EmissionsChartProps> = ({
           xScale={{
             type: "linear",
             min: 2025,
-            max: 2050,
+            max: maxYear + 1,
           }}
           yScale={{
             type: "linear",
@@ -53,7 +59,7 @@ const EmissionsChart: React.FC<EmissionsChartProps> = ({
             legend: "Year",
             legendOffset: 36,
             legendPosition: "middle",
-            tickValues: [2030, 2040, 2050],
+            tickValues: tickValues,
           }}
           axisLeft={{
             tickSize: 5,
