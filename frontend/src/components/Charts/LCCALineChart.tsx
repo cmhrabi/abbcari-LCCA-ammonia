@@ -41,6 +41,11 @@ const LCCALineChart: React.FC<LineChartProps> = ({ data, title }) => {
   );
   const roundedMaxValue = Math.pow(10, Math.ceil(Math.log10(maxValue)));
 
+  const minValue = Math.min(
+    ...filteredData.flatMap((serie) => serie.data.map((d) => d.y as number)),
+  );
+  const roundedMinValue = Math.pow(10, Math.floor(Math.log10(minValue)));
+
   const maxYear = Math.max(
     ...filteredData.flatMap((serie) => serie.data.map((d) => d.x as number)),
   );
@@ -61,7 +66,7 @@ const LCCALineChart: React.FC<LineChartProps> = ({ data, title }) => {
           yScale={{
             type: "log",
             base: 10,
-            min: 100,
+            min: roundedMinValue,
             max: roundedMaxValue,
           }}
           axisBottom={{
