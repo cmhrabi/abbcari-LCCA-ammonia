@@ -34,7 +34,6 @@ const AdjustableCard: React.FC<AdjustableCardProps> = ({ onClickAdjust }) => {
               onChange={(e) => dispatch(setProvince(e.target.value))}
               value={generalValues.province}
               options={[
-                { value: "No Selection", label: "No Selection" },
                 { value: "Alberta", label: "Alberta" },
                 { value: "British Columbia", label: "British Columbia" },
                 { value: "Manitoba", label: "Manitoba" },
@@ -74,7 +73,6 @@ const AdjustableCard: React.FC<AdjustableCardProps> = ({ onClickAdjust }) => {
         </AccordionItem>
 
         <AccordionItem
-
           title={
             <div className="justify-between flex flex-row px-4">
               <Text textSize="sub3">CAPEX</Text>
@@ -108,7 +106,7 @@ const AdjustableCard: React.FC<AdjustableCardProps> = ({ onClickAdjust }) => {
 
       <div className="flex justify-end pt-4">
         <Button color="primary" onClick={onClickAdjust}>
-          Save Changes
+          Apply Changes
         </Button>
       </div>
     </div>

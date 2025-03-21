@@ -25,6 +25,12 @@ const CostChart: React.FC<CostChartProps> = ({ cost_data, cost_title }) => {
     cost_data[2].data.map((d) => d.y as number),
   );
 
+  const maxYear = Math.max(
+    ...cost_data.flatMap((serie) => serie.data.map((d) => d.x as number)),
+  );
+  const tickValues =
+    maxYear > 2040 ? [2025, 2030, 2040, 2050] : [2025, 2030, 2040];
+
   return (
     <div className="bg-primary-50 shadow-card rounded-3px p-6 space-y-5">
       <Text textSize="chart-title">{cost_title}</Text>
@@ -35,7 +41,7 @@ const CostChart: React.FC<CostChartProps> = ({ cost_data, cost_title }) => {
           xScale={{
             type: "linear",
             min: 2025,
-            max: 2050,
+            max: maxYear + 1,
           }}
           yScale={{
             type: "linear",
@@ -50,7 +56,7 @@ const CostChart: React.FC<CostChartProps> = ({ cost_data, cost_title }) => {
             legend: "Year",
             legendOffset: 36,
             legendPosition: "middle",
-            tickValues: [2030, 2040, 2050, 2060],
+            tickValues: tickValues,
           }}
           axisLeft={{
             tickSize: 5,

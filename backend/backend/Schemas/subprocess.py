@@ -2,7 +2,7 @@ from marshmallow import Schema, fields
 
 class SubProcessSchema(Schema):
     name = fields.String(required=True)
-    baseline_cost = fields.Float(required=True)
+    baseline_cost = fields.Float(required=False)
     installation_factor = fields.Float(required=True)
     scaling_factor = fields.Float(required=True)
     learning_rate = fields.Float(required=True)
