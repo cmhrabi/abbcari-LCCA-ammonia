@@ -55,7 +55,7 @@ const ProcessCard: React.FC<ProcessCardProps> = ({ info, handleEdit }) => {
         <Text>Scaling factor: {info?.scalingFactor}%</Text>
         <Text>Installation factor: {info?.installationFactor}%</Text>
         <Text>Efficiency: {info?.efficiency}%</Text>
-        <Text>Energy requirement: {info?.energyRequirement.toFixed(3)} MW</Text>
+        <Text>Electricity requirement: {info?.energyRequirement.toFixed(3)} MW</Text>
         {info.ngReq && info?.ngReq > 0 && (
           <Text>NG requirement: {info?.ngReq.toFixed(3)} MW</Text>
         )}

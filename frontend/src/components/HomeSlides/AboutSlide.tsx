@@ -15,7 +15,7 @@ const AboutSlide: React.FC = () => {
               INTRODUCTION
             </Text>
             <Text textSize="h2" color="secondary">
-              What is the LCCA model?
+              What is Compass?
             </Text>
             <Text textSize="sub2">
               A dynamic modeling tool that allows you to analyze strategies and

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Modal,
   ModalContent,
@@ -31,6 +31,8 @@ const ConvSubProcessModal: React.FC<ConvSubProcessModalProps> = ({
 }) => {
   const dispatch = useAppDispatch();
   const [name, setName] = useState<string | undefined>(info?.name);
+  const [disabled, setDisabled] = useState(true);
+
   const [baseCost, setBaseCost] = useState<string | undefined>(
     String(info?.baseCost),
   );
@@ -107,6 +109,97 @@ const ConvSubProcessModal: React.FC<ConvSubProcessModalProps> = ({
     setEnergyRequirement(undefined);
   };
 
+    const [baselineError, setBaselineError] = useState("");
+    const [learningRateError, setLearningRateError] = useState("");
+    const [scalingFactorError, setScalingFactorError] = useState("");
+    const [installationFactorError, setInstallationFactorError] = useState("");
+    const [energyRequirementError, setEnergyRequirementError] = useState("");
+    const [efficiencyError, setEfficiencyError] = useState("");
+    const [ngReqError, setNgReqError] = useState("");
+
+  useEffect(() => {
+    if (
+      name &&
+      baseCost &&
+      learningRate &&
+      scalingFactor &&
+      installationFactor &&
+      energyRequirement &&
+      efficiency &&
+      ngReq &&
+      !baselineError &&
+      !learningRateError &&
+      !scalingFactorError &&  
+      !installationFactorError &&
+      !energyRequirementError &&
+      !efficiencyError &&
+      !ngReqError
+    ) {
+      setDisabled(false);
+    } else {
+      setDisabled(true);
+    }
+  }, [name, baseCost, learningRate, scalingFactor, installationFactor, energyRequirement, efficiency, ngReq]);
+
+useEffect(() => {
+    if (baseCost && parseFloat(baseCost) < 0) {
+      setBaselineError("Baseline cost must be positive");
+    } else {
+      setBaselineError("");
+    }
+  }, [baseCost]);
+
+  useEffect(() => {
+    if (learningRate && (parseFloat(learningRate) < 0 || parseFloat(learningRate) > 100)) {
+      setLearningRateError("Learning rate must be between 1% and a 100%");
+    } else {
+      setLearningRateError("");
+    }
+  }, [learningRate]);
+
+  useEffect(() => {
+    if (scalingFactor && (parseFloat(scalingFactor) < 0 || parseFloat(scalingFactor) > 100)) {
+      setScalingFactorError("Scaling factor must be between 1% and a 100%");
+    } else {
+      setScalingFactorError("");
+    }
+  }, [scalingFactor]);
+
+  useEffect(() => {
+    if (installationFactor && (parseFloat(installationFactor) < 0 || parseFloat(installationFactor) > 100)) {
+      setInstallationFactorError("Installation factor must be between 1% and a 100%");
+    } else {
+      setInstallationFactorError("");
+    }
+  }
+  , [installationFactor]);
+
+  useEffect(() => {
+    if (energyRequirement && parseFloat(energyRequirement) < 0) {
+      setEnergyRequirementError("Energy requirement must be positive");
+    } else {
+      setEnergyRequirementError("");
+    }
+  }, [energyRequirement]);
+
+  useEffect(() => {
+    if (efficiency && (parseFloat(efficiency) < 0 || parseFloat(efficiency) > 100)) {
+      setEfficiencyError("Efficiency must be between 1% and a 100%");
+    } else {
+      setEfficiencyError("");
+    }
+  }
+  , [efficiency]);
+
+  useEffect(() => {
+    if (ngReq && parseFloat(ngReq) < 0) {
+      setNgReqError("Natural gas requirement must be positive");
+    } else {
+      setNgReqError("");
+    }
+  }
+  , [ngReq]);
+
   return (
     <Modal
       isOpen={isOpen}
@@ -142,6 +235,7 @@ const ConvSubProcessModal: React.FC<ConvSubProcessModalProps> = ({
                 <div></div>
                 <Input
                   type="number"
+                  error={baselineError}
                   label="Baseline Cost"
                   value={baseCost}
                   start={
@@ -153,6 +247,7 @@ const ConvSubProcessModal: React.FC<ConvSubProcessModalProps> = ({
                 />
                 <Input
                   type="number"
+                  error={learningRateError}
                   label="Learning rate"
                   value={learningRate}
                   onChange={(e) => setLearningRate(e.target.value)}
@@ -164,6 +259,7 @@ const ConvSubProcessModal: React.FC<ConvSubProcessModalProps> = ({
                 />
                 <Input
                   type="number"
+                  error={scalingFactorError}
                   label="Scaling factor"
                   value={scalingFactor}
                   onChange={(e) => setScalingFactor(e.target.value)}
@@ -175,6 +271,7 @@ const ConvSubProcessModal: React.FC<ConvSubProcessModalProps> = ({
                 />
                 <Input
                   type="number"
+                  error={installationFactorError}
                   label="Installation factor"
                   value={installationFactor}
                   onChange={(e) => setInstallationFactor(e.target.value)}
@@ -186,6 +283,7 @@ const ConvSubProcessModal: React.FC<ConvSubProcessModalProps> = ({
                 />
                 <Input
                   type="number"
+                  error={efficiencyError}
                   label="Efficiency of process"
                   value={efficiency}
                   onChange={(e) => setEfficiency(e.target.value)}
@@ -198,7 +296,8 @@ const ConvSubProcessModal: React.FC<ConvSubProcessModalProps> = ({
                 <div className="text-nowrap">
                   <Input
                     type="number"
-                    label="Energy requirement at base capacity"
+                    error={energyRequirementError}
+                    label="Electricity requirement at base capacity"
                     value={energyRequirement}
                     onChange={(e) => setEnergyRequirement(e.target.value)}
                     end={
@@ -210,6 +309,7 @@ const ConvSubProcessModal: React.FC<ConvSubProcessModalProps> = ({
                 </div>
                 <Input
                   type="number"
+                  error={ngReqError}
                   label="Natural gas requirement at base capacity"
                   value={ngReq}
                   onChange={(e) => setNgReq(e.target.value)}
@@ -239,6 +339,7 @@ const ConvSubProcessModal: React.FC<ConvSubProcessModalProps> = ({
                   onSubmit();
                   onClose();
                 }}
+                disabled={disabled}
               >
                 {editID === undefined ? "Add" : "Save changes"}
               </Button>
