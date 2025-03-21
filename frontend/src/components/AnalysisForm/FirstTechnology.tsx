@@ -9,6 +9,7 @@ import { XCircleIcon } from "@heroicons/react/24/outline";
 import SubProcessModal from "../SubProcessModal/SubProcessModal";
 import {
   addDirectCost,
+  addDirectCostError,
   addIndirectCost,
   deleteDirectCost,
   deleteIndirectCost,
@@ -23,6 +24,7 @@ import {
   SubProcess,
   setInstallationCost,
   setWaterRequirement,
+  addIndirectCostError,
 } from "../../Slices/electrifiedSlice";
 import Input from "../../design/Input/Input";
 import DeleteProcessModal from "../DeleteProcessModal/DeleteProcessModal";
@@ -51,11 +53,22 @@ const FirstTechnology: React.FC<FirstTechnologyProps> = ({ setCurrStep }) => {
   });
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
   const dispatch = useAppDispatch();
+  const [disabled, setDisabled] = useState(true);
 
   const [editStates, setEditStates] = useState(
     subProcesses.map(() => ({ isOpenEdit: false, isOpenDelete: false })),
   );
   const [localSubProcesses, setLocalSubProcesses] = useState(subProcesses);
+  const [waterRequirementError, setWaterRequirementError] = useState("");
+  const [learningRateError, setLearningRateError] = useState("");
+  const [scalingFactorError, setScalingFactorError] = useState("");
+  const [installationFactorError, setInstallationFactorError] = useState("");
+  const [efficiencyError, setEfficiencyError] = useState("");
+  const [dirCostFactorError, setDirCostFactorError] = useState("");
+  const [indirCostFactorError, setIndirCostFactorError] = useState("");
+  const [workingCapitalFactorError, setWorkingCapitalFactorError] = useState("");
+  const [installationCostError, setInstallationCostError] = useState("");
+  const [workingCapitalCostError, setWorkingCapitalCostError] = useState("");
 
   const handleOpenEdit = (index: number) => {
     setEditStates(
@@ -114,6 +127,136 @@ const FirstTechnology: React.FC<FirstTechnologyProps> = ({ setCurrStep }) => {
     setLocalSubProcesses(subProcesses);
   }, [editStates]);
 
+  useEffect(() => {
+    if (electrifiedValues.bottomUpCalc) {
+      setDisabled(!(
+        electrifiedValues.installationCost &&
+        electrifiedValues.directCosts[0].cost &&
+        electrifiedValues.indirectCosts[0].cost &&
+        // electrifiedValues.workingCapitalCost &&
+        electrifiedValues.waterRequirement &&
+        electrifiedValues.bottomUpProcess.learningRate >= 0 &&
+        electrifiedValues.bottomUpProcess.scalingFactor >= 0 &&
+        electrifiedValues.bottomUpProcess.installationFactor >= 0 &&
+        electrifiedValues.bottomUpProcess.efficiency &&
+        electrifiedValues.bottomUpProcess.energyRequirement &&
+        !learningRateError &&
+        !scalingFactorError &&
+        !installationFactorError &&
+        !efficiencyError &&
+        !waterRequirementError &&
+        !installationCostError &&
+        !workingCapitalCostError 
+        // isNegative
+      ));
+    }
+    else if (!electrifiedValues.bottomUpCalc) {
+      setDisabled(!(
+        electrifiedValues.directCostFactor &&
+        electrifiedValues.indirectCostFactor &&
+        electrifiedValues.workingCapitalFactor &&
+        electrifiedValues.waterRequirement &&
+        electrifiedValues.subProcesses.length > 0 &&
+        !waterRequirementError &&
+        !dirCostFactorError &&
+        !indirCostFactorError &&
+        !workingCapitalFactorError
+        // isNegative
+      ));
+    }
+    else {
+      setDisabled(true);
+    }
+ 
+  }, [electrifiedValues, bottomUpCalc, learningRateError, scalingFactorError, installationFactorError, efficiencyError, waterRequirementError, installationCostError, workingCapitalCostError, dirCostFactorError, indirCostFactorError, workingCapitalFactorError]);
+
+  useEffect(() => {
+    if (electrifiedValues.waterRequirement.includes("-")) {
+      setWaterRequirementError("Water requirement must be a positive number.");
+    } else {
+      setWaterRequirementError("");
+    }
+  }, [electrifiedValues.waterRequirement]);
+
+  useEffect(() => { 
+    if (electrifiedValues.bottomUpProcess.learningRate > 100) {
+      setLearningRateError("Learning rate must less than 100%.");
+    } else {
+      setLearningRateError("");
+    }
+  }
+  , [electrifiedValues.bottomUpProcess.learningRate]);
+
+  useEffect(() => {
+    if (electrifiedValues.bottomUpProcess.scalingFactor > 100) {
+      setScalingFactorError("Scaling factor must be less than 100%.");
+    } else {
+      setScalingFactorError("");
+    }
+  }
+  , [electrifiedValues.bottomUpProcess.scalingFactor]);
+
+  useEffect(() => {
+    if (electrifiedValues.bottomUpProcess.installationFactor > 100) {
+      setInstallationFactorError("Installation factor must be less than 100%.");
+    } else {
+      setInstallationFactorError("");
+    }
+  }
+  , [electrifiedValues.bottomUpProcess.installationFactor]);
+
+  useEffect(() => {
+    if (electrifiedValues.bottomUpProcess.efficiency > 100) {
+      setEfficiencyError("Efficiency must be less than 100%.");
+    } else {
+      setEfficiencyError("");
+    }
+  })
+
+  useEffect(() => {
+    if (electrifiedValues.directCostFactor > 100) {
+      setDirCostFactorError("Direct cost factor must be less than 100%.");
+    } else {
+      setDirCostFactorError("");
+    }
+  }
+  , [electrifiedValues.directCostFactor]);
+
+  useEffect(() => {
+    if (electrifiedValues.indirectCostFactor > 100) {
+      setIndirCostFactorError("Indirect cost factor must be less than 100%.");
+    } else {
+      setIndirCostFactorError("");
+    }
+  }
+  , [electrifiedValues.indirectCostFactor]);
+
+  useEffect(() => { 
+    if (electrifiedValues.workingCapitalFactor > 100) {
+      setWorkingCapitalFactorError("Working capital cost factor must be less than 100%.");
+    } else {
+      setWorkingCapitalFactorError("");
+    }
+  }
+  , [electrifiedValues.workingCapitalFactor]);
+
+  useEffect(() => {
+    if (electrifiedValues.installationCost.includes("-")) {
+      setInstallationCostError("Installation cost must be a positive number.");
+    } else {
+      setInstallationCostError("");
+    }
+  }, [electrifiedValues.installationCost]);
+
+  useEffect(() => {
+    if (electrifiedValues.workingCapitalCost.includes("-")) {
+      setWorkingCapitalCostError("Working capital cost must be a positive number.");
+    } else {
+      setWorkingCapitalCostError("");
+    }
+  }
+  , [electrifiedValues.workingCapitalCost]);
+
   return (
     <>
       <div className="py-2.5">
@@ -140,7 +283,6 @@ const FirstTechnology: React.FC<FirstTechnologyProps> = ({ setCurrStep }) => {
               <CostSection
                 type="text"
                 label="Direct costs"
-                onChange={() => {}}
                 helpMessage="Test"
                 rows={electrifiedValues.directCosts}
                 editRow={(index, name, cost) => {
@@ -154,6 +296,7 @@ const FirstTechnology: React.FC<FirstTechnologyProps> = ({ setCurrStep }) => {
                 deleteRow={(index) => {
                   dispatch(deleteDirectCost(index));
                 }}
+                setError={(index, error) => dispatch(addDirectCostError({ index, error }))}
               />
               <CostSection
                 type="number"
@@ -174,10 +317,12 @@ const FirstTechnology: React.FC<FirstTechnologyProps> = ({ setCurrStep }) => {
                 deleteRow={(index) => {
                   dispatch(deleteIndirectCost(index));
                 }}
+                setError={(index, error) => dispatch(addIndirectCostError({ index, error }))}
               />
               <div className="min-w-32">
                 <Input
                   type="number"
+                  error={installationCostError}
                   label="Installation cost"
                   onChange={(e) => {
                     dispatch(setInstallationCost(e.target.value));
@@ -194,6 +339,7 @@ const FirstTechnology: React.FC<FirstTechnologyProps> = ({ setCurrStep }) => {
               <div className="min-w-32 text-nowrap">
                 <Input
                   type="number"
+                  error={workingCapitalCostError}
                   label="Working capital cost"
                   onChange={(e) => {
                     dispatch(setWorkingCapitalCost(e.target.value));
@@ -213,28 +359,46 @@ const FirstTechnology: React.FC<FirstTechnologyProps> = ({ setCurrStep }) => {
             <div className="grid grid-cols-3 gap-x-40 gap-y-5">
               <Input
                 type="number"
+                error={dirCostFactorError}
                 label="Direct cost factor"
                 onChange={(e) => {
                   dispatch(setDirectCostFactor(parseFloat(e.target.value)));
                 }}
                 value={electrifiedValues.directCostFactor}
+                end={
+                  <Text textSize="sub3" color="grey-blue">
+                    %
+                  </Text>
+                }
                 helpMessage="The direct cost factor includes expenses directly tied to the physical creation of a project. This includes, but is not limited to:"
               />
               <Input
                 type="number"
+                error={indirCostFactorError}
                 label="Indirect cost factor"
                 onChange={(e) => {
                   dispatch(setIndirectCostFactor(parseFloat(e.target.value)));
                 }}
+                end={
+                  <Text textSize="sub3" color="grey-blue">
+                    %
+                  </Text>
+                }
                 value={electrifiedValues.indirectCostFactor}
                 helpMessage="The indirect cost factor includes expenses not directly linked to production but necessary for project completion. This includes, but is not limited to:"
               />
               <Input
                 type="number"
+                error={workingCapitalFactorError}
                 label="Working capital cost factor"
                 onChange={(e) => {
                   dispatch(setWorkingCapitalFactor(parseFloat(e.target.value)));
                 }}
+                end={
+                  <Text textSize="sub3" color="grey-blue">
+                    %
+                  </Text>
+                }
                 value={electrifiedValues.workingCapitalFactor}
                 helpMessage="The worker capital cost are the costs associated with labor and employee-related expenses."
               />
@@ -245,6 +409,7 @@ const FirstTechnology: React.FC<FirstTechnologyProps> = ({ setCurrStep }) => {
           <div className="grid grid-cols-3 gap-x-40 gap-y-5">
             <Input
               type="number"
+              error={waterRequirementError}
               label="Water Requirement"
               onChange={(e) => {
                 dispatch(setWaterRequirement(e.target.value));
@@ -262,6 +427,7 @@ const FirstTechnology: React.FC<FirstTechnologyProps> = ({ setCurrStep }) => {
           <div className="shadow-card rounded-[10px] border-1 border-grey py-5 px-10 grid grid-cols-3 gap-x-8 gap-y-8">
             <Input
               type="number"
+              error={learningRateError}
               label="Learning rate"
               value={electrifiedValues.bottomUpProcess.learningRate}
               onChange={(e) =>
@@ -278,6 +444,7 @@ const FirstTechnology: React.FC<FirstTechnologyProps> = ({ setCurrStep }) => {
             />
             <Input
               type="number"
+              error={scalingFactorError}
               label="Scaling factor"
               value={electrifiedValues.bottomUpProcess.scalingFactor}
               onChange={(e) =>
@@ -294,6 +461,7 @@ const FirstTechnology: React.FC<FirstTechnologyProps> = ({ setCurrStep }) => {
             />
             <Input
               type="number"
+              error={installationFactorError}
               label="Installation factor"
               value={electrifiedValues.bottomUpProcess.installationFactor}
               onChange={(e) =>
@@ -310,6 +478,7 @@ const FirstTechnology: React.FC<FirstTechnologyProps> = ({ setCurrStep }) => {
             />
             <Input
               type="number"
+              error={efficiencyError}
               label="Efficiency of process"
               value={electrifiedValues.bottomUpProcess.efficiency}
               onChange={(e) =>
@@ -327,7 +496,7 @@ const FirstTechnology: React.FC<FirstTechnologyProps> = ({ setCurrStep }) => {
             <div className="text-nowrap">
               <Input
                 type="number"
-                label="Energy requirement at base capacity"
+                label="Electricity requirement at base capacity"
                 value={electrifiedValues.bottomUpProcess.energyRequirement}
                 onChange={(e) =>
                   setBottomUpProcess({
@@ -337,7 +506,7 @@ const FirstTechnology: React.FC<FirstTechnologyProps> = ({ setCurrStep }) => {
                 }
                 end={
                   <Text color="grey-blue" textSize="input">
-                    pJ/year
+                    MW
                   </Text>
                 }
               />
@@ -410,7 +579,7 @@ const FirstTechnology: React.FC<FirstTechnologyProps> = ({ setCurrStep }) => {
           <Button color="grey" onClick={() => setCurrStep(0)}>
             Back
           </Button>
-          <Button color="primary" onClick={() => setCurrStep(2)}>
+          <Button color="primary" disabled={disabled} onClick={() => setCurrStep(2)}>
             Next
           </Button>
         </div>

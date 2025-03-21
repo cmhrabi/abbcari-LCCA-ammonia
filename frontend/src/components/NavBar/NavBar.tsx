@@ -21,30 +21,32 @@ const NavBar: React.FC<NavBarProps> = ({ title, type = "default" }) => {
           onClick={() => navigate("/")}
         >
           <img src={logo} alt="logo" />
-          <div className="pl-3">
-            <Text color="primary" textSize="nav-title" font="josefin">
-              {title}
-            </Text>
-          </div>
         </div>
         <div className="pl-6">
           {/* TODO: Change to text link */}
-          {type === "home" && <Text textSize="sub2">About</Text>}
+          
         </div>
       </div>
       <div>
-        {type === "home" && (
-          <Button size="small" onClick={() => navigate("/analysi/start")}>
-            Launch LCCA
-          </Button>
-        )}
-        {type === "default" && (
-          /* TODO: Change to text link */
-          <div className="flex flex-row items-center space-x-3">
-            <Text textSize="input">Help</Text>
-            <Bars3Icon onClick={() => {}} className="size-6 cursor-pointer" />
+        <div className="flex flex-row items-right justify-items-center space-x-10">
+          {type === "home" && <Text textSize="sub2" className="space-y-3">About</Text>}
+          <div className="pr-20">
+            {type === "home" && (
+              <Button size="small" onClick={() => navigate("/analysis/start")}>
+                Launch LCCA
+              </Button>
+            )}
           </div>
-        )}
+        </div>
+          {type === "default" && (
+            /* TODO: Change to text link */
+            <div className="flex flex-row items-center space-x-3">
+              <Text textSize="input">Help</Text>
+              <Bars3Icon onClick={() => { }} className="size-6 cursor-pointer" />
+            </div>
+          )}
+        
+       
       </div>
     </nav>
   );

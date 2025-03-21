@@ -9,21 +9,21 @@ const ClimateFactsSlide: React.FC = () => {
           <tbody>
             <tr>
               <td className="border-r border-[#A0A0A0] justify-items-center">
-                <div className="w-3/5">
-                  <Text textSize="h1" color="secondary" align="center">
+                <div className="w-3/5 flex items-center gap-x-4">
+                  <Text textSize="nav-title" color="secondary" align="center">
                     1.3%
                   </Text>
-                  <Text textSize="sub2" align="center">
-                    Of global carbon emissions are from ammonia production
-                  </Text>
+                    <Text textSize="sub2" className="whitespace-nowrap" align="center">
+                      Of global carbon emissions are from ammonia production
+                    </Text>
                 </div>
               </td>
               <td className="justify-items-center">
-                <div className="w-3/5">
-                  <Text textSize="h1" color="secondary" align="center">
+                <div className="w-3/5 flex items-center gap-x-4">
+                  <Text textSize="nav-title" color="secondary" align="center">
                     565 million
                   </Text>
-                  <Text textSize="sub2" align="center">
+                  <Text textSize="sub2" className="whitespace-nowrap" align="center">
                     Metric tons of CO2 produced by Canada in 2018
                   </Text>
                 </div>

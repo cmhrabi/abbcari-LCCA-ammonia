@@ -59,15 +59,17 @@ const Input: React.FC<InputProps> = ({
           </div>
         )}
         {error && (
-          <HelpMessage type="error" onSnooze={handleSnoozeHelp}>
-            {error}
-          </HelpMessage>
+          <div className="relative">
+            <HelpMessage type="error" onSnooze={handleSnoozeHelp}>
+              {error}
+            </HelpMessage>
+          </div>
         )}
         <div className="flex flex-row space-x-1">
           {label && !noIcon && !error && (
             <img
               onClick={onFocus}
-              alt="Error Icon"
+              alt="Help Icon"
               src={HelpIcon}
               width={16}
               height={16}
@@ -77,7 +79,7 @@ const Input: React.FC<InputProps> = ({
           {label && error && (
             <img
               onClick={onFocus}
-              alt="Error Icon"
+              alt="Help Icon"
               src={ErrorIcon}
               width={16}
               height={16}
