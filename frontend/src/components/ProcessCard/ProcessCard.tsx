@@ -79,7 +79,7 @@ const ProcessCard: React.FC<ProcessCardProps> = ({ info, handleEdit }) => {
           <br />
           {info?.energyRequirement.toFixed(3)} MW
         </Text>
-        {info.ngReq && info?.ngReq > 0 && (
+        {info.ngReq && info.ngReq > 0 && (
           <Text>
             NG requirement:
             <br />
