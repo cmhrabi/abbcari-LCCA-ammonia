@@ -22,13 +22,13 @@ const VisualizeSlide: React.FC = () => {
         <div className="grid gap-12 grid-cols-3">
           <Card
             icon={<ClockIcon className="size-9 text-primary" />}
-            description="Lorem ipsum dolor sit amet, consectetur adipiscing elit."
+            description="The model considers technology readiness levels and adoption over time, integrating a techno-economic and lifecycle approach."
           >
             Time-dependent parameter
           </Card>
           <Card
             icon={<FlagIcon className="size-9 text-primary" />}
-            description="Lorem ipsum dolor sit amet, consectetur adipiscing elit."
+            description="The analysis takes into consideration the electricity grid associated with the province selected to provide a more accurate result."
           >
             Region-based analysis
           </Card>
