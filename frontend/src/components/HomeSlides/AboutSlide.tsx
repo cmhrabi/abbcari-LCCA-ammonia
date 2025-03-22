@@ -20,7 +20,7 @@ const AboutSlide: React.FC = () => {
             <Text textSize="sub2">
               A dynamic modeling tool that allows you to analyze strategies and
               scenarios to reduce carbon emissions for ammonia production for
-              the upcoming decades.{" "}
+              the upcoming decades.
             </Text>
           </div>
           <Button size="small" onClick={() => navigate("/")}>

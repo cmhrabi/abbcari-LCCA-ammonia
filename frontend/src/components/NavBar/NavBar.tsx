@@ -34,7 +34,7 @@ const NavBar: React.FC<NavBarProps> = ({ title, type = "default" }) => {
       </div>
       <div>
         {type === "home" && (
-          <Button size="small" onClick={() => navigate("/analysis")}>
+          <Button size="small" onClick={() => navigate("/analysi/start")}>
             Launch LCCA
           </Button>
         )}

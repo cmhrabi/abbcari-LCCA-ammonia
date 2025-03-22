@@ -25,7 +25,7 @@ const routes = [
       },
       {
         path: "results",
-        element : <Results />,
+        element: <Results />,
       },
     ],
   },
