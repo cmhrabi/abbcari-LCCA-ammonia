@@ -151,7 +151,7 @@ export const theme = {
           lineHeight: "20px",
         },
       ],
-      "value": [
+      value: [
         "24px",
         {
           fontWeight: 700,

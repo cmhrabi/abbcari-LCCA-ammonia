@@ -66,7 +66,8 @@ const FirstTechnology: React.FC<FirstTechnologyProps> = ({ setCurrStep }) => {
   const [efficiencyError, setEfficiencyError] = useState("");
   const [dirCostFactorError, setDirCostFactorError] = useState("");
   const [indirCostFactorError, setIndirCostFactorError] = useState("");
-  const [workingCapitalFactorError, setWorkingCapitalFactorError] = useState("");
+  const [workingCapitalFactorError, setWorkingCapitalFactorError] =
+    useState("");
   const [installationCostError, setInstallationCostError] = useState("");
   const [workingCapitalCostError, setWorkingCapitalCostError] = useState("");
 
@@ -129,46 +130,64 @@ const FirstTechnology: React.FC<FirstTechnologyProps> = ({ setCurrStep }) => {
 
   useEffect(() => {
     if (electrifiedValues.bottomUpCalc) {
-      setDisabled(!(
-        electrifiedValues.installationCost &&
-        electrifiedValues.directCosts[0].cost &&
-        electrifiedValues.indirectCosts[0].cost &&
-        // electrifiedValues.workingCapitalCost &&
-        electrifiedValues.waterRequirement &&
-        electrifiedValues.bottomUpProcess.learningRate >= 0 &&
-        electrifiedValues.bottomUpProcess.scalingFactor >= 0 &&
-        electrifiedValues.bottomUpProcess.installationFactor >= 0 &&
-        electrifiedValues.bottomUpProcess.efficiency &&
-        electrifiedValues.bottomUpProcess.energyRequirement &&
-        !learningRateError &&
-        !scalingFactorError &&
-        !installationFactorError &&
-        !efficiencyError &&
-        !waterRequirementError &&
-        !installationCostError &&
-        !workingCapitalCostError 
-        // isNegative
-      ));
-    }
-    else if (!electrifiedValues.bottomUpCalc) {
-      setDisabled(!(
-        electrifiedValues.directCostFactor &&
-        electrifiedValues.indirectCostFactor &&
-        electrifiedValues.workingCapitalFactor &&
-        electrifiedValues.waterRequirement &&
-        electrifiedValues.subProcesses.length > 0 &&
-        !waterRequirementError &&
-        !dirCostFactorError &&
-        !indirCostFactorError &&
-        !workingCapitalFactorError
-        // isNegative
-      ));
-    }
-    else {
+      setDisabled(
+        !(
+          (
+            electrifiedValues.installationCost &&
+            electrifiedValues.directCosts[0].cost &&
+            electrifiedValues.indirectCosts[0].cost &&
+            // electrifiedValues.workingCapitalCost &&
+            electrifiedValues.waterRequirement &&
+            electrifiedValues.bottomUpProcess.learningRate >= 0 &&
+            electrifiedValues.bottomUpProcess.scalingFactor >= 0 &&
+            electrifiedValues.bottomUpProcess.installationFactor >= 0 &&
+            electrifiedValues.bottomUpProcess.efficiency &&
+            electrifiedValues.bottomUpProcess.energyRequirement &&
+            !learningRateError &&
+            !scalingFactorError &&
+            !installationFactorError &&
+            !efficiencyError &&
+            !waterRequirementError &&
+            !installationCostError &&
+            !workingCapitalCostError
+          )
+          // isNegative
+        ),
+      );
+    } else if (!electrifiedValues.bottomUpCalc) {
+      setDisabled(
+        !(
+          (
+            electrifiedValues.directCostFactor &&
+            electrifiedValues.indirectCostFactor &&
+            electrifiedValues.workingCapitalFactor &&
+            electrifiedValues.waterRequirement &&
+            electrifiedValues.subProcesses.length > 0 &&
+            !waterRequirementError &&
+            !dirCostFactorError &&
+            !indirCostFactorError &&
+            !workingCapitalFactorError
+          )
+          // isNegative
+        ),
+      );
+    } else {
       setDisabled(true);
     }
- 
-  }, [electrifiedValues, bottomUpCalc, learningRateError, scalingFactorError, installationFactorError, efficiencyError, waterRequirementError, installationCostError, workingCapitalCostError, dirCostFactorError, indirCostFactorError, workingCapitalFactorError]);
+  }, [
+    electrifiedValues,
+    bottomUpCalc,
+    learningRateError,
+    scalingFactorError,
+    installationFactorError,
+    efficiencyError,
+    waterRequirementError,
+    installationCostError,
+    workingCapitalCostError,
+    dirCostFactorError,
+    indirCostFactorError,
+    workingCapitalFactorError,
+  ]);
 
   useEffect(() => {
     if (electrifiedValues.waterRequirement.includes("-")) {
@@ -178,14 +197,13 @@ const FirstTechnology: React.FC<FirstTechnologyProps> = ({ setCurrStep }) => {
     }
   }, [electrifiedValues.waterRequirement]);
 
-  useEffect(() => { 
+  useEffect(() => {
     if (electrifiedValues.bottomUpProcess.learningRate > 100) {
       setLearningRateError("Learning rate must less than 100%.");
     } else {
       setLearningRateError("");
     }
-  }
-  , [electrifiedValues.bottomUpProcess.learningRate]);
+  }, [electrifiedValues.bottomUpProcess.learningRate]);
 
   useEffect(() => {
     if (electrifiedValues.bottomUpProcess.scalingFactor > 100) {
@@ -193,8 +211,7 @@ const FirstTechnology: React.FC<FirstTechnologyProps> = ({ setCurrStep }) => {
     } else {
       setScalingFactorError("");
     }
-  }
-  , [electrifiedValues.bottomUpProcess.scalingFactor]);
+  }, [electrifiedValues.bottomUpProcess.scalingFactor]);
 
   useEffect(() => {
     if (electrifiedValues.bottomUpProcess.installationFactor > 100) {
@@ -202,8 +219,7 @@ const FirstTechnology: React.FC<FirstTechnologyProps> = ({ setCurrStep }) => {
     } else {
       setInstallationFactorError("");
     }
-  }
-  , [electrifiedValues.bottomUpProcess.installationFactor]);
+  }, [electrifiedValues.bottomUpProcess.installationFactor]);
 
   useEffect(() => {
     if (electrifiedValues.bottomUpProcess.efficiency > 100) {
@@ -211,7 +227,7 @@ const FirstTechnology: React.FC<FirstTechnologyProps> = ({ setCurrStep }) => {
     } else {
       setEfficiencyError("");
     }
-  })
+  });
 
   useEffect(() => {
     if (electrifiedValues.directCostFactor > 100) {
@@ -219,8 +235,7 @@ const FirstTechnology: React.FC<FirstTechnologyProps> = ({ setCurrStep }) => {
     } else {
       setDirCostFactorError("");
     }
-  }
-  , [electrifiedValues.directCostFactor]);
+  }, [electrifiedValues.directCostFactor]);
 
   useEffect(() => {
     if (electrifiedValues.indirectCostFactor > 100) {
@@ -228,17 +243,17 @@ const FirstTechnology: React.FC<FirstTechnologyProps> = ({ setCurrStep }) => {
     } else {
       setIndirCostFactorError("");
     }
-  }
-  , [electrifiedValues.indirectCostFactor]);
+  }, [electrifiedValues.indirectCostFactor]);
 
-  useEffect(() => { 
+  useEffect(() => {
     if (electrifiedValues.workingCapitalFactor > 100) {
-      setWorkingCapitalFactorError("Working capital cost factor must be less than 100%.");
+      setWorkingCapitalFactorError(
+        "Working capital cost factor must be less than 100%.",
+      );
     } else {
       setWorkingCapitalFactorError("");
     }
-  }
-  , [electrifiedValues.workingCapitalFactor]);
+  }, [electrifiedValues.workingCapitalFactor]);
 
   useEffect(() => {
     if (electrifiedValues.installationCost.includes("-")) {
@@ -250,12 +265,13 @@ const FirstTechnology: React.FC<FirstTechnologyProps> = ({ setCurrStep }) => {
 
   useEffect(() => {
     if (electrifiedValues.workingCapitalCost.includes("-")) {
-      setWorkingCapitalCostError("Working capital cost must be a positive number.");
+      setWorkingCapitalCostError(
+        "Working capital cost must be a positive number.",
+      );
     } else {
       setWorkingCapitalCostError("");
     }
-  }
-  , [electrifiedValues.workingCapitalCost]);
+  }, [electrifiedValues.workingCapitalCost]);
 
   return (
     <>
@@ -296,7 +312,9 @@ const FirstTechnology: React.FC<FirstTechnologyProps> = ({ setCurrStep }) => {
                 deleteRow={(index) => {
                   dispatch(deleteDirectCost(index));
                 }}
-                setError={(index, error) => dispatch(addDirectCostError({ index, error }))}
+                setError={(index, error) =>
+                  dispatch(addDirectCostError({ index, error }))
+                }
               />
               <CostSection
                 type="number"
@@ -317,7 +335,9 @@ const FirstTechnology: React.FC<FirstTechnologyProps> = ({ setCurrStep }) => {
                 deleteRow={(index) => {
                   dispatch(deleteIndirectCost(index));
                 }}
-                setError={(index, error) => dispatch(addIndirectCostError({ index, error }))}
+                setError={(index, error) =>
+                  dispatch(addIndirectCostError({ index, error }))
+                }
               />
               <div className="min-w-32">
                 <Input
@@ -579,7 +599,11 @@ const FirstTechnology: React.FC<FirstTechnologyProps> = ({ setCurrStep }) => {
           <Button color="grey" onClick={() => setCurrStep(0)}>
             Back
           </Button>
-          <Button color="primary" disabled={disabled} onClick={() => setCurrStep(2)}>
+          <Button
+            color="primary"
+            disabled={disabled}
+            onClick={() => setCurrStep(2)}
+          >
             Next
           </Button>
         </div>

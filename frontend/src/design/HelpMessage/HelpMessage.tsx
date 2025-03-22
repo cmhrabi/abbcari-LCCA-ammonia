@@ -2,17 +2,20 @@ import React from "react";
 import { cva } from "class-variance-authority";
 import Text from "../Text/Text";
 import CloseIcon from "../../assets/close.svg";
+import { ArrowTopRightOnSquareIcon } from "@heroicons/react/24/solid";
 
 interface HelpMessageProps {
   children: string;
   type: "error" | "info";
   onSnooze?: () => void;
+  link?: string;
 }
 
 const HelpMessage: React.FC<HelpMessageProps> = ({
   children,
   type,
   onSnooze,
+  link,
 }) => {
   const variants = cva(["flex", "rounded-3px", "py-2", "px-3"], {
     variants: {
@@ -31,7 +34,15 @@ const HelpMessage: React.FC<HelpMessageProps> = ({
       <div className="flex text-wrap">
         <div className={variants({ type: type })}>
           <Text color={textColor} textSize="input">
-            {children}
+            {children}{" "}
+            {link && (
+              <ArrowTopRightOnSquareIcon
+                className="size-4 inline-block align-top cursor-pointer"
+                onClick={() => {
+                  window.open(link);
+                }}
+              />
+            )}
           </Text>
           {type != "error" && (
             <img

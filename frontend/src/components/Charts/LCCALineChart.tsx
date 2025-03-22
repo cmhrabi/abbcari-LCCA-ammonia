@@ -1,6 +1,6 @@
 import { PointTooltipProps, ResponsiveLine, Serie } from "@nivo/line";
 import Text from "../../design/Text/Text";
-import React from "react";
+import React, { useEffect, useState } from "react";
 
 interface LineChartProps {
   data: Serie[];
@@ -24,44 +24,62 @@ const LCCALineChart: React.FC<LineChartProps> = ({ data, title }) => {
     </div>
   );
 
-  const filteredData = data.map((serie) => ({
-    ...serie,
-    data: serie.data.map((d) => ({
-      ...d,
-      y: typeof d.y === "number" && d.y < 0 ? null : d.y,
-    })),
-  }));
+  const [filteredData, setFilteredData] = useState(data);
+  const [hasNegativeValues, setHasNegativeValues] = useState(false);
+  const [roundedMaxValue, setRoundedMaxValue] = useState(0);
+  const [roundedMinValue, setRoundedMinValue] = useState(0);
+  const [minYear, setMinYear] = useState(0);
+  const [maxYear, setMaxYear] = useState(0);
+  const [tickValues, setTickValues] = useState<number[]>([]);
 
-  const hasNegativeValues = data.some((serie) =>
-    serie.data.some((d) => typeof d.y === "number" && d.y < 0),
-  );
+  useEffect(() => {
+    setFilteredData(
+      data.map((serie) => ({
+        ...serie,
+        data: serie.data.filter((d) => typeof d.y === "number" && d.y > 0),
+      })),
+    );
 
-  const maxValue = Math.max(
-    ...filteredData.flatMap((serie) => serie.data.map((d) => d.y as number)),
-  );
-  const roundedMaxValue = Math.pow(10, Math.ceil(Math.log10(maxValue)));
+    setHasNegativeValues(
+      data.some((serie) =>
+        serie.data.some((d) => typeof d.y === "number" && d.y < 0),
+      ),
+    );
 
-  const minValue = Math.min(
-    ...filteredData.flatMap((serie) => serie.data.map((d) => d.y as number)),
-  );
-  const roundedMinValue = Math.pow(10, Math.floor(Math.log10(minValue)));
+    const maxValue = Math.max(
+      ...filteredData.flatMap((serie) => serie.data.map((d) => d.y as number)),
+    );
+    setRoundedMaxValue(Math.pow(10, Math.ceil(Math.log10(maxValue))));
 
-  const maxYear = Math.max(
-    ...filteredData.flatMap((serie) => serie.data.map((d) => d.x as number)),
-  );
-  const tickValues = maxYear > 2040 ? [2030, 2040, 2050] : [2030, 2040];
+    const minValue = Math.min(
+      ...filteredData.flatMap((serie) => serie.data.map((d) => d.y as number)),
+    );
+    setRoundedMinValue(Math.pow(10, Math.floor(Math.log10(minValue))));
+
+    const minYear = Math.min(
+      ...filteredData.flatMap((serie) => serie.data.map((d) => d.x as number)),
+    );
+    setMinYear(minYear);
+    const maxYear = Math.max(
+      ...filteredData.flatMap((serie) => serie.data.map((d) => d.x as number)),
+    );
+    setMaxYear(maxYear);
+    setTickValues(
+      maxYear > 2040 ? [minYear, 2030, 2040, 2050] : [minYear, 2030, 2040],
+    );
+  }, [data]);
 
   return (
     <div className="bg-primary-50 shadow-card rounded-3px p-6 mr-7 space-y-5">
       <Text textSize="chart-title">{title}</Text>
-      <div className="bg-white h-[600px]">
+      <div className="bg-white h-[650px]">
         <ResponsiveLine
           data={filteredData}
           margin={{ top: 50, right: 50, bottom: 50, left: 60 }}
           xScale={{
             type: "linear",
-            min: 2025,
-            max: maxYear + 1,
+            min: minYear,
+            max: maxYear,
           }}
           yScale={{
             type: "log",
@@ -85,7 +103,9 @@ const LCCALineChart: React.FC<LineChartProps> = ({ data, title }) => {
             legendPosition: "middle",
           }}
           curve="monotoneX"
-          colors={["#4F46E5", "#506AC7"]}
+          colors={
+            filteredData.length > 1 ? ["#D56E33", "#4F46E5"] : ["#4F46E5"]
+          }
           lineWidth={3}
           pointSize={6}
           pointBorderWidth={2}

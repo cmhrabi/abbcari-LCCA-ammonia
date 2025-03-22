@@ -45,7 +45,7 @@ const ProcessCard: React.FC<ProcessCardProps> = ({ info, handleEdit }) => {
       <div
         className={cardVariants({ padding: handleEdit ? "large" : "small" })}
       >
-        <div className="rounded-full bg-primary-50 flex items-center justify-center border-1 border-primary px-1">
+        <div className="rounded-full bg-primary-50 flex items-center justify-center border-1 border-primary px-2">
           <Text color="primary" textSize="button-sm">
             {info?.name}
           </Text>

@@ -132,7 +132,8 @@ export const electrifiedSlice = createSlice({
       action: PayloadAction<{ index: number; error: string }>,
     ) => {
       if (action.payload.index < state.value.directCosts.length) {
-        state.value.directCosts[action.payload.index].error = action.payload.error;
+        state.value.directCosts[action.payload.index].error =
+          action.payload.error;
       }
     },
     addIndirectCostError: (
@@ -140,7 +141,8 @@ export const electrifiedSlice = createSlice({
       action: PayloadAction<{ index: number; error: string }>,
     ) => {
       if (action.payload.index < state.value.indirectCosts.length) {
-        state.value.indirectCosts[action.payload.index].error = action.payload.error;
+        state.value.indirectCosts[action.payload.index].error =
+          action.payload.error;
       }
     },
     deleteDirectCost: (state, action: PayloadAction<number>) => {

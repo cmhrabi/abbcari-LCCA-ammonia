@@ -16,7 +16,7 @@ export const generalSlice = createSlice({
   name: "general",
   initialState: {
     value: {
-      startYear: 2025,
+      startYear: 2026,
       finalYear: 2050,
       discount: "7",
       province: "Ontario",
@@ -49,7 +49,7 @@ export const generalSlice = createSlice({
     },
     resetState: (state) => {
       state.value = {
-        startYear: 2025,
+        startYear: 2026,
         finalYear: 2050,
         discount: "7",
         province: "Ontario",
