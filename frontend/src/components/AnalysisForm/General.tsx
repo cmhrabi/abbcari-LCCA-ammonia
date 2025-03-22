@@ -27,13 +27,28 @@ const General: React.FC<GeneralProps> = ({ setCurrStep }) => {
   const [disabled, setDisabled] = useState(true);
 
   useEffect(() => {
+    const hasNegativeValues =
+      generalValues.discount.includes("-") ||
+      generalValues.baselineDemand.includes("-") ||
+      generalValues.finalDemand.includes("-");
+
+    const incorrectStartYear = generalValues.startYear >= generalValues.finalYear;
+    const incorrectFinalYear = generalValues.finalYear <= generalValues.startYear;
+    const discount = Number(generalValues.discount);
+    const isDiscountTooHigh = discount > 100;
+
     if (
       generalValues.discount &&
       generalValues.finalDemand &&
+      generalValues.baselineDemand &&
       generalValues.plantOperatingHours &&
       !generalValues.province.includes("No Selection") &&
       generalValues.startYear &&
-      generalValues.finalYear
+      generalValues.finalYear &&
+      !hasNegativeValues &&
+      !isDiscountTooHigh &&
+      !incorrectStartYear &&
+      !incorrectFinalYear
     ) {
       setDisabled(false);
     } else {
@@ -64,7 +79,61 @@ const General: React.FC<GeneralProps> = ({ setCurrStep }) => {
   }, [generalValues.finalYear]);
 
   const [yearError, setYearError] = useState({ startYear: "", finalYear: "" });
+  const [discountStringError, setDiscountStringError] = useState("");
+  const [demandStringError, setDemandStringError] = useState("");
+  const [finalDemandStringError, setFinalDemandStringError] = useState("");
+  const [plantHoursError, setPlantHoursError] = useState("");
+  const [provinceError, setProvinceError] = useState("");
 
+  useEffect(() => {
+    const discountStr = generalValues.discount || "";
+    const discountValue = parseFloat(discountStr);
+
+    if (discountStr.includes("-")) {
+      setDiscountStringError("Discount rate must be positive.",);
+    } else if (discountValue > 100) {
+      setDiscountStringError("Discount rate must be less than 100%.");
+    } else {
+      setDiscountStringError("");
+    }
+  }, [generalValues.discount]);
+
+  useEffect(() => {
+    const baselineStr = generalValues.baselineDemand || "";
+    const baselineValue = parseFloat(baselineStr);
+
+    if (generalValues.baselineDemand.includes("-")) {
+      setDemandStringError("Current electrical ammonia production must be positive.");
+    } else {
+      setDemandStringError("");
+    }
+  }, [generalValues.baselineDemand]);
+
+  useEffect(() => {
+    if (generalValues.finalDemand.includes("-")) {
+      setFinalDemandStringError("Electrical ammonia demand in target year must be positive.");
+    } else {
+      setFinalDemandStringError("");
+    }
+  }, [generalValues.finalDemand]);
+
+  useEffect(() => {
+    if (generalValues.plantOperatingHours <= 0) {
+      setPlantHoursError("Plant operating hours must be positive.");
+    } else {
+      setPlantHoursError("");
+    }
+  }, [generalValues.plantOperatingHours]);
+
+  useEffect(() => {
+    if (generalValues.province.includes("No Selection")) {
+      setProvinceError("Please select a province.");
+    } else {
+      setProvinceError("");
+    }
+  }
+  , [generalValues.province]);
+    
   const years = Array.from({ length: 26 }, (_, i) => 2025 + i);
   return (
     <>
@@ -100,6 +169,7 @@ const General: React.FC<GeneralProps> = ({ setCurrStep }) => {
           <div className="col-span-2">
             <Select
               label="Province used in analysis"
+              error={provinceError}
               onChange={(e) => dispatch(setProvince(e.target.value))}
               value={generalValues.province}
               options={[
@@ -142,6 +212,8 @@ const General: React.FC<GeneralProps> = ({ setCurrStep }) => {
                 </Text>
               }
               type="number"
+              error={demandStringError}
+              // noIcon
             />
           </div>
           <div className="text-nowrap overflow-visible col-span-2">
@@ -157,6 +229,8 @@ const General: React.FC<GeneralProps> = ({ setCurrStep }) => {
                 </Text>
               }
               type="number"
+              error={finalDemandStringError}
+              // noIcon
             />
           </div>
           <Input
@@ -171,9 +245,12 @@ const General: React.FC<GeneralProps> = ({ setCurrStep }) => {
               </Text>
             }
             type="number"
+            error={discountStringError}
+            // noIcon
           />
           <Input
             label="Plant operating hours"
+            error={plantHoursError}
             onChange={(e) =>
               dispatch(setPlantOperatingHours(parseInt(e.target.value)))
             }

@@ -13,12 +13,14 @@ interface DeleteCostModalProps {
   isOpen: boolean;
   onOpenChange: (open: boolean) => void;
   deleteCost: () => void;
+  isLastCost: boolean;
 }
 
 const DeleteCostModal: React.FC<DeleteCostModalProps> = ({
   isOpen,
   onOpenChange,
   deleteCost,
+  isLastCost,
 }) => {
   return (
     <Modal
@@ -34,28 +36,30 @@ const DeleteCostModal: React.FC<DeleteCostModalProps> = ({
       <ModalContent>
         <ModalHeader>
           <Text color="black" textSize="modal">
-            Delete a cost
+            {isLastCost ? "Cannot delete last cost" : "Delete a cost"}
           </Text>
         </ModalHeader>
         <ModalBody>
           <Text color="secondary" textSize="button-lg">
-            Are you sure you want to delete this cost? You will not be able to
-            undo this action.
+            {isLastCost
+              ? "You must enter at least one cost. You cannot delete the last remaining cost." : "Are you sure you want to delete this cost? You will not be able to undo this action."}
           </Text>
         </ModalBody>
         <ModalFooter>
           <Button color="transparent" onClick={() => onOpenChange(false)}>
             Cancel
           </Button>
-          <Button
-            color="primary"
-            onClick={() => {
-              deleteCost();
-              onOpenChange(false);
-            }}
-          >
-            Continue
-          </Button>
+          {!isLastCost && (
+            <Button
+              color="primary"
+              onClick={() => {
+                deleteCost();
+                onOpenChange(false);
+              }}
+            >
+              Continue
+            </Button>
+          )}
         </ModalFooter>
       </ModalContent>
     </Modal>

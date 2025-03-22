@@ -14,6 +14,7 @@ export interface ConvSubProcess {
 export interface Cost {
   name: string;
   cost: string;
+  error?: string;
 }
 
 export interface ConventionalState {
@@ -70,8 +71,8 @@ export const conventionalSlice = createSlice({
           energyRequirement: 0.0778,
         },
       ],
-      directCosts: [{ name: "", cost: "" }],
-      indirectCosts: [{ name: "", cost: "" }],
+      directCosts: [{ name: "", cost: "" } as Cost],
+      indirectCosts: [{ name: "", cost: "" } as Cost],
       workingCapitalCost: "",
       installationCost: "",
       directCostFactor: 33,
@@ -140,6 +141,22 @@ export const conventionalSlice = createSlice({
     ) => {
       if (action.payload.index < state.value.directCosts.length) {
         state.value.directCosts[action.payload.index] = action.payload.cost;
+      }
+    },
+    addDirectCostError: (
+      state,
+      action: PayloadAction<{ index: number; error: string }>,
+    ) => {
+      if (action.payload.index < state.value.directCosts.length) {
+        state.value.directCosts[action.payload.index].error = action.payload.error;
+      }
+    },
+    addIndirectCostError: (
+      state,
+      action: PayloadAction<{ index: number; error: string }>,
+    ) => {
+      if (action.payload.index < state.value.indirectCosts.length) {
+        state.value.indirectCosts[action.payload.index].error = action.payload.error;
       }
     },
     deleteDirectCost: (state, action: PayloadAction<number>) => {
@@ -239,7 +256,9 @@ export const {
   deleteSubProcess,
   setBottomUpCalc,
   setDirectCostFactor,
+  addDirectCostError,
   setIndirectCostFactor,
+  addIndirectCostError,
   setWorkingCapitalFactor,
   setWorkingCapitalCost,
   addDirectCost,

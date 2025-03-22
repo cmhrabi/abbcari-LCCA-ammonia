@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { cva } from "class-variance-authority";
 import HelpMessage from "../HelpMessage/HelpMessage";
 import HelpIcon from "../../assets/help_icons/help.svg";
@@ -8,6 +8,7 @@ import { XCircleIcon } from "@heroicons/react/24/outline";
 import DeleteCostModal from "../../components/DeleteCostModal/DeleteCostModal";
 import { useDisclosure } from "@heroui/react";
 import Text from "../Text/Text";
+import { useAppDispatch } from "../../hooks";
 
 export interface InputProps
   extends React.InputHTMLAttributes<HTMLInputElement> {
@@ -18,9 +19,10 @@ export interface InputProps
   name?: string;
   cost?: string;
   addRow: () => void;
-  rows: { name: string; cost: string }[];
+  rows: { name: string; cost: string, error?: string }[];
   editRow: (index: number, name: string, cost: string) => void;
   deleteRow: (index: number) => void;
+  setError: (index: number, error: string ) => void;
 }
 
 const CostInput: React.FC<InputProps> = ({
@@ -32,6 +34,7 @@ const CostInput: React.FC<InputProps> = ({
   editRow,
   rows,
   noIcon = false,
+  setError,
 }) => {
   const inputNameVariant = cva(
     "block w-full p-3 border placeholder:text-input placeholder:text-grey-blue disabled:bg-grey rounded rounded-3px shadow-sm",
@@ -54,6 +57,7 @@ const CostInput: React.FC<InputProps> = ({
   );
   const labelVariant = cva("block text-input");
 
+  const dispatch = useAppDispatch();
   const [focused, setFocused] = React.useState(false);
   const onFocus = () => setFocused(true);
   const handleSnoozeHelp = () => setFocused(false);
@@ -66,6 +70,22 @@ const CostInput: React.FC<InputProps> = ({
     setCurrDeleteIndex(index);
     onOpen();
   };
+
+  useEffect(() => {
+    const negDirCosts = rows.reduce<number[]>((acc, row, index) => {
+      if (parseFloat(row.cost) < 0) {
+        acc.push(index);
+      }
+      return acc;
+    }, []);
+    if (negDirCosts.length > 0) {
+      negDirCosts.forEach((index) => setError(index, "Costs cannot be negative"));
+    } else {
+      rows.forEach((row, i) => {
+        if (row.error) setError(i, "");
+      });
+    }
+  }, [rows]);
 
   return (
     <div>
@@ -95,6 +115,7 @@ const CostInput: React.FC<InputProps> = ({
           className="flex flex-col flex-grow space-y-2 min-w-0 w-fit"
         >
           <div className="flex flex-shrink flex-grow gap-x-5 w-fit">
+            
             <input
               className={inputNameVariant({
                 background: "default",
@@ -104,6 +125,14 @@ const CostInput: React.FC<InputProps> = ({
               onChange={(e) => editRow(index, e.target.value, row.cost)}
               placeholder="Name"
             />
+            <div>
+            {row.error && (
+              <div className="relative">
+                <HelpMessage type="error" onSnooze={handleSnoozeHelp}>
+                  {row.error}
+                </HelpMessage>
+              </div>
+            )}
             <div className="relative block w-full">
               <div className="absolute inset-y-0 start-0 flex items-center ps-3.5 pointer-events-none">
                 <Text color="grey-label" textSize="sub3">
@@ -113,13 +142,14 @@ const CostInput: React.FC<InputProps> = ({
               <input
                 className={inputNameVariant({
                   background: "blue",
-                  focus: error ? "error" : "noError",
+                  focus: row.error ? "error" : "noError",
                   start: true,
                 })}
                 type="number"
                 value={row.cost}
                 onChange={(e) => editRow(index, row.name, e.target.value)}
               />
+            </div>
             </div>
             <Button
               isIconOnly
@@ -154,6 +184,20 @@ const CostInput: React.FC<InputProps> = ({
         </div>
       ))}
 
+      
+      <div className="flex flex-row space-x-1">
+        {label && error && (
+          <img
+            onClick={onFocus}
+            alt="Help Icon"
+            src={ErrorIcon}
+            width={16}
+            height={16}
+          />
+        )}
+        {/* {label && <label className={labelVariant({})}>{label}</label>} */}
+      </div>
+
       <div className="mt-4">
         <Button color="transparent" onClick={addRow}>
           + Add a new cost
@@ -163,6 +207,7 @@ const CostInput: React.FC<InputProps> = ({
         deleteCost={() => deleteRow(currDeleteIndex as number)}
         isOpen={isOpen}
         onOpenChange={onOpenChange}
+        isLastCost={rows.length === 1}
       />
     </div>
   );

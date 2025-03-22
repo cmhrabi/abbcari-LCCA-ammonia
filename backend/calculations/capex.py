@@ -681,7 +681,6 @@ def X_n_gpt(X_sat, X_b, t_o, t_f, r):
         temp = X_n_values[n] - X_n_values[n - 1]
         X_n_inst.append(temp)
 
-
     return X_n_values, X_n_inst
 
 
@@ -770,7 +769,6 @@ def cost_projection(cost, X_n,alpha,scaling_factor,Y, inst):
             C_i = (1+Y[0]) * C_i
         C_post.append(C_i)
 
-
     return C_post
 
 def indir_dir_calc(C_indir, C_dir):
@@ -844,7 +842,6 @@ def C_capex_loss_calc(C_capex, dep_rate, use):
     C_capex_loss = []
     for i in range(len(C_capex)):
         C_capex_loss.append(C_capex[i] * pow(1 - dep_rate, use))
-
     return C_capex_loss
 
 
@@ -916,6 +913,7 @@ def C_dir_calc(t_o, t_f, water_consumption, X_inst, total_elec, elec_price, T_op
     net_ammonia_production_year = X_inst[0]
     lifetime = t_f - t_o + 1
     annual_cost_addition = []
+    print(t_o, t_f, water_consumption, X_inst, total_elec, elec_price, T_op)
     # Water Requirement Calculation C102
     water_requirement = []
     for i in range(lifetime):
@@ -1166,8 +1164,8 @@ def main():
     d = 0.01
     Y = [0.33, 0, 0.7]
     E = 1
-    t_o = 2025
-    t_f = 2050
+    t_o = 2030
+    t_f = 2035
     m = 5
 
     # Opex
@@ -1195,7 +1193,7 @@ def main():
     theta = 0.1  # marketing and distribution factor
     CO2_per_ammonia = 2.013
 
-    bottom_up = True
+    bottom_up = False
 
     province = "Test"
 
@@ -1405,7 +1403,8 @@ def main():
 
     #                   C177            C187           C186 *           C280        C267            C259
     LCCA = LCCA_calc(C_capex, C_opex, C_capex_grey_loss, C_opex_grey, import_export, emissions_grey, emissions)
-    # print(LCCA)
+    print(LCCA)
+
 
 
     # LCCA_PSI Calc
@@ -1462,7 +1461,6 @@ def main():
     LCCA_psi = LCCA_psi_calc(C_capex, C_opex, C_capex_blue, C_opex_blue, import_export, emissions_blue, emissions)
 
     # print(LCCA_psi)
-
 
 if __name__ == "__main__":
     main()
