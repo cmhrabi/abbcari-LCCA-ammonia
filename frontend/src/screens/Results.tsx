@@ -2,22 +2,17 @@ import React, { useState } from "react";
 import NavBar from "../components/NavBar/NavBar";
 import Text from "../design/Text/Text";
 import Breadcrumbs from "../design/Breadcumbs/Breadcrumbs";
-import { useAppDispatch, useAppSelector } from "../hooks";
+import { useAppSelector } from "../hooks";
 import ResultsCard from "../design/ResultsCard/ResultsCard";
 import AdjustableCard from "../design/AdjustableCard/AdjustableCard";
 import LCCALineChart from "../components/Charts/LCCALineChart";
 import CostChart from "../components/Charts/CostChart";
 import Button from "../design/Button/Button";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 import EmissionsChart from "../components/Charts/EmmissionsChart";
-import { resetState as resetStateName } from "../Slices/nameSlice";
-import { resetState as resetStateGeneral } from "../Slices/generalSlice";
-import { resetState as resetStateConventional } from "../Slices/conventionalSlice";
-import { resetState as resetStateElectrified } from "../Slices/electrifiedSlice";
-import { addToast, Spinner, useDisclosure } from "@heroui/react";
+import { addToast, Checkbox, Spinner, useDisclosure } from "@heroui/react";
 import { cleanData, postAnalysis } from "../api";
 import { generatePDF } from "../utils/utils";
-import StartNew from "./StartNew";
 import StartNewModal from "../components/StartNewModal/StartNew";
 
 interface LCCAData {
@@ -43,6 +38,8 @@ const Results = () => {
   const generalSlice = useAppSelector((state) => state.general);
   const nameSlice = useAppSelector((state) => state.name);
 
+  const [showOriginal, setShowOriginal] = useState(false);
+
   const [exportLoading, setExportLoading] = useState(false);
   const generateResultPDF = async () => {
     await generatePDF("results_export", `${tech1Name}_vs_${tech2Name}_LCCA`);
@@ -57,7 +54,18 @@ const Results = () => {
   const location = useLocation();
   const lccaData = location.state.lccaData as LCCAData;
 
-  const [lccaDataLocal, setLccaDataLocal] = useState(lccaData);
+  const [lccaDataLocal] = useState(lccaData);
+  const [lccaDataLocalAdjusted, setLccaDataLocalAdjusted] = useState<LCCAData>({
+    LCCA: [],
+    capex_elec: [],
+    capex_conv: [],
+    capex_loss_conv: [],
+    opex_elec: [],
+    opex_conv: [],
+    import_export: [],
+    emissions_elec: [],
+    emissions_conv: [],
+  });
 
   const onClickAdjust = async () => {
     const data = cleanData(
@@ -96,7 +104,7 @@ const Results = () => {
             severity: "danger",
           });
         } else {
-          setLccaDataLocal(response);
+          setLccaDataLocalAdjusted(response);
         }
       }
     }
@@ -162,12 +170,13 @@ const Results = () => {
                 value={
                   <div>
                     {(
-                      lccaDataLocal.emissions_conv[
+                      (lccaDataLocal.emissions_conv[
                         lccaDataLocal.emissions_conv.length - 1
                       ] -
-                      lccaDataLocal.emissions_elec[
-                        lccaDataLocal.emissions_elec.length - 1
-                      ]
+                        lccaDataLocal.emissions_elec[
+                          lccaDataLocal.emissions_elec.length - 1
+                        ]) /
+                      1000000
                     ).toExponential(2)}{" "}
                     tCO<sub>2</sub>eq
                   </div>
@@ -199,51 +208,91 @@ const Results = () => {
               <div className="w-2/3">
                 <LCCALineChart
                   title={
-                    <div>
-                      Projected LCCA (Levelized cost of carbon abatement) from{" "}
-                      {startYear} to {finalYear} ($/tCO<sub>2</sub>eq)
-                    </div>
+                    <>
+                      <div className="pb-3">
+                        Projected LCCA (Levelized cost of carbon abatement) from{" "}
+                        {startYear} to {finalYear} ($/tCO<sub>2</sub>eq)
+                      </div>
+                      {lccaDataLocalAdjusted.LCCA.length > 0 && (
+                        <Checkbox
+                          color="primary"
+                          isSelected={showOriginal}
+                          defaultSelected={showOriginal}
+                          onChange={(e) => {
+                            setShowOriginal(e.target.checked);
+                          }}
+                        >
+                          <Text textSize="sub2">
+                            Show original LCCA analysis
+                          </Text>
+                        </Checkbox>
+                      )}
+                    </>
                   }
-                  data={[
-                    { id: "LCCA", data: constructData(lccaDataLocal.LCCA) },
+                  data={
+                    lccaDataLocalAdjusted.LCCA.length > 0
+                      ? showOriginal
+                        ? [
+                            {
+                              id: "Original LCCA",
+                              data: constructData(lccaDataLocal.LCCA),
+                            },
+                            {
+                              id: "New LCCA",
+                              data: constructData(lccaDataLocalAdjusted.LCCA),
+                            },
+                          ]
+                        : [
+                            {
+                              id: "New LCCA",
+                              data: constructData(lccaDataLocalAdjusted.LCCA),
+                            },
+                          ]
+                      : [
+                          {
+                            id: "LCCA",
+                            data: constructData(lccaDataLocal.LCCA),
+                          },
+                        ]
+                  }
+                />
+              </div>
+              <div className="flex flex-col justify-between">
+                <CostChart
+                  cost_title="Total Cost of Implementing the Electrified Process"
+                  cost_data={[
+                    {
+                      id: "CAPEX",
+                      data: constructData(lccaDataLocal.capex_elec),
+                    },
+                    {
+                      id: "Import/Export",
+                      data: constructData(
+                        removeNegatives(lccaDataLocal.import_export),
+                      ),
+                    },
+                    {
+                      id: "OPEX",
+                      data: constructData(lccaDataLocal.opex_elec),
+                    },
+                  ]}
+                />
+                <EmissionsChart
+                  emissions_title="Cumulative Lifetime Emissions"
+                  emissions_data={[
+                    {
+                      id: "Conventional",
+                      data: constructData(lccaDataLocal.emissions_conv),
+                    },
+                    {
+                      id: "Electrical",
+                      data: constructData(lccaDataLocal.emissions_elec),
+                    },
                   ]}
                 />
               </div>
-              <div className="w-1/3">
-                <AdjustableCard onClickAdjust={onClickAdjust} />
-              </div>
             </div>
-            <div className="grid grid-cols-2 gap-x-7">
-              <CostChart
-                cost_title="Total Cost of Implementing the Electrified Process"
-                cost_data={[
-                  {
-                    id: "CAPEX",
-                    data: constructData(lccaDataLocal.capex_elec),
-                  },
-                  {
-                    id: "Import/Export",
-                    data: constructData(
-                      removeNegatives(lccaDataLocal.import_export),
-                    ),
-                  },
-                  { id: "OPEX", data: constructData(lccaDataLocal.opex_elec) },
-                ]}
-              />
-              <EmissionsChart
-                emissions_title="Cumulative Lifetime Emissions"
-                emissions_data={[
-                  {
-                    id: "Conventional",
-                    data: constructData(lccaDataLocal.emissions_conv),
-                  },
-                  {
-                    id: "Electrical",
-                    data: constructData(lccaDataLocal.emissions_elec),
-                  },
-                ]}
-              />
-            </div>
+            <AdjustableCard onClickAdjust={onClickAdjust} />
           </div>
         </div>
         <div className="pt-14 space-x-5">
@@ -252,6 +301,7 @@ const Results = () => {
           </Button>
         </div>
       </div>
+
       <StartNewModal isOpen={isOpen} onOpenChange={onOpenChange} />
     </>
   );

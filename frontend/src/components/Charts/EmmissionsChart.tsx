@@ -27,30 +27,49 @@ const EmissionsChart: React.FC<EmissionsChartProps> = ({
       {`${Number(point.data.y).toExponential(2)}`}
     </div>
   );
+  const transformData = (data: Serie[]): Serie[] => {
+    return data.map((serie) => ({
+      ...serie,
+      data: serie.data.map((d) => ({
+        ...d,
+        y: (d.y as number) / 1000000,
+      })),
+    }));
+  };
 
+  const transformedData = transformData(emissions_data);
+  const maxValue = Math.max(
+    ...transformedData.flatMap((serie) => serie.data.map((d) => d.y as number)),
+  );
+
+  const minValue = Math.min(
+    ...transformedData.flatMap((serie) => serie.data.map((d) => d.y as number)),
+  );
+
+  const minYear = Math.min(
+    ...transformedData.flatMap((serie) => serie.data.map((d) => d.x as number)),
+  );
   const maxYear = Math.max(
-    ...emissions_data.flatMap((serie) => serie.data.map((d) => d.x as number)),
+    ...transformedData.flatMap((serie) => serie.data.map((d) => d.x as number)),
   );
   const tickValues =
-    maxYear > 2040 ? [2025, 2030, 2040, 2050] : [2025, 2030, 2040];
+    maxYear > 2040 ? [minYear, 2030, 2040, 2050] : [minYear, 2030, 2040];
   return (
     <div className="bg-primary-50 shadow-card rounded-3px p-6 space-y-5">
       <Text textSize="chart-title">{emissions_title}</Text>
-      <div className="bg-white h-[350px]">
+      <div className="bg-white h-[275px]">
         <ResponsiveLine
-          data={emissions_data}
+          data={transformedData}
           margin={{ top: 50, right: 30, bottom: 50, left: 80 }}
           xScale={{
             type: "linear",
-            min: 2025,
-            max: maxYear + 1,
+            min: minYear,
+            max: maxYear,
           }}
           yScale={{
             type: "linear",
-            min: 100,
-            max:
-              Math.max(...emissions_data[0].data.map((d) => d.y as number)) *
-              1.1,
+            min: minValue,
+            max: maxValue * 1.1,
           }}
           axisBottom={{
             tickSize: 5,

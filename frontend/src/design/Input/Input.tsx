@@ -10,6 +10,7 @@ export interface InputProps
   helpMessage?: string;
   error?: string;
   noIcon?: boolean;
+  link?: string;
   start?: React.ReactNode;
   end?: React.ReactNode;
 }
@@ -19,6 +20,7 @@ const Input: React.FC<InputProps> = ({
   helpMessage,
   error,
   noIcon = false,
+  link,
   start,
   end,
   ...props
@@ -53,7 +55,7 @@ const Input: React.FC<InputProps> = ({
       <div className="pb-1">
         {helpMessage && focused && !error && (
           <div className="relative">
-            <HelpMessage onSnooze={handleSnoozeHelp} type="info">
+            <HelpMessage onSnooze={handleSnoozeHelp} link={link} type="info">
               {helpMessage}
             </HelpMessage>
           </div>

@@ -1,4 +1,4 @@
-import { ResponsiveLine, Serie } from "@nivo/line";
+import { PointTooltipProps, ResponsiveLine, Serie } from "@nivo/line";
 import Text from "../../design/Text/Text";
 import React from "react";
 
@@ -8,6 +8,21 @@ interface CostChartProps {
 }
 
 const CostChart: React.FC<CostChartProps> = ({ cost_data, cost_title }) => {
+  const CustomTooltip = ({ point }: PointTooltipProps) => (
+    <div
+      style={{
+        background: "white",
+        padding: "5px 10px",
+        border: "1px solid #ccc",
+      }}
+    >
+      <strong>{point.serieId}</strong>
+      <br />
+      {`Year: ${point.data.x}`}
+      {", "}
+      Cost ($M): {`${Number(point.data.y).toFixed(2)}`}
+    </div>
+  );
   const getMaxSum = (
     capex: number[],
     opex: number[],
@@ -25,23 +40,26 @@ const CostChart: React.FC<CostChartProps> = ({ cost_data, cost_title }) => {
     cost_data[2].data.map((d) => d.y as number),
   );
 
+  const minYear = Math.min(
+    ...cost_data.flatMap((serie) => serie.data.map((d) => d.x as number)),
+  );
   const maxYear = Math.max(
     ...cost_data.flatMap((serie) => serie.data.map((d) => d.x as number)),
   );
   const tickValues =
-    maxYear > 2040 ? [2025, 2030, 2040, 2050] : [2025, 2030, 2040];
+    maxYear > 2040 ? [minYear, 2030, 2040, 2050] : [minYear, 2030, 2040];
 
   return (
     <div className="bg-primary-50 shadow-card rounded-3px p-6 space-y-5">
       <Text textSize="chart-title">{cost_title}</Text>
-      <div className="bg-white h-[350px]">
+      <div className="bg-white h-[275px]">
         <ResponsiveLine
           data={cost_data}
           margin={{ top: 50, right: 50, bottom: 50, left: 60 }}
           xScale={{
             type: "linear",
-            min: 2025,
-            max: maxYear + 1,
+            min: minYear,
+            max: maxYear,
           }}
           yScale={{
             type: "linear",
@@ -67,7 +85,7 @@ const CostChart: React.FC<CostChartProps> = ({ cost_data, cost_title }) => {
             legendPosition: "middle",
           }}
           curve="monotoneX"
-          colors={["#C294C7", "#D0E8AA", "#E67577", "#506AC7"]}
+          colors={["#1C2465", "#C294C7", "#48773D"]}
           lineWidth={1}
           pointSize={0}
           pointBorderWidth={2}
@@ -75,6 +93,7 @@ const CostChart: React.FC<CostChartProps> = ({ cost_data, cost_title }) => {
           pointBorderColor={{ from: "serieColor" }}
           useMesh={true}
           enableArea
+          tooltip={CustomTooltip}
           areaOpacity={0.9}
           legends={[
             {

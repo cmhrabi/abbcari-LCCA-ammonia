@@ -75,7 +75,7 @@ const ConvSubProcessModal: React.FC<ConvSubProcessModalProps> = ({
               installationFactor: parseFloat(installationFactor),
               energyRequirement: parseFloat(energyRequirement),
               efficiency: parseFloat(efficiency),
-              ng_req: parseFloat(ngReq ?? "0"),
+              ngReq: parseFloat(ngReq ?? "0"),
               name,
             },
             index: editID,
@@ -90,7 +90,7 @@ const ConvSubProcessModal: React.FC<ConvSubProcessModalProps> = ({
             installationFactor: parseFloat(installationFactor),
             energyRequirement: parseFloat(energyRequirement),
             efficiency: parseFloat(efficiency),
-            ng_req: parseFloat(ngReq ?? "0"),
+            ngReq: parseFloat(ngReq ?? "0"),
             name,
           }),
         );

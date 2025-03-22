@@ -10,6 +10,7 @@ interface SelectProps extends React.SelectHTMLAttributes<HTMLSelectElement> {
   error?: string;
   options: { value: number | string; label: string }[];
   noIcon?: boolean;
+  link?: string;
 }
 
 const Select: React.FC<SelectProps> = ({
@@ -18,10 +19,11 @@ const Select: React.FC<SelectProps> = ({
   error,
   options,
   noIcon = false,
+  link,
   ...props
 }) => {
   const inputVariants = cva(
-    "block w-full p-3 border placeholder:text-input placeholder:text-grey-blue disabled:bg-grey rounded-3px shadow-sm ",
+    "block w-full p-3.5 border placeholder:text-input placeholder:text-grey-blue disabled:bg-grey rounded-3px shadow-sm ",
     {
       variants: {
         focus: {
@@ -41,41 +43,43 @@ const Select: React.FC<SelectProps> = ({
 
   return (
     <div>
-      {helpMessage && focused && !error && (
-        <div className="relative">
-          <HelpMessage onSnooze={handleSnoozeHelp} type="info">
-            {helpMessage}
-          </HelpMessage>
-        </div>
-      )}
-      {error && (
-        <div className="relative">
-          <HelpMessage type="error" onSnooze={handleSnoozeHelp}>
-            {error}
-          </HelpMessage>
-        </div>
-      )}
-      <div className="flex flex-row space-x-1">
-        {!noIcon && label && !error && (
-          <img
-            onClick={onFocus}
-            alt="Help Icon"
-            src={HelpIcon}
-            width={16}
-            height={16}
-            className="cursor-pointer"
-          />
+      <div className="pb-1">
+        {helpMessage && focused && !error && (
+          <div className="relative">
+            <HelpMessage onSnooze={handleSnoozeHelp} type="info" link={link}>
+              {helpMessage}
+            </HelpMessage>
+          </div>
         )}
-        {label && error && (
-          <img
-            onClick={onFocus}
-            alt="Help Icon"
-            src={ErrorIcon}
-            width={16}
-            height={16}
-          />
+        {error && (
+          <div className="relative">
+            <HelpMessage type="error" onSnooze={handleSnoozeHelp}>
+              {error}
+            </HelpMessage>
+          </div>
         )}
-        {label && <label className={labelVariants({})}>{label}</label>}
+        <div className="flex flex-row space-x-1">
+          {!noIcon && label && !error && (
+            <img
+              onClick={onFocus}
+              alt="Help Icon"
+              src={HelpIcon}
+              width={16}
+              height={16}
+              className="cursor-pointer"
+            />
+          )}
+          {label && error && (
+            <img
+              onClick={onFocus}
+              alt="Help Icon"
+              src={ErrorIcon}
+              width={16}
+              height={16}
+            />
+          )}
+          {label && <label className={labelVariants({})}>{label}</label>}
+        </div>
       </div>
       <select
         className={inputVariants({ focus: error ? "error" : "noError" })}

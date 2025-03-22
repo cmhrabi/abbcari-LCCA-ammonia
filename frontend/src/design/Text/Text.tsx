@@ -70,7 +70,7 @@ const Text: React.FC<TextProps> = ({
         "alert-title": "text-alert-title",
         "nav-title": "text-nav-title",
         "results-title": "text-results-title",
-        "value": "text-value",
+        value: "text-value",
         "chart-title": "text-chart-title",
       },
       color: {
