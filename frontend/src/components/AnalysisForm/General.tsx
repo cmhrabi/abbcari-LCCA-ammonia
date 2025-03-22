@@ -32,8 +32,10 @@ const General: React.FC<GeneralProps> = ({ setCurrStep }) => {
       generalValues.baselineDemand.includes("-") ||
       generalValues.finalDemand.includes("-");
 
-    const incorrectStartYear = generalValues.startYear >= generalValues.finalYear;
-    const incorrectFinalYear = generalValues.finalYear <= generalValues.startYear;
+    const incorrectStartYear =
+      generalValues.startYear >= generalValues.finalYear;
+    const incorrectFinalYear =
+      generalValues.finalYear <= generalValues.startYear;
     const discount = Number(generalValues.discount);
     const isDiscountTooHigh = discount > 100;
 
@@ -90,7 +92,7 @@ const General: React.FC<GeneralProps> = ({ setCurrStep }) => {
     const discountValue = parseFloat(discountStr);
 
     if (discountStr.includes("-")) {
-      setDiscountStringError("Discount rate must be positive.",);
+      setDiscountStringError("Discount rate must be positive.");
     } else if (discountValue > 100) {
       setDiscountStringError("Discount rate must be less than 100%.");
     } else {
@@ -99,11 +101,10 @@ const General: React.FC<GeneralProps> = ({ setCurrStep }) => {
   }, [generalValues.discount]);
 
   useEffect(() => {
-    const baselineStr = generalValues.baselineDemand || "";
-    const baselineValue = parseFloat(baselineStr);
-
     if (generalValues.baselineDemand.includes("-")) {
-      setDemandStringError("Current electrical ammonia production must be positive.");
+      setDemandStringError(
+        "Current electrical ammonia production must be positive.",
+      );
     } else {
       setDemandStringError("");
     }
@@ -111,7 +112,9 @@ const General: React.FC<GeneralProps> = ({ setCurrStep }) => {
 
   useEffect(() => {
     if (generalValues.finalDemand.includes("-")) {
-      setFinalDemandStringError("Electrical ammonia demand in target year must be positive.");
+      setFinalDemandStringError(
+        "Electrical ammonia demand in target year must be positive.",
+      );
     } else {
       setFinalDemandStringError("");
     }
@@ -131,10 +134,9 @@ const General: React.FC<GeneralProps> = ({ setCurrStep }) => {
     } else {
       setProvinceError("");
     }
-  }
-  , [generalValues.province]);
-    
-  const years = Array.from({ length: 26 }, (_, i) => 2025 + i);
+  }, [generalValues.province]);
+
+  const years = Array.from({ length: 25 }, (_, i) => 2026 + i);
   return (
     <>
       <div className="py-2.5">
@@ -197,6 +199,7 @@ const General: React.FC<GeneralProps> = ({ setCurrStep }) => {
                 { value: "Yukon", label: "Yukon" },
               ]}
               helpMessage="The province you want to influence the projected cost based on its geographical location on the electricity grid."
+              link="https://www.notion.so/User-Manual-1b65baf055248030ac08e9dc0cad11d4?pvs=4#1b85baf0552480a69553ccb1c616b57f"
             />
           </div>
           <div className="text-nowrap overflow-visible col-span-2">
@@ -230,6 +233,7 @@ const General: React.FC<GeneralProps> = ({ setCurrStep }) => {
               }
               type="number"
               error={finalDemandStringError}
+              link="Some link"
               // noIcon
             />
           </div>

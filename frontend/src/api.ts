@@ -115,7 +115,7 @@ const cleanData = (
         learning_rate: subProcess.learningRate / 100,
         efficiency: subProcess.efficiency / 100,
         energy_req: subProcess.energyRequirement,
-        ng_req: subProcess.ng_req,
+        ng_req: subProcess.ngReq,
       });
     });
   }
@@ -174,7 +174,7 @@ const cleanData = (
         subprocesses: conventionalSubProcesses,
         water_consumption: parseFloat(conventionalSlice.value.waterRequirement),
         onsite_upstream_emmisions:
-          parseFloat(conventionalSlice.value.onsightEmissions) +
+          parseFloat(conventionalSlice.value.onsiteEmissions) +
           parseFloat(conventionalSlice.value.upstreamEmissions),
       },
       lcca_type: nameSlice.value.type,

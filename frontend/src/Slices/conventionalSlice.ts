@@ -7,7 +7,7 @@ export interface ConvSubProcess {
   installationFactor: number;
   energyRequirement: number;
   efficiency: number;
-  ng_req?: number;
+  ngReq?: number;
   name: string;
 }
 
@@ -30,7 +30,7 @@ export interface ConventionalState {
     bottomUpCalc: boolean;
     depreciationPercent: number;
     duration: number;
-    onsightEmissions: string;
+    onsiteEmissions: string;
     upstreamEmissions: string;
     waterRequirement: string;
     bottomUpProcess: ConvSubProcess;
@@ -50,7 +50,7 @@ export const conventionalSlice = createSlice({
           learningRate: 11,
           efficiency: 100,
           energyRequirement: 0.017,
-          ng_req: 0.887651929,
+          ngReq: 0.887651929,
         },
         {
           name: "SubProcess 2",
@@ -81,7 +81,7 @@ export const conventionalSlice = createSlice({
       bottomUpCalc: false,
       depreciationPercent: 11.8,
       duration: 20,
-      onsightEmissions: "5.41",
+      onsiteEmissions: "5.41",
       upstreamEmissions: "5.41",
       waterRequirement: "0.0791",
       bottomUpProcess: {
@@ -148,7 +148,8 @@ export const conventionalSlice = createSlice({
       action: PayloadAction<{ index: number; error: string }>,
     ) => {
       if (action.payload.index < state.value.directCosts.length) {
-        state.value.directCosts[action.payload.index].error = action.payload.error;
+        state.value.directCosts[action.payload.index].error =
+          action.payload.error;
       }
     },
     addIndirectCostError: (
@@ -156,7 +157,8 @@ export const conventionalSlice = createSlice({
       action: PayloadAction<{ index: number; error: string }>,
     ) => {
       if (action.payload.index < state.value.indirectCosts.length) {
-        state.value.indirectCosts[action.payload.index].error = action.payload.error;
+        state.value.indirectCosts[action.payload.index].error =
+          action.payload.error;
       }
     },
     deleteDirectCost: (state, action: PayloadAction<number>) => {
@@ -183,7 +185,7 @@ export const conventionalSlice = createSlice({
       state.value.upstreamEmissions = action.payload;
     },
     setOnsightEmissions: (state, action: PayloadAction<string>) => {
-      state.value.onsightEmissions = action.payload;
+      state.value.onsiteEmissions = action.payload;
     },
     setWaterRequirement: (state, action: PayloadAction<string>) => {
       state.value.waterRequirement = action.payload;
@@ -202,7 +204,7 @@ export const conventionalSlice = createSlice({
             learningRate: 11,
             efficiency: 100,
             energyRequirement: 0.017,
-            ng_req: 0.887651929,
+            ngReq: 0.887651929,
           },
           {
             name: "SubProcess 2",
@@ -233,7 +235,7 @@ export const conventionalSlice = createSlice({
         bottomUpCalc: false,
         depreciationPercent: 11.8,
         duration: 20,
-        onsightEmissions: "5.41",
+        onsiteEmissions: "5.41",
         upstreamEmissions: "5.41",
         waterRequirement: "0.0791",
         bottomUpProcess: {

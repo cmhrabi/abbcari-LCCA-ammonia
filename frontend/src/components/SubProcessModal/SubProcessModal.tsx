@@ -107,7 +107,7 @@ const SubProcessModal: React.FC<SubProcessModalProps> = ({
   const [energyRequirementError, setEnergyRequirementError] = useState("");
   const [efficiencyError, setEfficiencyError] = useState("");
 
-  useEffect(() => { 
+  useEffect(() => {
     if (
       name &&
       baseCost &&
@@ -127,8 +127,15 @@ const SubProcessModal: React.FC<SubProcessModalProps> = ({
     } else {
       setDisabled(true);
     }
-  }
-  , [name, baseCost, learningRate, scalingFactor, installationFactor, energyRequirement, efficiency]);
+  }, [
+    name,
+    baseCost,
+    learningRate,
+    scalingFactor,
+    installationFactor,
+    energyRequirement,
+    efficiency,
+  ]);
 
   useEffect(() => {
     if (baseCost && parseFloat(baseCost) < 0) {
@@ -139,7 +146,10 @@ const SubProcessModal: React.FC<SubProcessModalProps> = ({
   }, [baseCost]);
 
   useEffect(() => {
-    if (learningRate && (parseFloat(learningRate) < 0 || parseFloat(learningRate) > 100)) {
+    if (
+      learningRate &&
+      (parseFloat(learningRate) < 0 || parseFloat(learningRate) > 100)
+    ) {
       setLearningRateError("Learning rate must be between 1% and a 100%");
     } else {
       setLearningRateError("");
@@ -147,7 +157,10 @@ const SubProcessModal: React.FC<SubProcessModalProps> = ({
   }, [learningRate]);
 
   useEffect(() => {
-    if (scalingFactor && (parseFloat(scalingFactor) < 0 || parseFloat(scalingFactor) > 100)) {
+    if (
+      scalingFactor &&
+      (parseFloat(scalingFactor) < 0 || parseFloat(scalingFactor) > 100)
+    ) {
       setScalingFactorError("Scaling factor must be between 1% and a 100%");
     } else {
       setScalingFactorError("");
@@ -155,13 +168,18 @@ const SubProcessModal: React.FC<SubProcessModalProps> = ({
   }, [scalingFactor]);
 
   useEffect(() => {
-    if (installationFactor && (parseFloat(installationFactor) < 0 || parseFloat(installationFactor) > 100)) {
-      setInstallationFactorError("Installation factor must be between 1% and a 100%");
+    if (
+      installationFactor &&
+      (parseFloat(installationFactor) < 0 ||
+        parseFloat(installationFactor) > 100)
+    ) {
+      setInstallationFactorError(
+        "Installation factor must be between 1% and a 100%",
+      );
     } else {
       setInstallationFactorError("");
     }
-  }
-  , [installationFactor]);
+  }, [installationFactor]);
 
   useEffect(() => {
     if (energyRequirement && parseFloat(energyRequirement) < 0) {
@@ -172,13 +190,15 @@ const SubProcessModal: React.FC<SubProcessModalProps> = ({
   }, [energyRequirement]);
 
   useEffect(() => {
-    if (efficiency && (parseFloat(efficiency) < 0 || parseFloat(efficiency) > 100)) {
+    if (
+      efficiency &&
+      (parseFloat(efficiency) < 0 || parseFloat(efficiency) > 100)
+    ) {
       setEfficiencyError("Efficiency must be between 1% and a 100%");
     } else {
       setEfficiencyError("");
     }
-  }
-  , [efficiency]);
+  }, [efficiency]);
 
   return (
     <Modal
