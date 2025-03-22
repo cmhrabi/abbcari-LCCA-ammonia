@@ -24,23 +24,45 @@ const LCCALineChart: React.FC<LineChartProps> = ({ data, title }) => {
     </div>
   );
 
+  const filteredData = data.map((serie) => ({
+    ...serie,
+    data: serie.data.map((d) => ({
+      ...d,
+      y: typeof d.y === "number" && d.y < 0 ? null : d.y,
+    })),
+  }));
+
+  const hasNegativeValues = data.some((serie) =>
+    serie.data.some((d) => typeof d.y === "number" && d.y < 0),
+  );
+
+  const maxValue = Math.max(
+    ...filteredData.flatMap((serie) => serie.data.map((d) => d.y as number)),
+  );
+  const roundedMaxValue = Math.pow(10, Math.ceil(Math.log10(maxValue)));
+
+  const maxYear = Math.max(
+    ...filteredData.flatMap((serie) => serie.data.map((d) => d.x as number)),
+  );
+  const tickValues = maxYear > 2040 ? [2030, 2040, 2050] : [2030, 2040];
+
   return (
     <div className="bg-primary-50 shadow-card rounded-3px p-6 mr-7 space-y-5">
       <Text textSize="chart-title">{title}</Text>
       <div className="bg-white h-[600px]">
         <ResponsiveLine
-          data={data}
+          data={filteredData}
           margin={{ top: 50, right: 50, bottom: 50, left: 60 }}
           xScale={{
             type: "linear",
             min: 2025,
-            max: 2050,
+            max: maxYear + 1,
           }}
           yScale={{
             type: "log",
             base: 10,
             min: 100,
-            max: 100000,
+            max: roundedMaxValue,
           }}
           axisBottom={{
             tickSize: 5,
@@ -49,10 +71,10 @@ const LCCALineChart: React.FC<LineChartProps> = ({ data, title }) => {
             legend: "Year",
             legendOffset: 36,
             legendPosition: "middle",
-            tickValues: [2030, 2040, 2050],
+            tickValues: tickValues,
           }}
           axisLeft={{
-            tickValues: [10, 100, 1000, 10000, 100000, 1000000, 10000000],
+            tickValues: Array.from({ length: 20 }, (_, i) => Math.pow(10, i)),
             legend: "LCCA ($/tCO2eq)",
             legendOffset: -50,
             legendPosition: "middle",
@@ -85,6 +107,12 @@ const LCCALineChart: React.FC<LineChartProps> = ({ data, title }) => {
           ]}
         />
       </div>
+      {hasNegativeValues && (
+        <Text textSize="sub4" color="secondary">
+          Missing values indicate that the electrified process creates more
+          emissions than the conventional ones so LCCA cannot be computed.
+        </Text>
+      )}
     </div>
   );
 };
