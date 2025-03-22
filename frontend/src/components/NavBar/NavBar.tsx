@@ -28,12 +28,15 @@ const NavBar: React.FC<NavBarProps> = ({ title, type = "default" }) => {
         </div>
       </div>
       <div>
-        <div className="flex flex-row items-right justify-items-center space-x-10">
-          {type === "home" && <Text textSize="sub2" className="space-y-3">About</Text>}
-          <div className="pr-20">
+        <div className="flex flex-row items-right align-items-center space-x-10">
+          {type === "home" && 
+          <Button color="transparent" size="medium" onClick={() => navigate("/about")}>
+            About
+          </Button>}
+          <div className="pr-20 align-items-center">
             {type === "home" && (
-              <Button size="small" onClick={() => navigate("/analysis/start")}>
-                Launch LCCA
+              <Button size="medium" onClick={() => navigate("/analysis/start")}>
+                Launch Compass
               </Button>
             )}
           </div>
