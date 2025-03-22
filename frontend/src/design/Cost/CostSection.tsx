@@ -207,6 +207,7 @@ const CostInput: React.FC<InputProps> = ({
         deleteCost={() => deleteRow(currDeleteIndex as number)}
         isOpen={isOpen}
         onOpenChange={onOpenChange}
+        isLastCost={rows.length === 1}
       />
     </div>
   );

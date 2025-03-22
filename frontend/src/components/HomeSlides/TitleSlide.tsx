@@ -29,7 +29,7 @@ const TitleSlide: React.FC = () => {
           Get Started
         </Button>
       </div>
-      <div className="w-1/2 pr-8">
+      <div className="w-1/2 h-full pr-8">
         <img src={home_bg} alt="Visualize strategies" className="w-full h-full rounded-lg shadow-lg" />
       </div>
     </div>
