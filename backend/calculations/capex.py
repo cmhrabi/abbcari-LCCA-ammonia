@@ -915,6 +915,7 @@ def C_dir_calc(t_o, t_f, water_consumption, X_inst, total_elec, elec_price, T_op
     net_ammonia_production_year = X_inst[0]
     lifetime = t_f - t_o
     annual_cost_addition = []
+    print(t_o, t_f, water_consumption, X_inst, total_elec, elec_price, T_op)
     # Water Requirement Calculation C102
     water_requirement = []
     for i in range(lifetime):

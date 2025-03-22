@@ -3,9 +3,14 @@ import { ElectrifiedState } from "./Slices/electrifiedSlice";
 import { GeneralState } from "./Slices/generalSlice";
 import { NameState } from "./Slices/nameSlice";
 
+type Cost = {
+  name: string;
+  cost: number;
+};
+
 type SubProcess = {
   name: string;
-  baseline_cost: number;
+  baseline_cost?: number;
   installation_factor: number;
   scaling_factor: number;
   learning_rate: number;
@@ -19,11 +24,16 @@ type Process = {
   direct_cost_factor: number;
   indirect_cost_factor: number;
   wc_cost_factor: number;
+  wc_cost?: number;
+  installation_cost?: number; // Optional field
+  direct_costs?: Cost[]; // Optional field
+  indirect_costs?: Cost[]; // Optional field
   subprocesses: SubProcess[];
   water_consumption: number;
   depreciation?: number; // Optional field for conventional process
   duration?: number; // Optional field for conventional process
   onsite_upstream_emmisions?: number; // Optional field for conventional process
+  bottom_up: boolean; // Optional field for conventional process
 };
 
 type Payload = {
@@ -57,9 +67,21 @@ const cleanData = (
   nameSlice: NameState,
   generalSlice: GeneralState,
 ): { error: string; payload: Payload | null } => {
-  const electrifiedSubProcesses = electrifiedSlice.value.subProcesses.map(
-    (subProcess) => {
-      return {
+  const electrifiedSubProcesses: SubProcess[] = [];
+  if (electrifiedSlice.value.bottomUpCalc) {
+    electrifiedSubProcesses.push({
+      name: electrifiedSlice.value.bottomUpProcess.name,
+      installation_factor:
+        electrifiedSlice.value.bottomUpProcess.installationFactor / 100,
+      scaling_factor:
+        electrifiedSlice.value.bottomUpProcess.scalingFactor / 100,
+      learning_rate: electrifiedSlice.value.bottomUpProcess.learningRate / 100,
+      efficiency: electrifiedSlice.value.bottomUpProcess.efficiency / 100,
+      energy_req: electrifiedSlice.value.bottomUpProcess.energyRequirement,
+    });
+  } else {
+    electrifiedSlice.value.subProcesses.map((subProcess) => {
+      electrifiedSubProcesses.push({
         name: subProcess.name,
         baseline_cost: subProcess.baseCost,
         installation_factor: subProcess.installationFactor / 100,
@@ -67,13 +89,25 @@ const cleanData = (
         learning_rate: subProcess.learningRate / 100,
         efficiency: subProcess.efficiency / 100,
         energy_req: subProcess.energyRequirement,
-      };
-    },
-  );
+      });
+    });
+  }
 
-  const conventionalSubProcesses = conventionalSlice.value.subProcesses.map(
-    (subProcess) => {
-      return {
+  const conventionalSubProcesses: SubProcess[] = [];
+  if (conventionalSlice.value.bottomUpCalc) {
+    conventionalSubProcesses.push({
+      name: conventionalSlice.value.bottomUpProcess.name,
+      installation_factor:
+        conventionalSlice.value.bottomUpProcess.installationFactor / 100,
+      scaling_factor:
+        conventionalSlice.value.bottomUpProcess.scalingFactor / 100,
+      learning_rate: conventionalSlice.value.bottomUpProcess.learningRate / 100,
+      efficiency: conventionalSlice.value.bottomUpProcess.efficiency / 100,
+      energy_req: conventionalSlice.value.bottomUpProcess.energyRequirement,
+    });
+  } else {
+    conventionalSlice.value.subProcesses.map((subProcess) => {
+      conventionalSubProcesses.push({
         name: subProcess.name,
         baseline_cost: subProcess.baseCost,
         installation_factor: subProcess.installationFactor / 100,
@@ -82,9 +116,9 @@ const cleanData = (
         efficiency: subProcess.efficiency / 100,
         energy_req: subProcess.energyRequirement,
         ng_req: subProcess.ng_req,
-      };
-    },
-  );
+      });
+    });
+  }
 
   if (electrifiedSubProcesses.length <= 0) {
     return { error: "Please add electrified sub processes", payload: null };
@@ -103,14 +137,38 @@ const cleanData = (
         direct_cost_factor: electrifiedSlice.value.directCostFactor / 100,
         indirect_cost_factor: electrifiedSlice.value.indirectCostFactor / 100,
         wc_cost_factor: electrifiedSlice.value.workingCapitalFactor / 100,
+        wc_cost: parseFloat(electrifiedSlice.value.workingCapitalCost) || 0,
+        installation_cost:
+          parseFloat(electrifiedSlice.value.installationCost) || 0,
+        direct_costs: electrifiedSlice.value.directCosts.map((cost) => ({
+          ...cost,
+          cost: parseFloat(cost.cost) || 0,
+        })),
+        indirect_costs: electrifiedSlice.value.indirectCosts.map((cost) => ({
+          ...cost,
+          cost: parseFloat(cost.cost) || 0,
+        })),
         subprocesses: electrifiedSubProcesses,
         water_consumption: parseFloat(electrifiedSlice.value.waterRequirement),
+        bottom_up: electrifiedSlice.value.bottomUpCalc,
       },
       conventional: {
         name: nameSlice.value.tech2Name,
+        bottom_up: conventionalSlice.value.bottomUpCalc,
         direct_cost_factor: conventionalSlice.value.directCostFactor / 100,
         indirect_cost_factor: conventionalSlice.value.indirectCostFactor / 100,
         wc_cost_factor: conventionalSlice.value.workingCapitalFactor / 100,
+        wc_cost: parseFloat(conventionalSlice.value.workingCapitalCost) || 0,
+        installation_cost:
+          parseFloat(conventionalSlice.value.installationCost) || 0,
+        direct_costs: conventionalSlice.value.directCosts.map((cost) => ({
+          ...cost,
+          cost: parseFloat(cost.cost) || 0,
+        })),
+        indirect_costs: conventionalSlice.value.indirectCosts.map((cost) => ({
+          ...cost,
+          cost: parseFloat(cost.cost) || 0,
+        })),
         depreciation: conventionalSlice.value.depreciationPercent / 100,
         duration: conventionalSlice.value.duration,
         subprocesses: conventionalSubProcesses,
