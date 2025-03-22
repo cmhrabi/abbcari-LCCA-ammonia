@@ -524,54 +524,54 @@ def set_up(province,t_o,t_f):
                                      30.26678528, 30.28499859, 30.33665376, 30.37930281, 30.47473706, 30.54859349,
                                      30.6299386, 30.68670338, 30.76109949, 30.94870143, 31.14601948, 31.30465938,
                                      31.50734496, 31.68627673, 31.84813388, 31.98594149, 32.17479236, 32.42730799,
-                                     32.71695292],
+                                     32.71695292,32.71695292],
                      'Natural Gas': [9.211476293, 9.870884437, 10.40111451, 11.005, 11.37793071, 12.35786626,
                                      13.15101295, 14.05714377, 14.91736502, 15.76267822, 16.62225902, 17.50582354,
                                      18.26116836, 19.13651624, 19.88193316, 20.5166885, 21.68124127, 22.72603736,
                                      23.68616076, 24.62623075, 25.64073019, 26.4737376, 27.25419927, 28.07055161,
-                                     28.95105741],
+                                     28.95105741,28.95105741],
                      'Hydro / Wave / Tidal_g': [
                          411852.56, 419981.88, 426869.5, 436540.38, 443003.08, 446336.98, 450324.92, 454028.58,
                          457200.29, 465887.5, 467417.39, 468835.99, 470024.22, 471310.57, 472122.51, 472503.01,
                          473445.5, 473265.08, 472173.46, 471195.94, 471942.62, 472757.77, 473427.37, 474137.28,
-                         476049.12
+                         476049.12,476049.12
                      ],
                      'Wind_g': [
                          67972.82, 73531.38, 79436.82, 85234.38, 92447.75, 111254.59, 130403.24, 148993.79,
                          167085.75, 184305.25, 191832.79, 199211.78, 206950.17, 214379.93, 221741.21, 239527.4,
                          257535.9, 274773.12, 291459.15, 307964.04, 320515.08, 332700.41, 344803.7, 356705.39,
-                         369473.84
+                         369473.84,369473.84
 
                      ],
                      'Biomass / Geothermal_g': [
                          8048.59, 7787.57, 8255.76, 7537.47, 7426.04, 10268.81, 13828.84, 17871.67, 20069.95,
                          19716.07, 21787, 23896.4, 26017.44, 28250.48, 30431.87, 33444.33, 36403.28, 39154.23,
-                         41693.73, 44172.44, 47241.86, 50476.86, 53760.69, 57112.79, 60527.28
+                         41693.73, 44172.44, 47241.86, 50476.86, 53760.69, 57112.79, 60527.28,60527.28
                      ],
                      'Solar_g': [
                          12370.85, 13034.4, 13697.95, 14361.5, 15114.34, 20577.39, 26041.93, 31473.45, 36774.9,
                          42161.8, 42769.28, 43247.8, 43793.05, 44301.81, 44977.33, 47716.47, 50437.67, 53163.22,
-                         55744.82, 58235.12, 58898.59, 59782.75, 60531.67, 61214.7, 62038.55
+                         55744.82, 58235.12, 58898.59, 59782.75, 60531.67, 61214.7, 62038.55,62038.55
 
                      ],
                      'Uranium_g': [
                          76028.67, 76035.12, 79075.16, 81493.8, 87624.81, 95361.02, 104341.01, 112752.32, 125787.15,
                          131692.29, 147402.04, 163198.29, 179349.95, 196063.58, 213669.05, 218043.73, 218762.28,
-                         222132.71, 227949.32, 229980.73, 232644.77, 235547.83, 238732.78, 241793.21, 245278.04
+                         222132.71, 227949.32, 229980.73, 232644.77, 235547.83, 238732.78, 241793.21, 245278.04,245278.04
                      ],
                      'Coal & Coke_g': [
                          8183.05, 7418.06, 6253.35, 3605.27, 654.89, 654.81, 654.81, 654.81, 654.81, 0, 0, 0, 0, 0,
-                         0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+                         0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,0
                      ],
                      'Natural Gas_g': [
                          100957.43, 106986.59, 110925.75, 118135.1, 122842.69, 104728.89, 86058.73, 69814.97,
                          54848.91, 41866.65, 40455.78, 39718.96, 39341.53, 39850.28, 40610.15, 43952.12, 48449.88,
-                         51871.98, 53636.88, 55505.42, 59854.35, 64755.29, 70146.96, 75436.35, 78276.28
+                         51871.98, 53636.88, 55505.42, 59854.35, 64755.29, 70146.96, 75436.35, 78276.28,78276.28
                      ],
                      'Oil_g': [
                          1144.65, 1181.39, 1482.02, 1181.33, 914.76, 956.18, 935.94, 942.56, 967.83, 726.09, 670.94,
                          679.4, 673.08, 681.84, 681.76, 675.25, 851.94, 892.2, 720.63, 734.54, 760.72, 800.12, 850.97,
-                         957.38, 872.26
+                         957.38, 872.26,872.26
 
                      ]
             }
@@ -652,7 +652,7 @@ def X_n_gpt(X_sat, X_b, t_o, t_f, r):
     X_n_inst = [X_b]
     years = t_f - t_o
 
-    for n in range(1, years):
+    for n in range(1, years+1):
         if n == 1:
             X_n = 1.08 * (2 * X_n_values[-1] - 0)
             X_n_values.append(X_n)
@@ -746,6 +746,7 @@ def pur_inst_cost_calc(C_b, X_n, X_b, Y, scaling_factor):
         C_pur.append(C_sum)
         C_inst.append(C_sum_i)
 
+
     return C_pur, C_inst
 
 def cost_projection(cost, X_n,alpha,scaling_factor,Y, inst):
@@ -767,8 +768,6 @@ def cost_projection(cost, X_n,alpha,scaling_factor,Y, inst):
         if inst:
             C_i = (1+Y[0]) * C_i
         C_post.append(C_i)
-
-    # print(C)
 
     return C_post
 
@@ -795,7 +794,6 @@ def costs_calc(C_pur, C_inst, S_dir, S_indir, S_wc):
         C_indir_dir_j = C_inst[j] + C_pur[j] * S_dir + (C_inst[j] + C_pur[j] * S_dir) * S_indir
         C_indir_dir.append(C_indir_dir_j)
 
-    # print(C_indir_dir)
 
     return C_indir_dir, C_dir, C_wc, C_indir
 
@@ -825,19 +823,18 @@ def capex_o_calc(C_inst, C_dir, C_indir, C_wc):
     return C_capex_o
 
 def PV_capex_calc(DR, t_f, t_o):
-    n = t_f - t_o
+    n = t_f - t_o + 1
     PV_capex = []
 
-    for i in range(n + 5):
+    for i in range(n):
         PV_capex.append(1 / pow(1 + DR, i))
-
     return PV_capex
 
 
 def C_capex_calc(C_capex_o, PV_capex):
     C_capex = []
     for i in range(len(C_capex_o)):
-        C_capex.append(PV_capex[i + 4] * C_capex_o[i])
+        C_capex.append(PV_capex[i] * C_capex_o[i])
     return C_capex
 
 
@@ -892,6 +889,7 @@ def tot_calc(ER, X_inst):
             year_tot += ER[j][i]
         year_tot = year_tot * (X_inst[i] / X_inst[0])
         total.append(year_tot)
+
     return total
 
 
@@ -913,7 +911,7 @@ def C_dir_calc(t_o, t_f, water_consumption, X_inst, total_elec, elec_price, T_op
     Op_hrs_year = T_op
     Water_price_ton = 1.35
     net_ammonia_production_year = X_inst[0]
-    lifetime = t_f - t_o
+    lifetime = t_f - t_o + 1
     annual_cost_addition = []
     print(t_o, t_f, water_consumption, X_inst, total_elec, elec_price, T_op)
     # Water Requirement Calculation C102
@@ -921,6 +919,7 @@ def C_dir_calc(t_o, t_f, water_consumption, X_inst, total_elec, elec_price, T_op
     for i in range(lifetime):
         water = water_consumption * (X_inst[i] / net_ammonia_production_year)
         water_requirement.append(water)
+
     # Annual Cost Addition Calc C102
     for i in range(lifetime):
         annual_cost = (water_requirement[i] / 24) * Op_hrs_year * (Water_price_ton / 1000000)
@@ -935,7 +934,7 @@ def C_dir_calc(t_o, t_f, water_consumption, X_inst, total_elec, elec_price, T_op
     # C62
     for i in range(lifetime):
         # sumproduct bullshit:
-        t = [year for year in range(t_o, t_f)]
+        t = [year for year in range(t_o, t_f+1)]
         sumproduct = 0
         for j in range(lifetime):
             if (i+j) < lifetime:
@@ -946,17 +945,15 @@ def C_dir_calc(t_o, t_f, water_consumption, X_inst, total_elec, elec_price, T_op
         annual_elec_cost = total_elec[i] * Op_hrs_year * sumproduct / (sum(t) * 1000000)
         annual_cost_added_capacity.append(annual_elec_cost)
         # not working ask calum because this is bullshit
-
     for i in range(lifetime):
         C_dir.append(annual_cost_added_capacity[i] + annual_cost_addition[i])
-
     return C_dir
 
 
 # left: C121, C123, C124, C125
 
 def C_opex_o_calc(t_f, t_o, X_n_inst, C_indir_dir, C_dir, T_op):  # C121
-    lifetime = t_f - t_o
+    lifetime = t_f - t_o + 1
 
     operating_supervision_share = 0.15
     maintenance_labor_share = 0.02
@@ -1001,6 +998,7 @@ def C_opex_o_calc(t_f, t_o, X_n_inst, C_indir_dir, C_dir, T_op):  # C121
         additional_cost.append((C_dir[
                                     i] + operating_labour + operating_supervision + maintenance_labour + maintenance_material + operating_supplies + laboratory_charges + tax + plant_overhead + administrative_cost) / (
                                        1 - distribution_marketing_rnd_share))
+
 
     return additional_cost
 
@@ -1061,6 +1059,7 @@ def op_emissions_calc(X_n, X_b, t_f, t_o, op_hrs, elec_usage, onsite_upstream_em
     for i in range(len(X_n)):
         lifetime_op_emissions.append(electricity_emissions[i] + onsite_upstream[i] + water_utility_emission[i])
 
+
     return lifetime_op_emissions
 
 
@@ -1090,7 +1089,7 @@ def import_export_calc(Ammonia_demand, X_n):
         0.85181865573919, 0.85181865573919, 0.85181865573919, 0.85181865573919,
         0.85181865573919, 0.85181865573919, 0.85181865573919, 0.85181865573919,
         0.85181865573919, 0.85181865573919, 0.85181865573919, 0.85181865573919,
-        0.85181865573919, 0.85181865573919, 0.85181865573919, 0.85181865573919, 0.85181865573919
+        0.85181865573919, 0.85181865573919, 0.85181865573919, 0.85181865573919, 0.85181865573919 , 0.85181865573919
     ]
 
     canada_avg_revenue_export = [
@@ -1099,7 +1098,7 @@ def import_export_calc(Ammonia_demand, X_n):
         0.86304334710494, 0.86304334710494, 0.86304334710494, 0.86304334710494,
         0.86304334710494, 0.86304334710494, 0.86304334710494, 0.86304334710494,
         0.86304334710494, 0.86304334710494, 0.86304334710494, 0.86304334710494,
-        0.86304334710494, 0.86304334710494, 0.86304334710494, 0.86304334710494, 0.86304334710494
+        0.86304334710494, 0.86304334710494, 0.86304334710494, 0.86304334710494, 0.86304334710494, 0.86304334710494
     ]
 
     Imports_needed = []
@@ -1107,7 +1106,6 @@ def import_export_calc(Ammonia_demand, X_n):
 
     for i in range(len(X_n)):
         Imports_needed.append(Ammonia_demand[i] - X_n[i])
-    # print(Imports_needed)
 
     for i in range(len(X_n)):
         if Imports_needed[i] > 0:
@@ -1125,7 +1123,6 @@ def LCCA_calc(C_capex, C_opex, C_capex_grey, C_opex_grey, import_export, emissio
     for i in range(len(C_capex)):
         cumulative += C_capex[i] + C_opex[i] + C_capex_grey[i] - C_opex_grey[i] + import_export[i]
         LCCA.append(cumulative * 1000000 / ((emissions_grey[i] - emissions[i]) / 1000000))
-
     # print(Cumulative_PV_C)
     return LCCA
 
@@ -1136,6 +1133,7 @@ def LCCA_psi_calc(C_capex, C_opex, C_capex_blue, C_opex_blue, import_export, emi
     for i in range(len(C_capex)):
         cumulative += C_capex[i] + C_opex[i] - (C_capex_blue[i] + C_opex_blue[i]) + import_export[i]
         LCCA_psi.append(cumulative * 1000000 / ((emissions_blue[i] - emissions_P2A[i]) / 1000000))
+
     return LCCA_psi
 
 
@@ -1374,10 +1372,10 @@ def main():
 
     # import Export calc
     Ammonia_demand = [
-        5.71031170, 12.65180775, 21.02357730, 31.05332624, 34.40098668, 38.10953699,
+        0,0,5.71031170, 12.65180775, 21.02357730, 31.05332624, 34.40098668, 38.10953699,
         42.21788237, 46.76912219, 51.81100206, 57.39641474, 63.58395504, 70.43853447,
         78.03206226, 86.44419970, 95.76319586, 106.08681338, 117.52335407, 130.19279505,
-        144.22804740, 159.77635053, 177.00081675, 196.08214248, 217.22050388, 240.63765678, 273.64783562
+        144.22804740, 159.77635053, 177.00081675, 196.08214248, 217.22050388, 240.63765678
     ]
 
     import_export = import_export_calc(Ammonia_demand, X_n)
@@ -1406,6 +1404,7 @@ def main():
     #                   C177            C187           C186 *           C280        C267            C259
     LCCA = LCCA_calc(C_capex, C_opex, C_capex_grey_loss, C_opex_grey, import_export, emissions_grey, emissions)
     print(LCCA)
+
 
 
     # LCCA_PSI Calc
@@ -1461,8 +1460,7 @@ def main():
 
     LCCA_psi = LCCA_psi_calc(C_capex, C_opex, C_capex_blue, C_opex_blue, import_export, emissions_blue, emissions)
 
-    print(LCCA_psi)
-
+    # print(LCCA_psi)
 
 if __name__ == "__main__":
     main()
