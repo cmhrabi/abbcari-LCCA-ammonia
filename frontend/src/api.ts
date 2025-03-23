@@ -72,23 +72,25 @@ const cleanData = (
     electrifiedSubProcesses.push({
       name: electrifiedSlice.value.bottomUpProcess.name,
       installation_factor:
-        electrifiedSlice.value.bottomUpProcess.installationFactor / 100,
+        (electrifiedSlice.value.bottomUpProcess.installationFactor ?? 0) / 100,
       scaling_factor:
-        electrifiedSlice.value.bottomUpProcess.scalingFactor / 100,
-      learning_rate: electrifiedSlice.value.bottomUpProcess.learningRate / 100,
-      efficiency: electrifiedSlice.value.bottomUpProcess.efficiency / 100,
-      energy_req: electrifiedSlice.value.bottomUpProcess.energyRequirement,
+        (electrifiedSlice.value.bottomUpProcess.scalingFactor ?? 0) / 100,
+      learning_rate:
+        (electrifiedSlice.value.bottomUpProcess.learningRate ?? 0) / 100,
+      efficiency:
+        (electrifiedSlice.value.bottomUpProcess.efficiency ?? 0) / 100,
+      energy_req: electrifiedSlice.value.bottomUpProcess.energyRequirement ?? 0,
     });
   } else {
     electrifiedSlice.value.subProcesses.map((subProcess) => {
       electrifiedSubProcesses.push({
         name: subProcess.name,
-        baseline_cost: subProcess.baseCost,
-        installation_factor: subProcess.installationFactor / 100,
-        scaling_factor: subProcess.scalingFactor / 100,
-        learning_rate: subProcess.learningRate / 100,
-        efficiency: subProcess.efficiency / 100,
-        energy_req: subProcess.energyRequirement,
+        baseline_cost: subProcess.baseCost ?? 0,
+        installation_factor: (subProcess.installationFactor ?? 0) / 100,
+        scaling_factor: (subProcess.scalingFactor ?? 0) / 100,
+        learning_rate: (subProcess.learningRate ?? 0) / 100,
+        efficiency: (subProcess.efficiency ?? 0) / 100,
+        energy_req: subProcess.energyRequirement ?? 0,
       });
     });
   }
@@ -98,24 +100,27 @@ const cleanData = (
     conventionalSubProcesses.push({
       name: conventionalSlice.value.bottomUpProcess.name,
       installation_factor:
-        conventionalSlice.value.bottomUpProcess.installationFactor / 100,
+        (conventionalSlice.value.bottomUpProcess.installationFactor ?? 0) / 100,
       scaling_factor:
-        conventionalSlice.value.bottomUpProcess.scalingFactor / 100,
-      learning_rate: conventionalSlice.value.bottomUpProcess.learningRate / 100,
-      efficiency: conventionalSlice.value.bottomUpProcess.efficiency / 100,
-      energy_req: conventionalSlice.value.bottomUpProcess.energyRequirement,
+        (conventionalSlice.value.bottomUpProcess.scalingFactor ?? 0) / 100,
+      learning_rate:
+        (conventionalSlice.value.bottomUpProcess.learningRate ?? 0) / 100,
+      efficiency:
+        (conventionalSlice.value.bottomUpProcess.efficiency ?? 0) / 100,
+      energy_req:
+        conventionalSlice.value.bottomUpProcess.energyRequirement ?? 0,
     });
   } else {
     conventionalSlice.value.subProcesses.map((subProcess) => {
       conventionalSubProcesses.push({
         name: subProcess.name,
-        baseline_cost: subProcess.baseCost,
-        installation_factor: subProcess.installationFactor / 100,
-        scaling_factor: subProcess.scalingFactor / 100,
-        learning_rate: subProcess.learningRate / 100,
-        efficiency: subProcess.efficiency / 100,
-        energy_req: subProcess.energyRequirement,
-        ng_req: subProcess.ngReq,
+        baseline_cost: subProcess.baseCost ?? 0,
+        installation_factor: (subProcess.installationFactor ?? 0) / 100,
+        scaling_factor: (subProcess.scalingFactor ?? 0) / 100,
+        learning_rate: (subProcess.learningRate ?? 0) / 100,
+        efficiency: (subProcess.efficiency ?? 0) / 100,
+        energy_req: subProcess.energyRequirement ?? 0,
+        ng_req: subProcess.ngReq ?? 0,
       });
     });
   }

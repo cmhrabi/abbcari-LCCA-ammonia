@@ -342,7 +342,7 @@ const SubProcessModal: React.FC<SubProcessModalProps> = ({
                 }}
                 disabled={disabled}
               >
-                {editID === undefined ? "Add" : "Save changes"}
+                {editID === undefined ? "Add" : "Save Changes"}
               </Button>
             </ModalFooter>
           </>

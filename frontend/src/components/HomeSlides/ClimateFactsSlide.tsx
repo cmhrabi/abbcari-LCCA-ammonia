@@ -6,14 +6,14 @@ const ClimateFactsSlide: React.FC = () => {
     <div className="bg-grey-bg">
       <div className="py-16 max-w-6xl m-auto flex justify-center flex-col">
         <div className="pb-6 grid gap-y-4 grid-cols-1 w-4/6">
-            <Text textSize="sub1" color="primary" align="left">
-              OUR MISSION
+          <Text textSize="sub1" color="primary" align="left">
+            OUR MISSION
+          </Text>
+          <div className="whitespace-nowrap">
+            <Text textSize="h2" color="secondary" align="left">
+              Help Canada reach Net Zero
             </Text>
-            <div className="whitespace-nowrap">
-              <Text textSize="h2" color="secondary" align="left">
-                Help Canada reach Net Zero
-              </Text>
-            </div>
+          </div>
         </div>
         <table className="w-full">
           <tbody>
@@ -23,9 +23,13 @@ const ClimateFactsSlide: React.FC = () => {
                   <Text textSize="nav-title" color="secondary" align="center">
                     1.3%
                   </Text>
-                    <Text textSize="sub2" className="whitespace-nowrap" align="center">
-                      Of global carbon emissions are from ammonia production
-                    </Text>
+                  <Text
+                    textSize="sub2"
+                    className="whitespace-nowrap"
+                    align="center"
+                  >
+                    Of global carbon emissions are from ammonia production
+                  </Text>
                 </div>
               </td>
               <td className="justify-items-center">
@@ -35,8 +39,12 @@ const ClimateFactsSlide: React.FC = () => {
                       565 million
                     </Text>
                   </div>
-                  <Text textSize="sub2" className="whitespace-nowrap" align="center">
-                    Metric tons of CO2 produced by Canada in 2018
+                  <Text
+                    textSize="sub2"
+                    className="whitespace-nowrap"
+                    align="center"
+                  >
+                    Metric tons of CO<sub>2</sub> produced by Canada in 2018
                   </Text>
                 </div>
               </td>

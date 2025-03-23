@@ -1,12 +1,12 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 export interface SubProcess {
-  baseCost: number;
-  learningRate: number;
-  scalingFactor: number;
-  installationFactor: number;
-  energyRequirement: number;
-  efficiency: number;
+  baseCost: number | null;
+  learningRate: number | null;
+  scalingFactor: number | null;
+  installationFactor: number | null;
+  energyRequirement: number | null;
+  efficiency: number | null;
   name: string;
 }
 
@@ -64,7 +64,7 @@ export const electrifiedSlice = createSlice({
           efficiency: 100,
           energyRequirement: 0.0778,
         },
-      ],
+      ] as SubProcess[],
       directCosts: [{ name: "", cost: "" } as Cost],
       indirectCosts: [{ name: "", cost: "" } as Cost],
       workingCapitalCost: "",
@@ -76,13 +76,13 @@ export const electrifiedSlice = createSlice({
       waterRequirement: "1.58",
       bottomUpProcess: {
         name: "",
-        baseCost: 0,
-        installationFactor: 0,
-        scalingFactor: 0,
-        learningRate: 0,
-        efficiency: 0,
-        energyRequirement: 0,
-      },
+        baseCost: null,
+        installationFactor: null,
+        scalingFactor: null,
+        learningRate: null,
+        efficiency: null,
+        energyRequirement: null,
+      } as SubProcess,
     },
   },
   reducers: {
@@ -213,10 +213,10 @@ export const electrifiedSlice = createSlice({
         waterRequirement: "",
         bottomUpProcess: {
           name: "",
-          baseCost: 0,
+          baseCost: null,
           installationFactor: 0,
           scalingFactor: 0,
-          learningRate: 0,
+          learningRate: null,
           efficiency: 0,
           energyRequirement: 0,
         },

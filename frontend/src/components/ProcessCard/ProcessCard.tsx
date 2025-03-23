@@ -4,14 +4,14 @@ import Text from "../../design/Text/Text";
 import { cva } from "class-variance-authority";
 
 export interface ProcessCardInfo {
-  baseCost: number;
-  learningRate: number;
-  scalingFactor: number;
-  installationFactor: number;
-  energyRequirement: number;
-  efficiency: number;
+  baseCost: number | null;
+  learningRate: number | null;
+  scalingFactor: number | null;
+  installationFactor: number | null;
+  energyRequirement: number | null;
+  efficiency: number | null;
   name: string;
-  ngReq?: number;
+  ngReq?: number | null;
 }
 
 interface ProcessCardProps {
@@ -52,7 +52,7 @@ const ProcessCard: React.FC<ProcessCardProps> = ({ info, handleEdit }) => {
         </div>
         <Text>
           Baseline cost:
-          <br />${info?.baseCost.toFixed(4)}
+          <br />${info.baseCost?.toFixed(4)}
         </Text>
         <Text>
           Learning rate:
@@ -77,7 +77,7 @@ const ProcessCard: React.FC<ProcessCardProps> = ({ info, handleEdit }) => {
         <Text>
           Energy requirement:
           <br />
-          {info?.energyRequirement.toFixed(3)} MW
+          {info.energyRequirement?.toFixed(3)} MW
         </Text>
         {info.ngReq && info.ngReq > 0 && (
           <Text>

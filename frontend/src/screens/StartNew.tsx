@@ -75,12 +75,12 @@ const StartNew = () => {
             <Radio
               value="phi"
               label="Replace an existing plant"
-              description="There is an existing chemical process to produce ammonia and you are looking to replace it."
+              description="There is an existing chemical plant to produce ammonia and you are looking to replace it."
             />
             <Radio
               value="psi"
               label="Build a new plant"
-              description="There is no existing chemical process to produce ammonia. You are interested in comparing two chemical processes."
+              description="There is no existing chemical plant to produce ammonia. You are interested in comparing two chemical processes."
             />
           </RadioGroup>
           <div className="grid grid-cols-1 gap-y-14">
@@ -98,7 +98,7 @@ const StartNew = () => {
                 noIcon
               />
             </div>
-            <div className="max-w-xl">
+            <div className="max-w-xl overflow-visible text-nowrap">
               <Input
                 value={nameValues.tech2Name}
                 onChange={(e) => dispatch(setTech2Name(e.target.value))}

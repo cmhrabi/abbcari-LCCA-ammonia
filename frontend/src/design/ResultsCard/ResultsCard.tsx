@@ -27,7 +27,7 @@ const ResultsCard: React.FC<ResultsCardProps> = ({
   let component = <></>;
   if (variant == "default") {
     component = (
-      <div className="py-9 px-8">
+      <div className="py-9 px-5">
         <Text textSize="alert-title">{title}</Text>
         <div className="flex flex-row items-center gap-x-4 pt-5">
           <Text textSize="value" color="primary">
