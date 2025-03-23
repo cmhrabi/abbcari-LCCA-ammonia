@@ -18,6 +18,7 @@ export interface InputProps
   noIcon?: boolean;
   name?: string;
   cost?: string;
+  link?: string;
   addRow: () => void;
   rows: { name: string; cost: string, error?: string }[];
   editRow: (index: number, name: string, cost: string) => void;
@@ -35,6 +36,7 @@ const CostInput: React.FC<InputProps> = ({
   rows,
   noIcon = false,
   setError,
+  link,
 }) => {
   const inputNameVariant = cva(
     "block w-full p-3 border placeholder:text-input placeholder:text-grey-blue disabled:bg-grey rounded rounded-3px shadow-sm",
@@ -91,7 +93,7 @@ const CostInput: React.FC<InputProps> = ({
     <div>
       {helpMessage && focused && !error && (
         <div className="relative">
-          <HelpMessage onSnooze={handleSnoozeHelp} type="info">
+          <HelpMessage onSnooze={handleSnoozeHelp} link={link} type="info">
             {helpMessage}
           </HelpMessage>
         </div>

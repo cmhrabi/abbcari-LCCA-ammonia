@@ -299,7 +299,8 @@ const FirstTechnology: React.FC<FirstTechnologyProps> = ({ setCurrStep }) => {
               <CostSection
                 type="text"
                 label="Direct costs"
-                helpMessage="Test"
+                helpMessage="Each direct cost represents the different costs tied to the physical creation of the project. These values will be summed together."
+                link="https://www.notion.so/1b65baf055248030ac08e9dc0cad11d4?pvs=4#1bf5baf0552480e5a0fedb754e1641dd"
                 rows={electrifiedValues.directCosts}
                 editRow={(index, name, cost) => {
                   dispatch(
@@ -319,7 +320,8 @@ const FirstTechnology: React.FC<FirstTechnologyProps> = ({ setCurrStep }) => {
               <CostSection
                 type="number"
                 label="Indirect costs"
-                helpMessage="Test"
+                helpMessage="Each indirect cost represents the different costs that are not directly linked to the process, but are necessary for project completion. These values will be summed together."
+                link="https://www.notion.so/1b65baf055248030ac08e9dc0cad11d4?pvs=4#1bf5baf0552480e5a0fedb754e1641dd"
                 rows={electrifiedValues.indirectCosts}
                 editRow={(index, name, cost) => {
                   dispatch(
@@ -353,7 +355,8 @@ const FirstTechnology: React.FC<FirstTechnologyProps> = ({ setCurrStep }) => {
                       $M
                     </Text>
                   }
-                  helpMessage="The direct cost factor includes expenses directly tied to the physical creation of a project. This includes, but is not limited to:"
+                  helpMessage="This value is inclusive of all the costs that are necessary to install the process."
+                  link="https://www.notion.so/1b65baf055248030ac08e9dc0cad11d4?pvs=4#1bf5baf0552480e5a0fedb754e1641dd"
                 />
               </div>
               <div className="min-w-32 text-nowrap">
@@ -370,7 +373,8 @@ const FirstTechnology: React.FC<FirstTechnologyProps> = ({ setCurrStep }) => {
                       $M
                     </Text>
                   }
-                  helpMessage="The direct cost factor includes expenses directly tied to the physical creation of a project. This includes, but is not limited to:"
+                  helpMessage="This value is inclusive of all short-term capital required to maintain the day-to-day expenses."
+                  link="https://www.notion.so/1b65baf055248030ac08e9dc0cad11d4?pvs=4#1bf5baf0552480e5a0fedb754e1641dd"
                 />
               </div>
             </div>
@@ -390,7 +394,8 @@ const FirstTechnology: React.FC<FirstTechnologyProps> = ({ setCurrStep }) => {
                     %
                   </Text>
                 }
-                helpMessage="The direct cost factor includes expenses directly tied to the physical creation of a project. This includes, but is not limited to:"
+                helpMessage="The direct cost factor includes expenses directly tied to the physical creation of a project."
+                link="https://www.notion.so/User-Manual-1b65baf055248030ac08e9dc0cad11d4?pvs=4#1ba5baf055248047bb7adf156d51667d"
               />
               <Input
                 type="number"
@@ -405,7 +410,8 @@ const FirstTechnology: React.FC<FirstTechnologyProps> = ({ setCurrStep }) => {
                   </Text>
                 }
                 value={electrifiedValues.indirectCostFactor}
-                helpMessage="The indirect cost factor includes expenses not directly linked to production but necessary for project completion. This includes, but is not limited to:"
+                helpMessage="The indirect cost factor includes expenses not directly linked to production but necessary for project completion."
+                link="https://www.notion.so/User-Manual-1b65baf055248030ac08e9dc0cad11d4?pvs=4#1ba5baf055248047bb7adf156d51667d"
               />
               <Input
                 type="number"
@@ -420,7 +426,8 @@ const FirstTechnology: React.FC<FirstTechnologyProps> = ({ setCurrStep }) => {
                   </Text>
                 }
                 value={electrifiedValues.workingCapitalFactor}
-                helpMessage="The worker capital cost are the costs associated with labor and employee-related expenses."
+                helpMessage="The working capital is a factor that represents the short-term capital required to maintain day-to-day expenses."
+                link="https://www.notion.so/User-Manual-1b65baf055248030ac08e9dc0cad11d4?pvs=4#1ba5baf055248047bb7adf156d51667d"
               />
             </div>
           )}
@@ -440,6 +447,8 @@ const FirstTechnology: React.FC<FirstTechnologyProps> = ({ setCurrStep }) => {
                   tH<sub>2</sub>O/tNH<sub>3</sub>
                 </Text>
               }
+              helpMessage="Water requirement is the amount of water needed to support the process in implementation."
+              link="https://www.notion.so/1b65baf055248030ac08e9dc0cad11d4?pvs=4#1ba5baf055248047bb7adf156d51667d"
             />
           </div>
         </div>
@@ -461,6 +470,8 @@ const FirstTechnology: React.FC<FirstTechnologyProps> = ({ setCurrStep }) => {
                   %
                 </Text>
               }
+              helpMessage="The learning rate indicates the percentage by which the cost of production goes down while doubling the cumulative capacity. "
+              link="https://www.notion.so/1b65baf055248030ac08e9dc0cad11d4?pvs=4#1ba5baf0552480239045c30094eb37a0"
             />
             <Input
               type="number"
@@ -478,6 +489,8 @@ const FirstTechnology: React.FC<FirstTechnologyProps> = ({ setCurrStep }) => {
                   %
                 </Text>
               }
+              helpMessage="The performance or cost of a technology changes with its size or capacity."
+              link="https://www.notion.so/1b65baf055248030ac08e9dc0cad11d4?pvs=4#1ba5baf0552480239045c30094eb37a0"
             />
             <Input
               type="number"
@@ -495,6 +508,8 @@ const FirstTechnology: React.FC<FirstTechnologyProps> = ({ setCurrStep }) => {
                   %
                 </Text>
               }
+              helpMessage="The additional costs related to installing the technology."
+              link="https://www.notion.so/1b65baf055248030ac08e9dc0cad11d4?pvs=4#1ba5baf0552480239045c30094eb37a0"
             />
             <Input
               type="number"
@@ -512,6 +527,8 @@ const FirstTechnology: React.FC<FirstTechnologyProps> = ({ setCurrStep }) => {
                   %
                 </Text>
               }
+              helpMessage="The effectiveness in converting input energy into useful output."
+              link="https://www.notion.so/1b65baf055248030ac08e9dc0cad11d4?pvs=4#1ba5baf0552480239045c30094eb37a0"
             />
             <div className="text-nowrap">
               <Input
@@ -529,6 +546,8 @@ const FirstTechnology: React.FC<FirstTechnologyProps> = ({ setCurrStep }) => {
                     MW
                   </Text>
                 }
+                helpMessage="The amount of energy consumed by the existing system operating at its standard capacity."
+                link="https://www.notion.so/1b65baf055248030ac08e9dc0cad11d4?pvs=4#1ba5baf0552480239045c30094eb37a0"
               />
             </div>
           </div>
