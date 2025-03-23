@@ -57,7 +57,7 @@ const LCCALineChart: React.FC<LineChartProps> = ({ data, title }) => {
       ...filteredData.flatMap((serie) => serie.data.map((d) => d.y as number)),
     );
     setRoundedMinValue(Math.pow(10, Math.floor(Math.log10(minValue))));
-
+    
     setTickValues(
       generalValues.finalYear > 2040
         ? [generalValues.startYear, 2030, 2040, 2050]

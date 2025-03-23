@@ -65,6 +65,7 @@ const Results = () => {
     emissions_elec: [],
     emissions_conv: [],
   });
+
   const [lccaDataLocalAdjusted, setLccaDataLocalAdjusted] =
     useState<LCCAData>(lccaData);
 
