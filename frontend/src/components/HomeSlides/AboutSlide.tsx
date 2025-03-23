@@ -18,13 +18,11 @@ const AboutSlide: React.FC = () => {
               What is Compass?
             </Text>
             <Text textSize="sub2">
-              A dynamic modeling tool that allows you to analyze strategies and
-              scenarios to reduce carbon emissions for ammonia production for
-              the upcoming decades.
+              The Levelized Cost of Carbon Abatement (LCCA) is a metric that measures the amount of CO2 reduced by using a cleaner technology. Compass is a dynamic modelling tool leveraging the LCCA to specifically analyze ammonia production strategies to reduce emissions over the upcoming decades.
             </Text>
           </div>
-          <Button size="small" onClick={() => navigate("/")}>
-            Learn more
+          <Button size="small" onClick={() => {window.open("https://fifth-nautilus-f96.notion.site/User-Manual-1b65baf055248030ac08e9dc0cad11d4")}}>
+            Learn More
           </Button>
         </div>
       </div>

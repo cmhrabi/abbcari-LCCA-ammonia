@@ -34,7 +34,7 @@ const VisualizeSlide: React.FC = () => {
           </Card>
           <Card
             icon={<PresentationChartLineIcon className="size-9 text-primary" />}
-            description="Lorem ipsum dolor sit amet, consectetur adipiscing elit."
+            description="View your results through a variety of graphs to help you make sense of the data."
           >
             Visualizations
           </Card>

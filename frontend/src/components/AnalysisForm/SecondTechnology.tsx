@@ -32,6 +32,7 @@ import {
 } from "../../Slices/conventionalSlice";
 import Input from "../../design/Input/Input";
 import DeleteProcessModal from "../DeleteProcessModal/DeleteProcessModal";
+import { dir } from "console";
 
 interface SecondTechnologyProps {
   setCurrStep: (arg0: number) => void;
@@ -310,6 +311,7 @@ const SecondTechnology: React.FC<SecondTechnologyProps> = ({ setCurrStep }) => {
                 setError={(index, error) =>
                   dispatch(addDirectCostError({ index, error }))
                 }
+
               />
               <CostSection
                 type="number"
@@ -349,8 +351,7 @@ const SecondTechnology: React.FC<SecondTechnologyProps> = ({ setCurrStep }) => {
                     </Text>
                   }
                   helpMessage="This value is inclusive of all the costs that are necessary to install the process."
-                  link="https://www.notion.so/1b65baf055248030ac08e9dc0cad11d4?pvs=4#1bf5baf0552480e5a0fedb754e1641dd"
-                />
+                  link="https://www.notion.so/1b65baf055248030ac08e9dc0cad11d4?pvs=4#1bf5baf0552480e5a0fedb754e1641dd"                />
               </div>
               <div className="min-w-32 text-nowrap">
                 <Input
@@ -366,8 +367,7 @@ const SecondTechnology: React.FC<SecondTechnologyProps> = ({ setCurrStep }) => {
                     </Text>
                   }
                   helpMessage="This value is inclusive of all short-term capital required to maintain the day-to-day expenses."
-                  link="https://www.notion.so/1b65baf055248030ac08e9dc0cad11d4?pvs=4#1bf5baf0552480e5a0fedb754e1641dd"
-                />
+                  link="https://www.notion.so/1b65baf055248030ac08e9dc0cad11d4?pvs=4#1bf5baf0552480e5a0fedb754e1641dd"                />
               </div>
             </div>
           )}
