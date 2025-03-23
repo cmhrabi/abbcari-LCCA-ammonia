@@ -235,7 +235,6 @@ const General: React.FC<GeneralProps> = ({ setCurrStep }) => {
               }
               type="number"
               error={finalDemandStringError}
-              link="Some"
               // noIcon
             />
           </div>

@@ -252,7 +252,7 @@ const Results = () => {
                         Projected LCCA (Levelized cost of carbon abatement) from{" "}
                         {startYear} to {finalYear} ($/tCO<sub>2</sub>eq)
                       </div>
-                      {lccaDataLocalAdjusted.LCCA.length > 0 && (
+                      {lccaDataLocal.LCCA.length > 0 && (
                         <Checkbox
                           color="primary"
                           isSelected={showOriginal}
