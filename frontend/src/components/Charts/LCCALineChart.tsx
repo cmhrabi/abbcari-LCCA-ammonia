@@ -1,6 +1,7 @@
 import { PointTooltipProps, ResponsiveLine, Serie } from "@nivo/line";
 import Text from "../../design/Text/Text";
 import React, { useEffect, useState } from "react";
+import { useAppSelector } from "../../hooks";
 
 interface LineChartProps {
   data: Serie[];
@@ -24,12 +25,11 @@ const LCCALineChart: React.FC<LineChartProps> = ({ data, title }) => {
     </div>
   );
 
+  const generalValues = useAppSelector((state) => state.general.value);
   const [filteredData, setFilteredData] = useState(data);
   const [hasNegativeValues, setHasNegativeValues] = useState(false);
   const [roundedMaxValue, setRoundedMaxValue] = useState(0);
   const [roundedMinValue, setRoundedMinValue] = useState(0);
-  const [minYear, setMinYear] = useState(0);
-  const [maxYear, setMaxYear] = useState(0);
   const [tickValues, setTickValues] = useState<number[]>([]);
 
   useEffect(() => {
@@ -58,16 +58,10 @@ const LCCALineChart: React.FC<LineChartProps> = ({ data, title }) => {
     );
     setRoundedMinValue(Math.pow(10, Math.floor(Math.log10(minValue))));
 
-    const minYear = Math.min(
-      ...filteredData.flatMap((serie) => serie.data.map((d) => d.x as number)),
-    );
-    setMinYear(minYear);
-    const maxYear = Math.max(
-      ...filteredData.flatMap((serie) => serie.data.map((d) => d.x as number)),
-    );
-    setMaxYear(maxYear);
     setTickValues(
-      maxYear > 2040 ? [minYear, 2030, 2040, 2050] : [minYear, 2030, 2040],
+      generalValues.finalYear > 2040
+        ? [generalValues.startYear, 2030, 2040, 2050]
+        : [generalValues.startYear, 2030, 2040],
     );
   }, [filteredData]);
 
@@ -80,8 +74,8 @@ const LCCALineChart: React.FC<LineChartProps> = ({ data, title }) => {
           margin={{ top: 50, right: 50, bottom: 50, left: 60 }}
           xScale={{
             type: "linear",
-            min: minYear,
-            max: maxYear,
+            min: generalValues.startYear,
+            max: generalValues.finalYear,
           }}
           yScale={{
             type: "log",
