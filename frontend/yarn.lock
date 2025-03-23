@@ -3195,6 +3195,7 @@
     "@react-aria/utils" "^3.28.0"
     "@react-types/shared" "^3.28.0"
     "@swc/helpers" "^0.5.0"
+    clsx "^2.0.0"
 
 "@react-aria/form@3.0.13", "@react-aria/form@^3.0.13":
   version "3.0.13"
@@ -3280,7 +3281,6 @@
     "@react-types/link" "^3.5.11"
     "@react-types/shared" "^3.28.0"
     "@swc/helpers" "^0.5.0"
-    use-sync-external-store "^1.2.0"
 
 "@react-aria/listbox@3.14.1", "@react-aria/listbox@^3.14.1":
   version "3.14.1"
@@ -3430,11 +3430,6 @@
   resolved "https://registry.yarnpkg.com/@react-aria/ssr/-/ssr-3.9.7.tgz#d89d129f7bbc5148657e6c952ac31c9353183770"
   integrity sha512-GQygZaGlmYjmYM+tiNBA5C6acmiDWF52Nqd40bBp0Znk4M4hP+LTmI0lpI1BuKMw45T8RIhrAsICIfKwZvi2Gg==
   dependencies:
-    "@react-aria/i18n" "^3.12.6"
-    "@react-aria/live-announcer" "^3.4.1"
-    "@react-aria/utils" "^3.28.0"
-    "@react-types/button" "^3.11.0"
-    "@react-types/shared" "^3.28.0"
     "@swc/helpers" "^0.5.0"
 
 "@react-aria/switch@3.7.0":
@@ -3980,7 +3975,7 @@
   integrity sha512-YDQExymdgORnSvXTtOW7SMhVOinlrD3bAlyCxO+hSAVaI1Ax38pW5dUFf6H85Jn7hLpjPQmQJvNsfsJ09rDFjQ==
   dependencies:
     "@react-types/shared" "^3.28.0"
-    
+
 "@react-types/radio@3.8.7", "@react-types/radio@^3.8.7":
   version "3.8.7"
   resolved "https://registry.yarnpkg.com/@react-types/radio/-/radio-3.8.7.tgz#9fbc297ff9326d964313f2c56a07a47f447bdc08"
@@ -8366,8 +8361,9 @@ fresh@0.5.2:
     eslint-config-prettier "^9.1.0"
     eslint-plugin-prettier "^5.2.1"
     framer-motion "^11.8.0"
-    frontend "file:../../.cache/yarn/v6/npm-frontend-0.1.0-eafb6ab8-f7a3-4261-9243-46243a92c315-1741664611038/node_modules/frontend"
+    frontend "file:../../../.cache/yarn/v6/npm-frontend-0.1.0-94403d4c-37e3-46a4-844b-176f225378f5-1742759956719/node_modules/frontend"
     html2canvas "^1.4.1"
+    jspdf "^3.0.0"
     prettier "^3.4.1"
     react "^18.3.1"
     react-dom "^18.3.1"
@@ -11732,6 +11728,13 @@ react-dom@^18.3.1:
   dependencies:
     loose-envify "^1.1.0"
     scheduler "^0.23.2"
+
+react-error-boundary@^5.0.0:
+  version "5.0.0"
+  resolved "https://registry.yarnpkg.com/react-error-boundary/-/react-error-boundary-5.0.0.tgz#6b6c7e075c922afb0283147e5b084efa44e68570"
+  integrity sha512-tnjAxG+IkpLephNcePNA7v6F/QpWLH8He65+DmedchDwg162JZqx4NmbXj0mlAYVVEd81OW7aFhmbsScYfiAFQ==
+  dependencies:
+    "@babel/runtime" "^7.12.5"
 
 react-error-overlay@^6.0.11:
   version "6.1.0"

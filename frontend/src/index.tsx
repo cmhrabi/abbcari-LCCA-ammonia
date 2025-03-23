@@ -1,3 +1,5 @@
+"use client";
+
 import React from "react";
 import ReactDOM from "react-dom/client";
 import "./index.css";
@@ -7,6 +9,10 @@ import { store } from "./store";
 import { Provider } from "react-redux";
 import { HeroUIProvider, ToastProvider } from "@heroui/react";
 import { BrowserRouter } from "react-router-dom";
+import { ErrorBoundary } from "react-error-boundary";
+import Text from "./design/Text/Text";
+import Button from "./design/Button/Button";
+import { ExclamationCircleIcon } from "@heroicons/react/24/solid";
 
 const root = ReactDOM.createRoot(
   document.getElementById("root") as HTMLElement,
@@ -17,7 +23,25 @@ root.render(
       <ToastProvider placement="bottom-center" />
       <BrowserRouter>
         <Provider store={store}>
-          <App />
+          <ErrorBoundary
+            fallback={
+              <div className="pt-40 justify-items-center w-full space-y-4">
+                <ExclamationCircleIcon className="text-danger size-10" />
+                <Text color="secondary" textSize="h2">
+                  Error occurred please go to home page
+                </Text>
+                <Button
+                  onClick={() =>
+                    window.open(`${process.env.REACT_APP_FRONTEND_URL}`)
+                  }
+                >
+                  Home
+                </Button>
+              </div>
+            }
+          >
+            <App />
+          </ErrorBoundary>
         </Provider>
       </BrowserRouter>
     </HeroUIProvider>
