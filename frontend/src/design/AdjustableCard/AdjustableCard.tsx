@@ -73,6 +73,7 @@ const AdjustableCard: React.FC<AdjustableCardProps> = ({ onClickAdjust }) => {
                 { value: "Yukon", label: "Yukon" },
               ]}
               helpMessage="The province you want to influence the projected cost based on its geographical location on the electricity grid."
+              link="https://www.notion.so/User-Manual-1b65baf055248030ac08e9dc0cad11d4?pvs=4#1b85baf0552480a69553ccb1c616b57f"
             />
             <Input
               label="Discount rate"
@@ -80,6 +81,7 @@ const AdjustableCard: React.FC<AdjustableCardProps> = ({ onClickAdjust }) => {
               value={generalValues.discount}
               placeholder="Value"
               helpMessage="The rate at which future costs are adjusted to reflect the present value."
+              link="https://www.notion.so/User-Manual-1b65baf055248030ac08e9dc0cad11d4?pvs=4#1ba5baf055248092b374c598b304258a"
               type="number"
               end={
                 <Text color="grey-blue" textSize="input">
@@ -111,6 +113,8 @@ const AdjustableCard: React.FC<AdjustableCardProps> = ({ onClickAdjust }) => {
                       %
                     </Text>
                   }
+                  helpMessage="The learning rate indicates the percentage by which the cost of production goes down while doubling the cumulative capacity."
+                  link="https://www.notion.so/1b65baf055248030ac08e9dc0cad11d4?pvs=4#1ba5baf0552480239045c30094eb37a0"
                 />
                 <Input
                   label="Scaling factor"
@@ -130,6 +134,8 @@ const AdjustableCard: React.FC<AdjustableCardProps> = ({ onClickAdjust }) => {
                       %
                     </Text>
                   }
+                  helpMessage="The performance or cost of a technology changes with its size or capacity."
+                  link="https://www.notion.so/1b65baf055248030ac08e9dc0cad11d4?pvs=4#1ba5baf0552480239045c30094eb37a0"
                 />
               </div>
             ) : (
@@ -165,6 +171,8 @@ const AdjustableCard: React.FC<AdjustableCardProps> = ({ onClickAdjust }) => {
                           %
                         </Text>
                       }
+                      helpMessage="The learning rate indicates the percentage by which the cost of production goes down while doubling the cumulative capacity."
+                      link="https://www.notion.so/1b65baf055248030ac08e9dc0cad11d4?pvs=4#1ba5baf0552480239045c30094eb37a0"
                     />
                     <Input
                       label="Baseline cost"
@@ -187,6 +195,8 @@ const AdjustableCard: React.FC<AdjustableCardProps> = ({ onClickAdjust }) => {
                           $M
                         </Text>
                       }
+                      helpMessage="The capital cost value of the defined subprocess at the starting year."
+                      link="https://www.notion.so/1b65baf055248030ac08e9dc0cad11d4?pvs=4#1ba5baf0552480239045c30094eb37a0"
                     />
 
                     <Input
@@ -210,6 +220,8 @@ const AdjustableCard: React.FC<AdjustableCardProps> = ({ onClickAdjust }) => {
                           %
                         </Text>
                       }
+                      helpMessage="The performance or cost of a technology changes with its size or capacity."
+                      link="https://www.notion.so/1b65baf055248030ac08e9dc0cad11d4?pvs=4#1ba5baf0552480239045c30094eb37a0"
                     />
                   </div>
                 </div>
@@ -239,6 +251,8 @@ const AdjustableCard: React.FC<AdjustableCardProps> = ({ onClickAdjust }) => {
                       %
                     </Text>
                   }
+                  helpMessage="The learning rate indicates the percentage by which the cost of production goes down while doubling the cumulative capacity."
+                  link="https://www.notion.so/1b65baf055248030ac08e9dc0cad11d4?pvs=4#1ba5baf0552480239045c30094eb37a0"
                 />
                 <Input
                   label="Scaling factor"
@@ -258,6 +272,8 @@ const AdjustableCard: React.FC<AdjustableCardProps> = ({ onClickAdjust }) => {
                       %
                     </Text>
                   }
+                  helpMessage="The performance or cost of a technology changes with its size or capacity."
+                  link="https://www.notion.so/1b65baf055248030ac08e9dc0cad11d4?pvs=4#1ba5baf0552480239045c30094eb37a0"
                 />
               </div>
             ) : (
@@ -293,6 +309,8 @@ const AdjustableCard: React.FC<AdjustableCardProps> = ({ onClickAdjust }) => {
                           %
                         </Text>
                       }
+                      helpMessage="The learning rate indicates the percentage by which the cost of production goes down while doubling the cumulative capacity."
+                      link="https://www.notion.so/1b65baf055248030ac08e9dc0cad11d4?pvs=4#1ba5baf0552480239045c30094eb37a0"
                     />
                     <Input
                       label="Baseline cost"
@@ -315,6 +333,8 @@ const AdjustableCard: React.FC<AdjustableCardProps> = ({ onClickAdjust }) => {
                           $M
                         </Text>
                       }
+                      helpMessage="The capital cost value of the defined subprocess at the starting year."
+                      link="https://www.notion.so/1b65baf055248030ac08e9dc0cad11d4?pvs=4#1ba5baf0552480239045c30094eb37a0"
                     />
 
                     <Input
@@ -338,6 +358,8 @@ const AdjustableCard: React.FC<AdjustableCardProps> = ({ onClickAdjust }) => {
                           %
                         </Text>
                       }
+                      helpMessage="The performance or cost of a technology changes with its size or capacity."
+                      link="https://www.notion.so/1b65baf055248030ac08e9dc0cad11d4?pvs=4#1ba5baf0552480239045c30094eb37a0"
                     />
                   </div>
                 </div>

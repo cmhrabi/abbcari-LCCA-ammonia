@@ -35,7 +35,7 @@ const routes = [
     element: <Home />,
   },
   {
-    path: "/",
+    path: "/about",
     element: <About />,
   }
 ];

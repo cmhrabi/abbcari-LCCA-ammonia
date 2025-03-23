@@ -42,13 +42,13 @@ const NavBar: React.FC<NavBarProps> = ({ type = "default" }) => {
             )}
           </div>
         </div>
-        {type === "default" && (
-          /* TODO: Change to text link */
-          <div className="flex flex-row items-center space-x-3">
-            <Text textSize="input">Help</Text>
-            <Bars3Icon onClick={() => {}} className="size-6 cursor-pointer" />
-          </div>
-        )}
+          {type === "default" && (
+            /* TODO: Change to text link */
+            <div className="flex flex-row items-center space-x-3">
+              <Text textSize="input">Help</Text>
+              <Bars3Icon onClick={() => { }} className="size-6 cursor-pointer" />
+            </div>
+          )}
       </div>
     </nav>
   );

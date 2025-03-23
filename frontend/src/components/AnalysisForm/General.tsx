@@ -208,7 +208,8 @@ const General: React.FC<GeneralProps> = ({ setCurrStep }) => {
               onChange={(e) => dispatch(setBaselineDemand(e.target.value))}
               value={generalValues.baselineDemand}
               placeholder="Value"
-              helpMessage="The amount of electricity that is required to generate ammonia. This value will be used to derive the installed and purchased costs."
+              helpMessage="The current amount of ammonia that can be produced by your new process. This value will be used to derive the installed and purchased costs."
+              link="https://www.notion.so/User-Manual-1b65baf055248030ac08e9dc0cad11d4?pvs=4#1ba5baf055248092b374c598b304258a"
               end={
                 <Text color="grey-blue" textSize="input">
                   pJ
@@ -226,6 +227,7 @@ const General: React.FC<GeneralProps> = ({ setCurrStep }) => {
               value={generalValues.finalDemand}
               placeholder="Value"
               helpMessage="The amount of electricity that is required to generate ammonia. This value will be used to derive the installed and purchased costs."
+              link="https://www.notion.so/User-Manual-1b65baf055248030ac08e9dc0cad11d4?pvs=4#1ba5baf055248092b374c598b304258a"
               end={
                 <Text color="grey-blue" textSize="input">
                   pJ
@@ -233,7 +235,6 @@ const General: React.FC<GeneralProps> = ({ setCurrStep }) => {
               }
               type="number"
               error={finalDemandStringError}
-              link="Some"
               // noIcon
             />
           </div>
@@ -243,6 +244,7 @@ const General: React.FC<GeneralProps> = ({ setCurrStep }) => {
             value={generalValues.discount}
             placeholder="Value"
             helpMessage="The rate at which future costs are adjusted to reflect the present value."
+            link="https://www.notion.so/User-Manual-1b65baf055248030ac08e9dc0cad11d4?pvs=4#1ba5baf055248092b374c598b304258a"
             end={
               <Text color="grey-blue" textSize="input">
                 %
@@ -261,6 +263,7 @@ const General: React.FC<GeneralProps> = ({ setCurrStep }) => {
             value={generalValues.plantOperatingHours}
             type="number"
             helpMessage="The number of hours a plant operates in a year. This value will be used to calculate the operating cost for a plant constructed in a year."
+            link="https://www.notion.so/User-Manual-1b65baf055248030ac08e9dc0cad11d4?pvs=4#1ba5baf055248092b374c598b304258a"
             end={
               <Text color="grey-blue" textSize="input">
                 /year
