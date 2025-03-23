@@ -1,6 +1,6 @@
 import { PointTooltipProps, ResponsiveLine, Serie } from "@nivo/line";
 import Text from "../../design/Text/Text";
-import React from "react";
+import React, { useEffect, useState } from "react";
 
 interface EmissionsChartProps {
   emissions_data: Serie[];
@@ -27,6 +27,10 @@ const EmissionsChart: React.FC<EmissionsChartProps> = ({
       {`${Number(point.data.y).toExponential(2)}`}
     </div>
   );
+  const [maxValue, setMaxValue] = useState(0);
+  const [minValue, setMinValue] = useState(0);
+  const [transformedData, setTransformedData] = useState(emissions_data);
+
   const transformData = (data: Serie[]): Serie[] => {
     return data.map((serie) => ({
       ...serie,
@@ -37,14 +41,27 @@ const EmissionsChart: React.FC<EmissionsChartProps> = ({
     }));
   };
 
-  const transformedData = transformData(emissions_data);
-  const maxValue = Math.max(
-    ...transformedData.flatMap((serie) => serie.data.map((d) => d.y as number)),
-  );
+  useEffect(() => {
+    setTransformedData(transformData(emissions_data));
+  }, [emissions_data]);
 
-  const minValue = Math.min(
-    ...transformedData.flatMap((serie) => serie.data.map((d) => d.y as number)),
-  );
+  useEffect(() => {
+    setMaxValue(
+      Math.max(
+        ...transformedData.flatMap((serie) =>
+          serie.data.map((d) => d.y as number),
+        ),
+      ),
+    );
+
+    setMinValue(
+      Math.min(
+        ...transformedData.flatMap((serie) =>
+          serie.data.map((d) => d.y as number),
+        ),
+      ),
+    );
+  }, [transformedData]);
 
   const minYear = Math.min(
     ...transformedData.flatMap((serie) => serie.data.map((d) => d.x as number)),
@@ -54,6 +71,7 @@ const EmissionsChart: React.FC<EmissionsChartProps> = ({
   );
   const tickValues =
     maxYear > 2040 ? [minYear, 2030, 2040, 2050] : [minYear, 2030, 2040];
+
   return (
     <div className="bg-primary-50 shadow-card rounded-3px p-6 space-y-5">
       <Text textSize="chart-title">{emissions_title}</Text>
