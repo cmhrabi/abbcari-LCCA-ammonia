@@ -4,7 +4,11 @@ import Button from "../Button/Button";
 import { useAppSelector, useAppDispatch } from "../../hooks";
 import Input from "../../design/Input/Input";
 import Select from "../../design/Select/Select";
-import { setDiscount, setProvince } from "../../Slices/generalSlice";
+import {
+  setDiscount,
+  setFinalDemand,
+  setProvince,
+} from "../../Slices/generalSlice";
 import { Tab, Tabs } from "@heroui/react";
 import {
   updateBottomUpProcess,
@@ -89,6 +93,22 @@ const AdjustableCard: React.FC<AdjustableCardProps> = ({ onClickAdjust }) => {
                 </Text>
               }
             />
+            <div className="text-nowrap overflow-visible">
+              <Input
+                label="Electrical ammonia demand in target year"
+                onChange={(e) => dispatch(setFinalDemand(e.target.value))}
+                value={generalValues.finalDemand}
+                placeholder="Value"
+                helpMessage="The amount of electrically derived ammonia that is required in final year. This value will be used to derive the installed and purchased costs."
+                link="https://www.notion.so/User-Manual-1b65baf055248030ac08e9dc0cad11d4?pvs=4#1ba5baf055248092b374c598b304258a"
+                end={
+                  <Text color="grey-blue" textSize="input">
+                    pJ
+                  </Text>
+                }
+                type="number"
+              />
+            </div>
           </div>
         </Tab>
         <Tab id="electrified" title="Electrified process parameters">
@@ -105,7 +125,7 @@ const AdjustableCard: React.FC<AdjustableCardProps> = ({ onClickAdjust }) => {
                       }),
                     )
                   }
-                  value={electrifiedValues.bottomUpProcess.learningRate}
+                  value={String(electrifiedValues.bottomUpProcess.learningRate)}
                   placeholder="Value"
                   type="number"
                   end={
@@ -126,7 +146,9 @@ const AdjustableCard: React.FC<AdjustableCardProps> = ({ onClickAdjust }) => {
                       }),
                     )
                   }
-                  value={electrifiedValues.bottomUpProcess.scalingFactor}
+                  value={String(
+                    electrifiedValues.bottomUpProcess.scalingFactor,
+                  )}
                   placeholder="Value"
                   type="number"
                   end={
@@ -163,7 +185,7 @@ const AdjustableCard: React.FC<AdjustableCardProps> = ({ onClickAdjust }) => {
                           }),
                         )
                       }
-                      value={subProcess.learningRate}
+                      value={String(subProcess.learningRate)}
                       placeholder="Value"
                       type="number"
                       end={
@@ -176,7 +198,7 @@ const AdjustableCard: React.FC<AdjustableCardProps> = ({ onClickAdjust }) => {
                     />
                     <Input
                       label="Baseline cost"
-                      value={subProcess.baseCost}
+                      value={String(subProcess.baseCost)}
                       onChange={(e) =>
                         dispatch(
                           updateSubProcess({
@@ -212,7 +234,7 @@ const AdjustableCard: React.FC<AdjustableCardProps> = ({ onClickAdjust }) => {
                           }),
                         )
                       }
-                      value={subProcess.scalingFactor}
+                      value={String(subProcess.scalingFactor)}
                       placeholder="Value"
                       type="number"
                       end={
@@ -243,7 +265,9 @@ const AdjustableCard: React.FC<AdjustableCardProps> = ({ onClickAdjust }) => {
                       }),
                     )
                   }
-                  value={conventionalValues.bottomUpProcess.learningRate}
+                  value={String(
+                    conventionalValues.bottomUpProcess.learningRate,
+                  )}
                   placeholder="Value"
                   type="number"
                   end={
@@ -264,7 +288,9 @@ const AdjustableCard: React.FC<AdjustableCardProps> = ({ onClickAdjust }) => {
                       }),
                     )
                   }
-                  value={conventionalValues.bottomUpProcess.scalingFactor}
+                  value={String(
+                    conventionalValues.bottomUpProcess.scalingFactor,
+                  )}
                   placeholder="Value"
                   type="number"
                   end={
@@ -301,7 +327,7 @@ const AdjustableCard: React.FC<AdjustableCardProps> = ({ onClickAdjust }) => {
                           }),
                         )
                       }
-                      value={subProcess.learningRate}
+                      value={String(subProcess.learningRate)}
                       placeholder="Value"
                       type="number"
                       end={
@@ -314,7 +340,7 @@ const AdjustableCard: React.FC<AdjustableCardProps> = ({ onClickAdjust }) => {
                     />
                     <Input
                       label="Baseline cost"
-                      value={subProcess.baseCost}
+                      value={String(subProcess.baseCost)}
                       onChange={(e) =>
                         dispatch(
                           updateConvSubProcess({
@@ -350,7 +376,7 @@ const AdjustableCard: React.FC<AdjustableCardProps> = ({ onClickAdjust }) => {
                           }),
                         )
                       }
-                      value={subProcess.scalingFactor}
+                      value={String(subProcess.scalingFactor)}
                       placeholder="Value"
                       type="number"
                       end={

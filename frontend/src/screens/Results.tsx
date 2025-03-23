@@ -277,23 +277,7 @@ const Results = () => {
                   cost_data={[
                     {
                       id: "CAPEX",
-                      data: constructData(
-                        lccaDataLocalAdjusted.capex_elec.map(
-                          (capex_e, index) => {
-                            if (nameSlice.value.type == "phi") {
-                              return (
-                                capex_e -
-                                lccaDataLocalAdjusted.capex_loss_conv[index]
-                              );
-                            } else {
-                              return (
-                                capex_e -
-                                lccaDataLocalAdjusted.capex_conv[index]
-                              );
-                            }
-                          },
-                        ),
-                      ),
+                      data: constructData(lccaDataLocalAdjusted.capex_elec),
                     },
                     {
                       id: "Import/Export",
@@ -303,13 +287,7 @@ const Results = () => {
                     },
                     {
                       id: "OPEX",
-                      data: constructData(
-                        lccaDataLocalAdjusted.opex_elec.map((opex_e, index) => {
-                          return (
-                            opex_e - lccaDataLocalAdjusted.opex_conv[index]
-                          );
-                        }),
-                      ),
+                      data: constructData(lccaDataLocalAdjusted.opex_elec),
                     },
                   ]}
                 />
@@ -333,7 +311,7 @@ const Results = () => {
         </div>
         <div className="pt-14 space-x-5">
           <Button color="grey" onClick={onClickStartNew}>
-            Start another analysis
+            Start Another Analysis
           </Button>
         </div>
       </div>

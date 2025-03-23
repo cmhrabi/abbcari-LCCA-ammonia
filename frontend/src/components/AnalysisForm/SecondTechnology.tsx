@@ -32,7 +32,6 @@ import {
 } from "../../Slices/conventionalSlice";
 import Input from "../../design/Input/Input";
 import DeleteProcessModal from "../DeleteProcessModal/DeleteProcessModal";
-import { dir } from "console";
 
 interface SecondTechnologyProps {
   setCurrStep: (arg0: number) => void;
@@ -60,12 +59,17 @@ const SecondTechnology: React.FC<SecondTechnologyProps> = ({ setCurrStep }) => {
   const [localSubProcesses, setLocalSubProcesses] = useState(subProcesses);
   const [bottomUpProcess, setBottomUpProcess] = useState({
     name: tech2Name,
-    baseCost: "",
-    installationFactor: "0",
-    scalingFactor: "100",
-    learningRate: "",
-    efficiency: "100",
-    energyRequirement: "",
+    baseCost: String(conventionalValues.bottomUpProcess.baseCost),
+    installationFactor: String(
+      conventionalValues.bottomUpProcess.installationFactor,
+    ),
+    scalingFactor: String(conventionalValues.bottomUpProcess.scalingFactor),
+    learningRate: String(conventionalValues.bottomUpProcess.learningRate),
+    efficiency: String(conventionalValues.bottomUpProcess.efficiency),
+    energyRequirement: String(
+      conventionalValues.bottomUpProcess.energyRequirement,
+    ),
+    ngReq: String(conventionalValues.bottomUpProcess.ngReq),
   });
 
   const handleOpenEdit = (index: number) => {
@@ -147,9 +151,13 @@ const SecondTechnology: React.FC<SecondTechnologyProps> = ({ setCurrStep }) => {
           conventionalValues.waterRequirement &&
           conventionalValues.onsiteEmissions &&
           conventionalValues.upstreamEmissions &&
+          conventionalValues.bottomUpProcess.learningRate !== null &&
           conventionalValues.bottomUpProcess.learningRate >= 0 &&
+          conventionalValues.bottomUpProcess.scalingFactor !== null &&
           conventionalValues.bottomUpProcess.scalingFactor >= 0 &&
+          conventionalValues.bottomUpProcess.installationFactor !== null &&
           conventionalValues.bottomUpProcess.installationFactor >= 0 &&
+          conventionalValues.bottomUpProcess.efficiency !== null &&
           conventionalValues.bottomUpProcess.efficiency >= 0 &&
           conventionalValues.bottomUpProcess.energyRequirement &&
           !learningRateError &&
@@ -223,6 +231,7 @@ const SecondTechnology: React.FC<SecondTechnologyProps> = ({ setCurrStep }) => {
     } else {
       setIndirCostFactorError("");
     }
+    console.log(conventionalValues.bottomUpProcess.learningRate);
   }, [conventionalValues.indirectCostFactor]);
 
   useEffect(() => {
@@ -236,7 +245,10 @@ const SecondTechnology: React.FC<SecondTechnologyProps> = ({ setCurrStep }) => {
   }, [conventionalValues.workingCapitalFactor]);
 
   useEffect(() => {
-    if (conventionalValues.bottomUpProcess.learningRate > 100) {
+    if (
+      conventionalValues.bottomUpProcess.learningRate !== null &&
+      conventionalValues.bottomUpProcess.learningRate > 100
+    ) {
       setLearningRateError("Learning rate must less than 100%.");
     } else {
       setLearningRateError("");
@@ -244,7 +256,10 @@ const SecondTechnology: React.FC<SecondTechnologyProps> = ({ setCurrStep }) => {
   }, [conventionalValues.bottomUpProcess.learningRate]);
 
   useEffect(() => {
-    if (conventionalValues.bottomUpProcess.scalingFactor > 100) {
+    if (
+      conventionalValues.bottomUpProcess.scalingFactor !== null &&
+      conventionalValues.bottomUpProcess.scalingFactor > 100
+    ) {
       setScalingFactorError("Scaling factor must be less than 100%.");
     } else {
       setScalingFactorError("");
@@ -252,7 +267,10 @@ const SecondTechnology: React.FC<SecondTechnologyProps> = ({ setCurrStep }) => {
   }, [conventionalValues.bottomUpProcess.scalingFactor]);
 
   useEffect(() => {
-    if (conventionalValues.bottomUpProcess.installationFactor > 100) {
+    if (
+      conventionalValues.bottomUpProcess.installationFactor !== null &&
+      conventionalValues.bottomUpProcess.installationFactor > 100
+    ) {
       setInstallationFactorError("Installation factor must be less than 100%.");
     } else {
       setInstallationFactorError("");
@@ -260,7 +278,10 @@ const SecondTechnology: React.FC<SecondTechnologyProps> = ({ setCurrStep }) => {
   }, [conventionalValues.bottomUpProcess.installationFactor]);
 
   useEffect(() => {
-    if (conventionalValues.bottomUpProcess.efficiency > 100) {
+    if (
+      conventionalValues.bottomUpProcess.efficiency !== null &&
+      conventionalValues.bottomUpProcess.efficiency > 100
+    ) {
       setEfficiencyError("Efficiency must be less than 100%.");
     } else {
       setEfficiencyError("");
@@ -311,7 +332,6 @@ const SecondTechnology: React.FC<SecondTechnologyProps> = ({ setCurrStep }) => {
                 setError={(index, error) =>
                   dispatch(addDirectCostError({ index, error }))
                 }
-
               />
               <CostSection
                 type="number"
@@ -351,7 +371,8 @@ const SecondTechnology: React.FC<SecondTechnologyProps> = ({ setCurrStep }) => {
                     </Text>
                   }
                   helpMessage="This value is inclusive of all the costs that are necessary to install the process."
-                  link="https://www.notion.so/1b65baf055248030ac08e9dc0cad11d4?pvs=4#1bf5baf0552480e5a0fedb754e1641dd"                />
+                  link="https://www.notion.so/1b65baf055248030ac08e9dc0cad11d4?pvs=4#1bf5baf0552480e5a0fedb754e1641dd"
+                />
               </div>
               <div className="min-w-32 text-nowrap">
                 <Input
@@ -367,7 +388,8 @@ const SecondTechnology: React.FC<SecondTechnologyProps> = ({ setCurrStep }) => {
                     </Text>
                   }
                   helpMessage="This value is inclusive of all short-term capital required to maintain the day-to-day expenses."
-                  link="https://www.notion.so/1b65baf055248030ac08e9dc0cad11d4?pvs=4#1bf5baf0552480e5a0fedb754e1641dd"                />
+                  link="https://www.notion.so/1b65baf055248030ac08e9dc0cad11d4?pvs=4#1bf5baf0552480e5a0fedb754e1641dd"
+                />
               </div>
             </div>
           )}
@@ -429,7 +451,7 @@ const SecondTechnology: React.FC<SecondTechnologyProps> = ({ setCurrStep }) => {
             <Input
               type="number"
               error={waterRequirementError}
-              label="Water Requirement"
+              label="Water requirement"
               onChange={(e) => {
                 dispatch(setWaterRequirement(e.target.value));
               }}
@@ -445,7 +467,7 @@ const SecondTechnology: React.FC<SecondTechnologyProps> = ({ setCurrStep }) => {
             <Input
               type="number"
               error={onSiteEmissionsError}
-              label="Onsite Emissions"
+              label="Onsite emissions"
               onChange={(e) => {
                 dispatch(setOnsightEmissions(e.target.value));
               }}
@@ -461,7 +483,7 @@ const SecondTechnology: React.FC<SecondTechnologyProps> = ({ setCurrStep }) => {
             <Input
               type="number"
               error={upstreamEmissionsError}
-              label="Upstream Emissions"
+              label="Upstream emissions"
               onChange={(e) => {
                 dispatch(setUpstreamEmissions(e.target.value));
               }}
@@ -518,7 +540,7 @@ const SecondTechnology: React.FC<SecondTechnologyProps> = ({ setCurrStep }) => {
               type="number"
               error={learningRateError}
               label="Learning rate"
-              value={conventionalValues.bottomUpProcess.learningRate}
+              value={String(conventionalValues.bottomUpProcess.learningRate)}
               onChange={(e) =>
                 setBottomUpProcess({
                   ...bottomUpProcess,
@@ -537,7 +559,7 @@ const SecondTechnology: React.FC<SecondTechnologyProps> = ({ setCurrStep }) => {
               type="number"
               error={scalingFactorError}
               label="Scaling factor"
-              value={conventionalValues.bottomUpProcess.scalingFactor}
+              value={String(conventionalValues.bottomUpProcess.scalingFactor)}
               onChange={(e) =>
                 setBottomUpProcess({
                   ...bottomUpProcess,
@@ -556,7 +578,9 @@ const SecondTechnology: React.FC<SecondTechnologyProps> = ({ setCurrStep }) => {
               type="number"
               error={installationFactorError}
               label="Installation factor"
-              value={conventionalValues.bottomUpProcess.installationFactor}
+              value={String(
+                conventionalValues.bottomUpProcess.installationFactor,
+              )}
               onChange={(e) =>
                 setBottomUpProcess({
                   ...bottomUpProcess,
@@ -575,7 +599,7 @@ const SecondTechnology: React.FC<SecondTechnologyProps> = ({ setCurrStep }) => {
               type="number"
               error={efficiencyError}
               label="Efficiency of process"
-              value={conventionalValues.bottomUpProcess.efficiency}
+              value={String(conventionalValues.bottomUpProcess.efficiency)}
               onChange={(e) =>
                 setBottomUpProcess({
                   ...bottomUpProcess,
@@ -594,7 +618,9 @@ const SecondTechnology: React.FC<SecondTechnologyProps> = ({ setCurrStep }) => {
               <Input
                 type="number"
                 label="Electricity requirement at base capacity"
-                value={conventionalValues.bottomUpProcess.energyRequirement}
+                value={String(
+                  conventionalValues.bottomUpProcess.energyRequirement,
+                )}
                 onChange={(e) =>
                   setBottomUpProcess({
                     ...bottomUpProcess,
@@ -603,11 +629,31 @@ const SecondTechnology: React.FC<SecondTechnologyProps> = ({ setCurrStep }) => {
                 }
                 end={
                   <Text color="grey-blue" textSize="input">
-                    pJ/year
+                    MW
                   </Text>
                 }
                 helpMessage="The amount of energy consumed by the existing system operating at its standard capacity."
                 link="https://www.notion.so/1b65baf055248030ac08e9dc0cad11d4?pvs=4#1ba5baf0552480239045c30094eb37a0"
+              />
+            </div>
+            <div className="text-nowrap">
+              <Input
+                type="number"
+                label="Natural gas requirement at base capacity"
+                helpMessage="The amount of natural gas required to operate the subprocess."
+                link="https://www.notion.so/User-Manual-1b65baf055248030ac08e9dc0cad11d4?pvs=4#1ba5baf0552480adabf6d854ccd444b9"
+                value={String(conventionalValues.bottomUpProcess.ngReq)}
+                onChange={(e) =>
+                  setBottomUpProcess({
+                    ...bottomUpProcess,
+                    ngReq: e.target.value,
+                  })
+                }
+                end={
+                  <Text color="grey-blue" textSize="input">
+                    MW
+                  </Text>
+                }
               />
             </div>
           </div>
@@ -618,7 +664,7 @@ const SecondTechnology: React.FC<SecondTechnologyProps> = ({ setCurrStep }) => {
                 Subprocesses
               </Text>
               <Button color="transparent" size="noPadding" onClick={onOpen}>
-                + Add subprocess
+                + Add Subprocess
               </Button>
             </div>
             <div className="grid gap-4 grid-cols-1">

@@ -6,7 +6,6 @@ import StartNew from "./screens/StartNew";
 import Analysis from "./screens/Analysis";
 import Results from "./screens/Results";
 import About from "./screens/About";
-import { element } from "prop-types";
 
 const routes = [
   {
@@ -37,7 +36,7 @@ const routes = [
   {
     path: "/about",
     element: <About />,
-  }
+  },
 ];
 
 const App = () => {

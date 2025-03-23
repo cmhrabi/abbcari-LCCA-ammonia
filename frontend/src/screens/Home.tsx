@@ -8,13 +8,15 @@ import AcknowledgementSlide from "../components/HomeSlides/AcknowledgementSlide"
 
 const Home = () => {
   return (
-    <div className="overflow-visible bg-home-bg">
+    <div>
       <NavBar title="COMPASS" type="home" />
-      <TitleSlide />
-      <VisualizeSlide />
-      <AboutSlide />
-      <ClimateFactsSlide />
-      <AcknowledgementSlide />
+      <div className="overflow-visible bg-home-bg">
+        <TitleSlide />
+        <VisualizeSlide />
+        <AboutSlide />
+        <ClimateFactsSlide />
+        <AcknowledgementSlide />
+      </div>
     </div>
   );
 };

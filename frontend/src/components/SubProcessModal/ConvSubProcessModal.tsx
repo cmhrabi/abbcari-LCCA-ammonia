@@ -109,13 +109,13 @@ const ConvSubProcessModal: React.FC<ConvSubProcessModalProps> = ({
     setEnergyRequirement(undefined);
   };
 
-    const [baselineError, setBaselineError] = useState("");
-    const [learningRateError, setLearningRateError] = useState("");
-    const [scalingFactorError, setScalingFactorError] = useState("");
-    const [installationFactorError, setInstallationFactorError] = useState("");
-    const [energyRequirementError, setEnergyRequirementError] = useState("");
-    const [efficiencyError, setEfficiencyError] = useState("");
-    const [ngReqError, setNgReqError] = useState("");
+  const [baselineError, setBaselineError] = useState("");
+  const [learningRateError, setLearningRateError] = useState("");
+  const [scalingFactorError, setScalingFactorError] = useState("");
+  const [installationFactorError, setInstallationFactorError] = useState("");
+  const [energyRequirementError, setEnergyRequirementError] = useState("");
+  const [efficiencyError, setEfficiencyError] = useState("");
+  const [ngReqError, setNgReqError] = useState("");
 
   useEffect(() => {
     if (
@@ -129,7 +129,7 @@ const ConvSubProcessModal: React.FC<ConvSubProcessModalProps> = ({
       ngReq &&
       !baselineError &&
       !learningRateError &&
-      !scalingFactorError &&  
+      !scalingFactorError &&
       !installationFactorError &&
       !energyRequirementError &&
       !efficiencyError &&
@@ -139,9 +139,18 @@ const ConvSubProcessModal: React.FC<ConvSubProcessModalProps> = ({
     } else {
       setDisabled(true);
     }
-  }, [name, baseCost, learningRate, scalingFactor, installationFactor, energyRequirement, efficiency, ngReq]);
+  }, [
+    name,
+    baseCost,
+    learningRate,
+    scalingFactor,
+    installationFactor,
+    energyRequirement,
+    efficiency,
+    ngReq,
+  ]);
 
-useEffect(() => {
+  useEffect(() => {
     if (baseCost && parseFloat(baseCost) < 0) {
       setBaselineError("Baseline cost must be positive");
     } else {
@@ -150,7 +159,10 @@ useEffect(() => {
   }, [baseCost]);
 
   useEffect(() => {
-    if (learningRate && (parseFloat(learningRate) < 0 || parseFloat(learningRate) > 100)) {
+    if (
+      learningRate &&
+      (parseFloat(learningRate) < 0 || parseFloat(learningRate) > 100)
+    ) {
       setLearningRateError("Learning rate must be between 1% and a 100%");
     } else {
       setLearningRateError("");
@@ -158,7 +170,10 @@ useEffect(() => {
   }, [learningRate]);
 
   useEffect(() => {
-    if (scalingFactor && (parseFloat(scalingFactor) < 0 || parseFloat(scalingFactor) > 100)) {
+    if (
+      scalingFactor &&
+      (parseFloat(scalingFactor) < 0 || parseFloat(scalingFactor) > 100)
+    ) {
       setScalingFactorError("Scaling factor must be between 1% and a 100%");
     } else {
       setScalingFactorError("");
@@ -166,13 +181,18 @@ useEffect(() => {
   }, [scalingFactor]);
 
   useEffect(() => {
-    if (installationFactor && (parseFloat(installationFactor) < 0 || parseFloat(installationFactor) > 100)) {
-      setInstallationFactorError("Installation factor must be between 1% and a 100%");
+    if (
+      installationFactor &&
+      (parseFloat(installationFactor) < 0 ||
+        parseFloat(installationFactor) > 100)
+    ) {
+      setInstallationFactorError(
+        "Installation factor must be between 1% and a 100%",
+      );
     } else {
       setInstallationFactorError("");
     }
-  }
-  , [installationFactor]);
+  }, [installationFactor]);
 
   useEffect(() => {
     if (energyRequirement && parseFloat(energyRequirement) < 0) {
@@ -183,13 +203,15 @@ useEffect(() => {
   }, [energyRequirement]);
 
   useEffect(() => {
-    if (efficiency && (parseFloat(efficiency) < 0 || parseFloat(efficiency) > 100)) {
+    if (
+      efficiency &&
+      (parseFloat(efficiency) < 0 || parseFloat(efficiency) > 100)
+    ) {
       setEfficiencyError("Efficiency must be between 1% and a 100%");
     } else {
       setEfficiencyError("");
     }
-  }
-  , [efficiency]);
+  }, [efficiency]);
 
   useEffect(() => {
     if (ngReq && parseFloat(ngReq) < 0) {
@@ -197,8 +219,7 @@ useEffect(() => {
     } else {
       setNgReqError("");
     }
-  }
-  , [ngReq]);
+  }, [ngReq]);
 
   return (
     <Modal
@@ -221,7 +242,7 @@ useEffect(() => {
               </Text>
             </ModalHeader>
             <ModalBody>
-              <div className="grid grid-cols-3 gap-x-4 gap-y-6">
+              <div className="grid grid-cols-3 gap-x-4 gap-y-6 overflow-visible text-nowrap">
                 <div className="col-span-2 col-start-1">
                   <Input
                     type="text"
@@ -331,6 +352,8 @@ useEffect(() => {
                       MW
                     </Text>
                   }
+                  helpMessage="The amount of natural gas required to operate the subprocess."
+                  link="https://www.notion.so/User-Manual-1b65baf055248030ac08e9dc0cad11d4?pvs=4#1ba5baf0552480adabf6d854ccd444b9"
                 />
               </div>
             </ModalBody>
@@ -354,7 +377,7 @@ useEffect(() => {
                 }}
                 disabled={disabled}
               >
-                {editID === undefined ? "Add" : "Save changes"}
+                {editID === undefined ? "Add" : "Save Changes"}
               </Button>
             </ModalFooter>
           </>

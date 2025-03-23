@@ -166,14 +166,13 @@ const Wizard = React.forwardRef<HTMLButtonElement, WizardProps>(
                     "after:content-['']  after:w-full after:h-0.5 after:bg-grey-label":
                       stepIdx > currentStep && stepIdx !== steps.length - 1,
                   },
-
-                  {
-                    "after:content-['']  after:w-full after:h-0.5 after:bg-[image:linear-gradient(to_right,#4F5E71_0%,#4F5E71_50%,#4F5E71_50%,#4F5E71_100%)]":
-                      stepIdx === steps.length - 1,
-                  },
                   {
                     "after:content-['']  after:w-full after:h-0.5 after:bg-[#506AC7]":
                       stepIdx === currentStep && stepIdx === steps.length - 1,
+                  },
+                  {
+                    "after:content-['']  after:w-full after:h-0.5 after:bg-[image:linear-gradient(to_right,#4F5E71_0%,#4F5E71_50%,#4F5E71_50%,#4F5E71_100%)]":
+                      stepIdx != currentStep && stepIdx === steps.length - 1,
                   },
                 )}
               >

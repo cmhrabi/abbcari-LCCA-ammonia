@@ -80,6 +80,8 @@ def lcca_pre_calc(data):
     ER_c = capex.ER_calc(ER_c_base, X_n, alpha_list_c)
     total_c = capex.tot_calc(ER_c, X_n_inst)
     lifetime_op_emissions_c = capex.op_emissions_calc(X_n_inst, data["baseline_demand"], data["final_year"], data["start_year"], data["operating_hours"], total_c, conv_tech["onsite_upstream_emmisions"],conv_tech["water_consumption"] * prod_per_hour, electricity_em_intensity)
+    if data["lcca_type"] == "psi":
+        lifetime_op_emissions_c = capex.lifetime_net_P2A(lifetime_op_emissions_c, X_n_inst, data["baseline_demand"])
     emissions_c = capex.emissions_calc(lifetime_op_emissions_c)
 
     total_NG_c = [sum(elements) for elements in zip(*(capex.tot_NG_calc(subprocess["ng_req"], X_n, X_n_inst, data["baseline_demand"], alpha_list_c, i) for i, subprocess in enumerate(conv_tech["subprocesses"]) if subprocess.get("ng_req", 0) > 0))]

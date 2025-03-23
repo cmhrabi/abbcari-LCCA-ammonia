@@ -130,23 +130,25 @@ const Review: React.FC<ReviewProps> = ({ setCurrStep }) => {
             </div>
           }
         >
-          <div className="grid grid-cols-2 pt-1 pb-4 px-8 gap-y-3">
-            <Text>Start year: {generalValues.startYear}</Text>
-            <Text>Discount rate: {generalValues.discount}%</Text>
-            <Text>Target year: {generalValues.finalYear}</Text>
-            <Text>Province used in analysis: {generalValues.province}</Text>
-            <Text>
-              Plant operating hours: {generalValues.plantOperatingHours}
-            </Text>
-            <Text>
-              Current electrical ammonia production:{" "}
-              {parseFloat(generalValues.baselineDemand).toFixed(4)} pJ
-            </Text>
-            <div>
+          <div className="shadow-card rounded-[10px] border-1 border-grey bg-white py-4 px-10">
+            <div className="grid grid-cols-2 gap-y-3">
+              <Text>Start year: {generalValues.startYear}</Text>
+              <Text>Discount rate: {generalValues.discount}%</Text>
+              <Text>Target year: {generalValues.finalYear}</Text>
+              <Text>Province used in analysis: {generalValues.province}</Text>
               <Text>
-                Electrical ammonia in target year:{" "}
-                {parseFloat(generalValues.finalDemand).toFixed(2)} pJ
+                Plant operating hours: {generalValues.plantOperatingHours}
               </Text>
+              <Text>
+                Current electrical ammonia production:{" "}
+                {parseFloat(generalValues.baselineDemand).toFixed(4)} pJ
+              </Text>
+              <div>
+                <Text>
+                  Electrical ammonia in target year:{" "}
+                  {parseFloat(generalValues.finalDemand).toFixed(2)} pJ
+                </Text>
+              </div>
             </div>
           </div>
         </AccordionItem>
@@ -271,53 +273,59 @@ const Review: React.FC<ReviewProps> = ({ setCurrStep }) => {
                   </Table>
                 </div>
               </div>
-              <div className="grid grid-cols-2 pt-1 pb-4 px-6 gap-y-3 gap-x-10">
-                <Text>
-                  Working capital cost: $M{" "}
-                  {parseFloat(elecValues.workingCapitalCost).toFixed(2)}
-                </Text>
-                <Text>
-                  Installation cost: $M{" "}
-                  {parseFloat(elecValues.installationCost).toFixed(2)}
-                </Text>
-                <Text>
-                  Water requirement: {elecValues.waterRequirement} tH
-                  <sub>2</sub>O/tNH<sub>3</sub>
-                </Text>
-                <Text>
-                  Learning rate: {elecValues.bottomUpProcess.learningRate}%
-                </Text>
-                <Text>
-                  Scaling factor: {elecValues.bottomUpProcess.scalingFactor}%
-                </Text>
-                <Text>
-                  Installation factor:{" "}
-                  {elecValues.bottomUpProcess.installationFactor}%
-                </Text>
-                <Text>
-                  Efficiency: {elecValues.bottomUpProcess.efficiency}%
-                </Text>
-                <Text>
-                  Energy requirement:{" "}
-                  {elecValues.bottomUpProcess.energyRequirement} MW
-                </Text>
+              <div className="shadow-card rounded-[10px] border-1 border-grey bg-white py-4 mt-5 px-10">
+                <div className="grid grid-cols-2 gap-y-3 gap-x-10">
+                  <Text>
+                    Working capital cost: $M{" "}
+                    {parseFloat(elecValues.workingCapitalCost).toFixed(2)}
+                  </Text>
+                  <Text>
+                    Installation cost: $M{" "}
+                    {parseFloat(elecValues.installationCost).toFixed(2)}
+                  </Text>
+                  <Text>
+                    Water requirement: {elecValues.waterRequirement} tH
+                    <sub>2</sub>O/tNH<sub>3</sub>
+                  </Text>
+                  <Text>
+                    Learning rate: {elecValues.bottomUpProcess.learningRate}%
+                  </Text>
+                  <Text>
+                    Scaling factor: {elecValues.bottomUpProcess.scalingFactor}%
+                  </Text>
+                  <Text>
+                    Installation factor:{" "}
+                    {elecValues.bottomUpProcess.installationFactor}%
+                  </Text>
+                  <Text>
+                    Efficiency: {elecValues.bottomUpProcess.efficiency}%
+                  </Text>
+                  <Text>
+                    Energy requirement:{" "}
+                    {elecValues.bottomUpProcess.energyRequirement} MW
+                  </Text>
+                </div>
               </div>
             </>
           ) : (
             <>
-              <div className="grid grid-cols-3 pt-1 pb-4 px-6 gap-y-3">
-                <Text>Direct cost factor: {elecValues.directCostFactor}%</Text>
-                <Text>
-                  Indirect cost factor: {elecValues.indirectCostFactor}%
-                </Text>
-                <Text>
-                  Working capital cost factor: {elecValues.workingCapitalFactor}
-                  %
-                </Text>
-                <Text>
-                  Water requirement: {elecValues.waterRequirement} tH
-                  <sub>2</sub>O/tNH<sub>3</sub>
-                </Text>
+              <div className="shadow-card rounded-[10px] border-1 border-grey bg-white py-5 mb-5 px-10">
+                <div className="grid grid-cols-3  gap-y-3">
+                  <Text>
+                    Direct cost factor: {elecValues.directCostFactor}%
+                  </Text>
+                  <Text>
+                    Indirect cost factor: {elecValues.indirectCostFactor}%
+                  </Text>
+                  <Text>
+                    Working capital cost factor:{" "}
+                    {elecValues.workingCapitalFactor}%
+                  </Text>
+                  <Text>
+                    Water requirement: {elecValues.waterRequirement} tH
+                    <sub>2</sub>O/tNH<sub>3</sub>
+                  </Text>
+                </div>
               </div>
               <div className="px-6 mb-2">
                 <Text textSize="sub4">Subprocess for {tech1Name}</Text>
@@ -350,14 +358,14 @@ const Review: React.FC<ReviewProps> = ({ setCurrStep }) => {
                           </div>
                         </TableCell>
                         <TableCell>
-                          $M {subProcess.baseCost.toFixed(4)}
+                          $M {subProcess.baseCost?.toFixed(4)}
                         </TableCell>
                         <TableCell>{subProcess.learningRate}%</TableCell>
                         <TableCell>{subProcess.scalingFactor}%</TableCell>
                         <TableCell>{subProcess.installationFactor}%</TableCell>
                         <TableCell>{subProcess.efficiency}%</TableCell>
                         <TableCell>
-                          {subProcess.energyRequirement.toFixed(3)} MW
+                          {subProcess.energyRequirement?.toFixed(3)} MW
                         </TableCell>
                       </TableRow>
                     ))}
@@ -488,59 +496,72 @@ const Review: React.FC<ReviewProps> = ({ setCurrStep }) => {
                   </Table>
                 </div>
               </div>
-              <div className="grid grid-cols-2 pt-1 pb-4 px-6 gap-y-3 gap-x-10">
-                <Text>
-                  Working capital cost: $M {conValues.workingCapitalCost}
-                </Text>
-                <Text>Installation cost: $M {conValues.installationCost}</Text>
-                <Text>Water requirement: {conValues.waterRequirement} m³</Text>
-                <Text>
-                  Learning rate: {conValues.bottomUpProcess.learningRate}%
-                </Text>
-                <Text>
-                  Scaling factor: {conValues.bottomUpProcess.scalingFactor}%
-                </Text>
-                <Text>
-                  Installation factor:{" "}
-                  {conValues.bottomUpProcess.installationFactor}%
-                </Text>
-                <Text>Efficiency: {conValues.bottomUpProcess.efficiency}%</Text>
-                <Text>
-                  Energy requirement:{" "}
-                  {conValues.bottomUpProcess.energyRequirement} MW
-                </Text>
+              <div className="shadow-card rounded-[10px] border-1 border-grey bg-white py-5 mt-5 px-10">
+                <div className="grid grid-cols-2 gap-y-3 gap-x-10">
+                  <Text>
+                    Working capital cost: $M {conValues.workingCapitalCost}
+                  </Text>
+                  <Text>
+                    Installation cost: $M {conValues.installationCost}
+                  </Text>
+                  <Text>
+                    Water requirement: {conValues.waterRequirement} m³
+                  </Text>
+                  <Text>
+                    Learning rate: {conValues.bottomUpProcess.learningRate}%
+                  </Text>
+                  <Text>
+                    Scaling factor: {conValues.bottomUpProcess.scalingFactor}%
+                  </Text>
+                  <Text>
+                    Installation factor:{" "}
+                    {conValues.bottomUpProcess.installationFactor}%
+                  </Text>
+                  <Text>
+                    Efficiency: {conValues.bottomUpProcess.efficiency}%
+                  </Text>
+                  <Text>
+                    Energy requirement:{" "}
+                    {conValues.bottomUpProcess.energyRequirement} MW
+                  </Text>
+                </div>
               </div>
             </>
           ) : (
             <>
-              <div className="grid grid-cols-3 pt-1 pb-4 px-6 gap-y-3">
-                <Text>Direct cost factor: {conValues.directCostFactor}%</Text>
-                <Text>
-                  Indirect cost factor: {conValues.indirectCostFactor}%
-                </Text>
-                <Text>
-                  Working capital cost factor: {conValues.workingCapitalFactor}%
-                </Text>
-                <Text>
-                  Water requirement: {conValues.waterRequirement} tH<sub>2</sub>
-                  O/tNH<sub>3</sub>
-                </Text>
-                <Text>
-                  Onsite emissions: {conValues.onsiteEmissions} kgCO<sub>2</sub>
-                  /kgH<sub>2</sub>
-                </Text>
-                <Text>
-                  Upstream emissions: {conValues.upstreamEmissions} kgCO
-                  <sub>2</sub>/kgNH<sub>3</sub>
-                </Text>
-                {analysisType == "phi" && (
-                  <>
-                    <Text>
-                      Depreciation percent: {conValues.depreciationPercent}%
-                    </Text>
-                    <Text>Duration of use: {conValues.duration} years</Text>
-                  </>
-                )}
+              <div className="shadow-card rounded-[10px] border-1 border-grey bg-white py-5 mb-5 px-10">
+                <div className="grid grid-cols-3 gap-y-3">
+                  <Text>Direct cost factor: {conValues.directCostFactor}%</Text>
+                  <Text>
+                    Indirect cost factor: {conValues.indirectCostFactor}%
+                  </Text>
+                  <Text>
+                    Working capital cost factor:{" "}
+                    {conValues.workingCapitalFactor}%
+                  </Text>
+                  <Text>
+                    Water requirement: {conValues.waterRequirement} tH
+                    <sub>2</sub>
+                    O/tNH<sub>3</sub>
+                  </Text>
+                  <Text>
+                    Onsite emissions: {conValues.onsiteEmissions} kgCO
+                    <sub>2</sub>
+                    /kgH<sub>2</sub>
+                  </Text>
+                  <Text>
+                    Upstream emissions: {conValues.upstreamEmissions} kgCO
+                    <sub>2</sub>/kgNH<sub>3</sub>
+                  </Text>
+                  {analysisType == "phi" && (
+                    <>
+                      <Text>
+                        Depreciation percent: {conValues.depreciationPercent}%
+                      </Text>
+                      <Text>Duration of use: {conValues.duration} years</Text>
+                    </>
+                  )}
+                </div>
               </div>
               <div className="px-6 mb-2">
                 <Text textSize="sub4">Subprocess for {tech2Name}</Text>
@@ -574,14 +595,14 @@ const Review: React.FC<ReviewProps> = ({ setCurrStep }) => {
                           </div>
                         </TableCell>
                         <TableCell>
-                          $M {subProcess.baseCost.toFixed(4)}
+                          $M {subProcess.baseCost?.toFixed(4)}
                         </TableCell>
                         <TableCell>{subProcess.learningRate}%</TableCell>
                         <TableCell>{subProcess.scalingFactor}%</TableCell>
                         <TableCell>{subProcess.installationFactor}%</TableCell>
                         <TableCell>{subProcess.efficiency}%</TableCell>
                         <TableCell>
-                          {subProcess.energyRequirement.toFixed(3)} MW
+                          {subProcess.energyRequirement?.toFixed(3)} MW
                         </TableCell>
                         <TableCell>
                           {subProcess.ngReq?.toFixed(3) ?? 0} MW

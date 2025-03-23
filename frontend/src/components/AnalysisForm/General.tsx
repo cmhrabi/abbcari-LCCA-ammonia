@@ -226,7 +226,7 @@ const General: React.FC<GeneralProps> = ({ setCurrStep }) => {
               onChange={(e) => dispatch(setFinalDemand(e.target.value))}
               value={generalValues.finalDemand}
               placeholder="Value"
-              helpMessage="The amount of electricity that is required to generate ammonia. This value will be used to derive the installed and purchased costs."
+              helpMessage="The amount of electrically derived ammonia that is required in final year. This value will be used to derive the installed and purchased costs."
               link="https://www.notion.so/User-Manual-1b65baf055248030ac08e9dc0cad11d4?pvs=4#1ba5baf055248092b374c598b304258a"
               end={
                 <Text color="grey-blue" textSize="input">
@@ -235,7 +235,6 @@ const General: React.FC<GeneralProps> = ({ setCurrStep }) => {
               }
               type="number"
               error={finalDemandStringError}
-              // noIcon
             />
           </div>
           <Input
@@ -252,7 +251,6 @@ const General: React.FC<GeneralProps> = ({ setCurrStep }) => {
             }
             type="number"
             error={discountStringError}
-            // noIcon
           />
           <Input
             label="Plant operating hours"

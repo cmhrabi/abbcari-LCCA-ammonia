@@ -1,19 +1,21 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   Modal,
   ModalContent,
   ModalHeader,
   ModalBody,
   ModalFooter,
+  Spinner,
 } from "@heroui/react";
 import Button from "../../design/Button/Button";
 import Text from "../../design/Text/Text";
-import { useAppDispatch } from "../../hooks";
+import { useAppDispatch, useAppSelector } from "../../hooks";
 import { resetState as resetStateName } from "../../Slices/nameSlice";
 import { resetState as resetStateGeneral } from "../../Slices/generalSlice";
 import { resetState as resetStateConventional } from "../../Slices/conventionalSlice";
 import { resetState as resetStateElectrified } from "../../Slices/electrifiedSlice";
 import { useNavigate } from "react-router-dom";
+import { generatePDF } from "../../utils/utils";
 
 interface StartNewModalProps {
   isOpen: boolean;
@@ -26,6 +28,15 @@ const StartNewModal: React.FC<StartNewModalProps> = ({
 }) => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
+  const nameValues = useAppSelector((state) => state.name.value);
+  const [exportLoading, setExportLoading] = useState(false);
+  const generateResultPDF = async () => {
+    await generatePDF(
+      "results_export",
+      `${nameValues.tech1Name}_vs_${nameValues.tech2Name}_LCCA`,
+    );
+    setExportLoading(false);
+  };
   return (
     <Modal
       isOpen={isOpen}
@@ -49,8 +60,21 @@ const StartNewModal: React.FC<StartNewModalProps> = ({
           </Text>
         </ModalBody>
         <ModalFooter>
-          <Button color="grey" onClick={() => onOpenChange(false)}>
+          <Button
+            color="transparent"
+            size="medium"
+            onClick={() => onOpenChange(false)}
+          >
             Cancel
+          </Button>
+          <Button
+            color="grey"
+            onClick={() => {
+              setExportLoading(true);
+              generateResultPDF();
+            }}
+          >
+            {exportLoading ? <Spinner size="sm" color="white" /> : "Export"}
           </Button>
           <Button
             color="primary"
@@ -62,7 +86,7 @@ const StartNewModal: React.FC<StartNewModalProps> = ({
               navigate("/analysis/start");
             }}
           >
-            Start new
+            Start New
           </Button>
         </ModalFooter>
       </ModalContent>
