@@ -45,10 +45,11 @@ const AdjustableCard: React.FC<AdjustableCardProps> = ({ onClickAdjust }) => {
         <Tab id="general" title="General parameters">
           <div className="grid grid-cols-3 gap-x-6">
             <Select
-              label="Province used in analysis"
+              label="Province or territory used in analysis"
               onChange={(e) => dispatch(setProvince(e.target.value))}
               value={generalValues.province}
               options={[
+                { value: "No Selection", label: "No Selection" },
                 { value: "Alberta", label: "Alberta" },
                 { value: "British Columbia", label: "British Columbia" },
                 { value: "Manitoba", label: "Manitoba" },
@@ -65,6 +66,11 @@ const AdjustableCard: React.FC<AdjustableCardProps> = ({ onClickAdjust }) => {
                 },
                 { value: "Quebec", label: "Quebec" },
                 { value: "Saskatchewan", label: "Saskatchewan" },
+                {
+                  value: "Northwest Territories",
+                  label: "Northwest Territories",
+                },
+                { value: "Yukon", label: "Yukon" },
               ]}
               helpMessage="The province you want to influence the projected cost based on its geographical location on the electricity grid."
               link="https://www.notion.so/User-Manual-1b65baf055248030ac08e9dc0cad11d4?pvs=4#1b85baf0552480a69553ccb1c616b57f"

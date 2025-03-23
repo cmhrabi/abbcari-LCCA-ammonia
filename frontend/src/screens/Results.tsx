@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import NavBar from "../components/NavBar/NavBar";
 import Text from "../design/Text/Text";
 import Breadcrumbs from "../design/Breadcumbs/Breadcrumbs";
@@ -54,8 +54,7 @@ const Results = () => {
   const location = useLocation();
   const lccaData = location.state.lccaData as LCCAData;
 
-  const [lccaDataLocal] = useState(lccaData);
-  const [lccaDataLocalAdjusted, setLccaDataLocalAdjusted] = useState<LCCAData>({
+  const [lccaDataLocal, setLccaDataLocal] = useState<LCCAData>({
     LCCA: [],
     capex_elec: [],
     capex_conv: [],
@@ -66,6 +65,9 @@ const Results = () => {
     emissions_elec: [],
     emissions_conv: [],
   });
+
+  const [lccaDataLocalAdjusted, setLccaDataLocalAdjusted] =
+    useState<LCCAData>(lccaData);
 
   const onClickAdjust = async () => {
     const data = cleanData(
@@ -104,6 +106,9 @@ const Results = () => {
             severity: "danger",
           });
         } else {
+          if (lccaDataLocal.LCCA.length === 0) {
+            setLccaDataLocal(lccaDataLocalAdjusted);
+          }
           setLccaDataLocalAdjusted(response);
         }
       }
@@ -120,6 +125,41 @@ const Results = () => {
     });
     return chart_data;
   };
+
+  const [chartData, setChartData] = useState([
+    {
+      id: "LCCA",
+      data: constructData(lccaDataLocalAdjusted.LCCA),
+    },
+  ]);
+  useEffect(() => {
+    setChartData(
+      lccaDataLocal.LCCA.length > 0
+        ? showOriginal
+          ? [
+              {
+                id: "Original LCCA",
+                data: constructData(lccaDataLocal.LCCA),
+              },
+              {
+                id: "New LCCA",
+                data: constructData(lccaDataLocalAdjusted.LCCA),
+              },
+            ]
+          : [
+              {
+                id: "New LCCA",
+                data: constructData(lccaDataLocalAdjusted.LCCA),
+              },
+            ]
+        : [
+            {
+              id: "LCCA",
+              data: constructData(lccaDataLocalAdjusted.LCCA),
+            },
+          ],
+    );
+  }, [lccaDataLocal, lccaDataLocalAdjusted, showOriginal]);
 
   return (
     <>
@@ -162,7 +202,7 @@ const Results = () => {
             <div className="pt-4 grid grid-cols-3 gap-7">
               <ResultsCard
                 title="Your initial investment"
-                value={`$${(lccaDataLocal.capex_elec[0] + lccaDataLocal.opex_elec[0] + lccaDataLocal.capex_loss_conv[0]).toFixed(2)} Million`}
+                value={`$${(lccaDataLocalAdjusted.capex_elec[0] + lccaDataLocalAdjusted.opex_elec[0] + lccaDataLocalAdjusted.capex_loss_conv[0]).toFixed(2)} Million`}
                 caption={`if you implemented the ${tech1Name} technology`}
               />
               <ResultsCard
@@ -170,11 +210,11 @@ const Results = () => {
                 value={
                   <div>
                     {(
-                      (lccaDataLocal.emissions_conv[
-                        lccaDataLocal.emissions_conv.length - 1
+                      (lccaDataLocalAdjusted.emissions_conv[
+                        lccaDataLocalAdjusted.emissions_conv.length - 1
                       ] -
-                        lccaDataLocal.emissions_elec[
-                          lccaDataLocal.emissions_elec.length - 1
+                        lccaDataLocalAdjusted.emissions_elec[
+                          lccaDataLocalAdjusted.emissions_elec.length - 1
                         ]) /
                       1000000
                     ).toExponential(2)}{" "}
@@ -193,10 +233,10 @@ const Results = () => {
                   <div>
                     $
                     {(
-                      lccaDataLocal.LCCA.reduce(
+                      lccaDataLocalAdjusted.LCCA.reduce(
                         (average, a) => (a > 0 ? average + a : average),
                         0,
-                      ) / lccaDataLocal.LCCA.length
+                      ) / lccaDataLocalAdjusted.LCCA.length
                     ).toFixed(2)}{" "}
                     /tCO<sub>2</sub>eq
                   </div>
@@ -229,32 +269,7 @@ const Results = () => {
                       )}
                     </>
                   }
-                  data={
-                    lccaDataLocalAdjusted.LCCA.length > 0
-                      ? showOriginal
-                        ? [
-                            {
-                              id: "Original LCCA",
-                              data: constructData(lccaDataLocal.LCCA),
-                            },
-                            {
-                              id: "New LCCA",
-                              data: constructData(lccaDataLocalAdjusted.LCCA),
-                            },
-                          ]
-                        : [
-                            {
-                              id: "New LCCA",
-                              data: constructData(lccaDataLocalAdjusted.LCCA),
-                            },
-                          ]
-                      : [
-                          {
-                            id: "LCCA",
-                            data: constructData(lccaDataLocal.LCCA),
-                          },
-                        ]
-                  }
+                  data={chartData}
                 />
               </div>
               <div className="flex flex-col justify-between">
@@ -263,17 +278,36 @@ const Results = () => {
                   cost_data={[
                     {
                       id: "CAPEX",
-                      data: constructData(lccaDataLocal.capex_elec),
+                      data: constructData(
+                        lccaDataLocal.capex_elec.map((capex_e, index) => {
+                          if (nameSlice.value.type == "phi") {
+                            return (
+                              capex_e -
+                              lccaDataLocalAdjusted.capex_loss_conv[index]
+                            );
+                          } else {
+                            return (
+                              capex_e - lccaDataLocalAdjusted.capex_conv[index]
+                            );
+                          }
+                        }),
+                      ),
                     },
                     {
                       id: "Import/Export",
                       data: constructData(
-                        removeNegatives(lccaDataLocal.import_export),
+                        removeNegatives(lccaDataLocalAdjusted.import_export),
                       ),
                     },
                     {
                       id: "OPEX",
-                      data: constructData(lccaDataLocal.opex_elec),
+                      data: constructData(
+                        lccaDataLocalAdjusted.opex_elec.map((opex_e, index) => {
+                          return (
+                            opex_e - lccaDataLocalAdjusted.opex_conv[index]
+                          );
+                        }),
+                      ),
                     },
                   ]}
                 />
@@ -282,11 +316,11 @@ const Results = () => {
                   emissions_data={[
                     {
                       id: "Conventional",
-                      data: constructData(lccaDataLocal.emissions_conv),
+                      data: constructData(lccaDataLocalAdjusted.emissions_conv),
                     },
                     {
                       id: "Electrical",
-                      data: constructData(lccaDataLocal.emissions_elec),
+                      data: constructData(lccaDataLocalAdjusted.emissions_elec),
                     },
                   ]}
                 />
