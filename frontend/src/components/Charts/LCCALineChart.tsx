@@ -45,7 +45,9 @@ const LCCALineChart: React.FC<LineChartProps> = ({ data, title }) => {
         serie.data.some((d) => typeof d.y === "number" && d.y < 0),
       ),
     );
+  }, [data]);
 
+  useEffect(() => {
     const maxValue = Math.max(
       ...filteredData.flatMap((serie) => serie.data.map((d) => d.y as number)),
     );
@@ -67,7 +69,7 @@ const LCCALineChart: React.FC<LineChartProps> = ({ data, title }) => {
     setTickValues(
       maxYear > 2040 ? [minYear, 2030, 2040, 2050] : [minYear, 2030, 2040],
     );
-  }, [data]);
+  }, [filteredData]);
 
   return (
     <div className="bg-primary-50 shadow-card rounded-3px p-6 mr-7 space-y-5">

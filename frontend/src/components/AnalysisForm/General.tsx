@@ -170,7 +170,7 @@ const General: React.FC<GeneralProps> = ({ setCurrStep }) => {
           />
           <div className="col-span-2">
             <Select
-              label="Province used in analysis"
+              label="Province or territory used in analysis"
               error={provinceError}
               onChange={(e) => dispatch(setProvince(e.target.value))}
               value={generalValues.province}
@@ -233,7 +233,7 @@ const General: React.FC<GeneralProps> = ({ setCurrStep }) => {
               }
               type="number"
               error={finalDemandStringError}
-              link="Some link"
+              link="Some"
               // noIcon
             />
           </div>

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import NavBar from "../components/NavBar/NavBar";
 import Text from "../design/Text/Text";
 import Breadcrumbs from "../design/Breadcumbs/Breadcrumbs";
@@ -121,6 +121,41 @@ const Results = () => {
     return chart_data;
   };
 
+  const [chartData, setChartData] = useState([
+    {
+      id: "LCCA",
+      data: constructData(lccaDataLocal.LCCA),
+    },
+  ]);
+  useEffect(() => {
+    setChartData(
+      lccaDataLocalAdjusted.LCCA.length > 0
+        ? showOriginal
+          ? [
+              {
+                id: "Original LCCA",
+                data: constructData(lccaDataLocal.LCCA),
+              },
+              {
+                id: "New LCCA",
+                data: constructData(lccaDataLocalAdjusted.LCCA),
+              },
+            ]
+          : [
+              {
+                id: "New LCCA",
+                data: constructData(lccaDataLocalAdjusted.LCCA),
+              },
+            ]
+        : [
+            {
+              id: "LCCA",
+              data: constructData(lccaDataLocal.LCCA),
+            },
+          ],
+    );
+  }, [lccaDataLocal, lccaDataLocalAdjusted, showOriginal]);
+
   return (
     <>
       <NavBar title="COMPASS" />
@@ -229,32 +264,7 @@ const Results = () => {
                       )}
                     </>
                   }
-                  data={
-                    lccaDataLocalAdjusted.LCCA.length > 0
-                      ? showOriginal
-                        ? [
-                            {
-                              id: "Original LCCA",
-                              data: constructData(lccaDataLocal.LCCA),
-                            },
-                            {
-                              id: "New LCCA",
-                              data: constructData(lccaDataLocalAdjusted.LCCA),
-                            },
-                          ]
-                        : [
-                            {
-                              id: "New LCCA",
-                              data: constructData(lccaDataLocalAdjusted.LCCA),
-                            },
-                          ]
-                      : [
-                          {
-                            id: "LCCA",
-                            data: constructData(lccaDataLocal.LCCA),
-                          },
-                        ]
-                  }
+                  data={chartData}
                 />
               </div>
               <div className="flex flex-col justify-between">
