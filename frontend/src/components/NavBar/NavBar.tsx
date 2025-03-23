@@ -44,9 +44,9 @@ const NavBar: React.FC<NavBarProps> = ({ type = "default" }) => {
         </div>
           {type === "default" && (
             /* TODO: Change to text link */
-            <div className="flex flex-row items-center space-x-3">
+            <div className="flex flex-row items-center cursor-pointer" onClick={() => {window.open("https://fifth-nautilus-f96.notion.site/User-Manual-1b65baf055248030ac08e9dc0cad11d4");
+              }}>
               <Text textSize="input">Help</Text>
-              <Bars3Icon onClick={() => { }} className="size-6 cursor-pointer" />
             </div>
           )}
       </div>

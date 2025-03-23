@@ -20,7 +20,7 @@ const MeetTheTeam: React.FC = () => {
          </div>
          <div>
           <Text textSize="sub2">
-           Compass was developed by a team of Management Engineering students, driven by their passion for sustainability and combating climate change, as part of their fourth-year capstone project. They were introduced by Professor XiaoYu Wu and Abbcari Inc to the open-source LCCA model developed by the National Research Council to assess and compare different hydrogen production and export pathways for Canada. This comprehensive model requires both technical and economic parameters that could affect the viability of the different hydrogen pathways. 
+           Compass was developed by a team of Management Engineering students, driven by their passion for sustainability and combating climate change, as part of their fourth-year capstone project. They were introduced by Professor XiaoYu Wu and Abbcari Inc to the open-source LCCA model developed by the National Research Council to assess and compare different ammonia production and export pathways for Canada. This comprehensive model requires both technical and economic parameters that could affect the viability of the ammonia pathways. 
           </Text>
           </div>
           </div>
