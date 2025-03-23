@@ -8,7 +8,7 @@ import AcknowledgementSlide from "../components/HomeSlides/AcknowledgementSlide"
 
 const Home = () => {
   return (
-    <div className="overflow-visible">
+    <div className="overflow-visible bg-home-bg">
       <NavBar title="COMPASS" type="home" />
       <TitleSlide />
       <VisualizeSlide />

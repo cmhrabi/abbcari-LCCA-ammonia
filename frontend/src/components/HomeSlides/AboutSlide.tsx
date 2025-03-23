@@ -7,7 +7,7 @@ const AboutSlide: React.FC = () => {
   const navigate = useNavigate();
 
   return (
-    <div className="bg-white">
+    <div className="bg-[linear-gradient(-115deg,_white_50%,_transparent_50%)]">
       <div className="py-16 max-w-6xl m-auto flex justify-end">
         <div className="w-5/12">
           <div className="pb-6 grid gap-y-4 grid-cols-1">

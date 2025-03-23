@@ -65,7 +65,6 @@ const Results = () => {
     emissions_elec: [],
     emissions_conv: [],
   });
-
   const [lccaDataLocalAdjusted, setLccaDataLocalAdjusted] =
     useState<LCCAData>(lccaData);
 
@@ -253,7 +252,7 @@ const Results = () => {
                         Projected LCCA (Levelized cost of carbon abatement) from{" "}
                         {startYear} to {finalYear} ($/tCO<sub>2</sub>eq)
                       </div>
-                      {lccaDataLocalAdjusted.LCCA.length > 0 && (
+                      {lccaDataLocal.LCCA.length > 0 && (
                         <Checkbox
                           color="primary"
                           isSelected={showOriginal}
@@ -279,18 +278,21 @@ const Results = () => {
                     {
                       id: "CAPEX",
                       data: constructData(
-                        lccaDataLocal.capex_elec.map((capex_e, index) => {
-                          if (nameSlice.value.type == "phi") {
-                            return (
-                              capex_e -
-                              lccaDataLocalAdjusted.capex_loss_conv[index]
-                            );
-                          } else {
-                            return (
-                              capex_e - lccaDataLocalAdjusted.capex_conv[index]
-                            );
-                          }
-                        }),
+                        lccaDataLocalAdjusted.capex_elec.map(
+                          (capex_e, index) => {
+                            if (nameSlice.value.type == "phi") {
+                              return (
+                                capex_e -
+                                lccaDataLocalAdjusted.capex_loss_conv[index]
+                              );
+                            } else {
+                              return (
+                                capex_e -
+                                lccaDataLocalAdjusted.capex_conv[index]
+                              );
+                            }
+                          },
+                        ),
                       ),
                     },
                     {

@@ -2,7 +2,6 @@ import React from "react";
 import Button from "../../design/Button/Button";
 import Text from "../../design/Text/Text";
 import { useNavigate } from "react-router-dom";
-import home_bg from "../../assets/home_bg.png";
 import logo from "../../assets/logo.svg";
 
 const TitleSlide: React.FC = () => {
@@ -18,16 +17,10 @@ const TitleSlide: React.FC = () => {
           </Text>
           <img src={logo} alt="logo" />
           </div>
-          <Text textSize="sub1" color="secondary">
-            Levelized cost of carbon abatement (LCCA) model
-          </Text>
+          <Button size="large" onClick={() => navigate("/analysis/start")}>
+            Get Started
+          </Button>
         </div>
-        <Button size="large" onClick={() => navigate("/analysis/start")}>
-          Get Started
-        </Button>
-      </div>
-      <div className="w-1/2 h-full pr-8">
-        <img src={home_bg} alt="Visualize strategies" className="w-full h-full rounded-lg shadow-lg" />
       </div>
     </div>
   );

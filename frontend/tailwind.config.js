@@ -176,6 +176,9 @@ export const theme = {
         "0px 4px 8px 0px rgba(79, 94, 113, 0.10), 0px 2px 4px 0px rgba(79, 94, 113, 0.11), 0px 0px 2px 0px rgba(79, 94, 113, 0.12)",
       card: "-4px 4px 4px 0px rgba(0, 0, 0, 0.10)",
     },
+    backgroundImage: {
+      "home-bg": "url(/src/assets/home.jpg)",
+    },
   },
 };
 export const darkMode = "class";

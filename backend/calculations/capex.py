@@ -638,7 +638,6 @@ def set_up(province,t_o,t_f):
         elec_price.append(province_data["Electricity"][i]*3.6)
         NG_price.append(province_data["Natural Gas"][i]*3.6)
 
-    print(initial)
     electricity_em_intensity = electricity_em_intensity[initial:len(electricity_em_intensity)-final+1]
     elec_price = elec_price[initial:len(elec_price)-final]
     NG_price = NG_price[initial:len(NG_price)-final]
