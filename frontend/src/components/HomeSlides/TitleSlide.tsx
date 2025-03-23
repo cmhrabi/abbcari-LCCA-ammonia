@@ -10,9 +10,6 @@ const TitleSlide: React.FC = () => {
 
   return (
     <div className="py-32 max-w-6xl m-auto flex items-center">
-      {/* Left side: Image */}
-      
-      {/* Right side: Text and Button */}
       <div className="w-1/2">
         <div className="pb-9 grid gap-y-4">
           <div className="flex flex-row items-center gap-x-2">

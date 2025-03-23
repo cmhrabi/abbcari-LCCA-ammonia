@@ -230,6 +230,7 @@ const SubProcessModal: React.FC<SubProcessModalProps> = ({
                     onChange={(e) => {
                       setName(e.target.value);
                     }}
+                    helpMessage="The name will be used to refer to the subprocess that you have added."
                   />
                 </div>
                 <div></div>
@@ -244,6 +245,8 @@ const SubProcessModal: React.FC<SubProcessModalProps> = ({
                     </Text>
                   }
                   onChange={(e) => setBaseCost(e.target.value)}
+                  helpMessage="The capital cost value of the defined subprocess at the starting year."
+                  link="https://www.notion.so/1b65baf055248030ac08e9dc0cad11d4?pvs=4#1ba5baf0552480239045c30094eb37a0"
                 />
                 <Input
                   type="number"
@@ -256,6 +259,8 @@ const SubProcessModal: React.FC<SubProcessModalProps> = ({
                       %
                     </Text>
                   }
+                  helpMessage="The learning rate indicates the percentage by which the cost of production goes down while doubling the cumulative capacity. "
+                  link="https://www.notion.so/1b65baf055248030ac08e9dc0cad11d4?pvs=4#1ba5baf0552480239045c30094eb37a0"
                 />
                 <Input
                   type="number"
@@ -268,6 +273,8 @@ const SubProcessModal: React.FC<SubProcessModalProps> = ({
                       %
                     </Text>
                   }
+                  helpMessage="The performance or cost of a technology changes with its size or capacity."
+                  link="https://www.notion.so/1b65baf055248030ac08e9dc0cad11d4?pvs=4#1ba5baf0552480239045c30094eb37a0"
                 />
                 <Input
                   type="number"
@@ -280,6 +287,8 @@ const SubProcessModal: React.FC<SubProcessModalProps> = ({
                       %
                     </Text>
                   }
+                  helpMessage="The additional costs related to installing the technology."
+                  link="https://www.notion.so/1b65baf055248030ac08e9dc0cad11d4?pvs=4#1ba5baf0552480239045c30094eb37a0"
                 />
                 <Input
                   type="number"
@@ -292,6 +301,8 @@ const SubProcessModal: React.FC<SubProcessModalProps> = ({
                       %
                     </Text>
                   }
+                  helpMessage="The effectiveness in converting input energy into useful output."
+                  link="https://www.notion.so/1b65baf055248030ac08e9dc0cad11d4?pvs=4#1ba5baf0552480239045c30094eb37a0"
                 />
                 <div className="text-nowrap">
                   <Input
@@ -305,6 +316,8 @@ const SubProcessModal: React.FC<SubProcessModalProps> = ({
                         pJ/year
                       </Text>
                     }
+                    helpMessage="The amount of energy consumed by the existing system operating at its standard capacity."
+                    link="https://www.notion.so/1b65baf055248030ac08e9dc0cad11d4?pvs=4#1ba5baf0552480239045c30094eb37a0"
                   />
                 </div>
               </div>
