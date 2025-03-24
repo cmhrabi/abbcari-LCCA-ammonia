@@ -17,6 +17,7 @@ export interface BottomUpProcess {
   installationFactor: string;
   energyRequirement: string;
   efficiency: string;
+
   name: string;
 }
 
