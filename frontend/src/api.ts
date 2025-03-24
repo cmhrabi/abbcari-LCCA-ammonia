@@ -72,14 +72,21 @@ const cleanData = (
     electrifiedSubProcesses.push({
       name: electrifiedSlice.value.bottomUpProcess.name,
       installation_factor:
-        (electrifiedSlice.value.bottomUpProcess.installationFactor ?? 0) / 100,
+        (parseFloat(
+          electrifiedSlice.value.bottomUpProcess.installationFactor,
+        ) ?? 0) / 100,
       scaling_factor:
-        (electrifiedSlice.value.bottomUpProcess.scalingFactor ?? 0) / 100,
+        (parseFloat(electrifiedSlice.value.bottomUpProcess.scalingFactor) ??
+          0) / 100,
       learning_rate:
-        (electrifiedSlice.value.bottomUpProcess.learningRate ?? 0) / 100,
+        (parseFloat(electrifiedSlice.value.bottomUpProcess.learningRate) ?? 0) /
+        100,
       efficiency:
-        (electrifiedSlice.value.bottomUpProcess.efficiency ?? 0) / 100,
-      energy_req: electrifiedSlice.value.bottomUpProcess.energyRequirement ?? 0,
+        (parseFloat(electrifiedSlice.value.bottomUpProcess.efficiency) ?? 0) /
+        100,
+      energy_req:
+        parseFloat(electrifiedSlice.value.bottomUpProcess.energyRequirement) ??
+        0,
     });
   } else {
     electrifiedSlice.value.subProcesses.map((subProcess) => {
@@ -100,15 +107,21 @@ const cleanData = (
     conventionalSubProcesses.push({
       name: conventionalSlice.value.bottomUpProcess.name,
       installation_factor:
-        (conventionalSlice.value.bottomUpProcess.installationFactor ?? 0) / 100,
+        (parseFloat(
+          conventionalSlice.value.bottomUpProcess.installationFactor,
+        ) ?? 0) / 100,
       scaling_factor:
-        (conventionalSlice.value.bottomUpProcess.scalingFactor ?? 0) / 100,
+        (parseFloat(conventionalSlice.value.bottomUpProcess.scalingFactor) ??
+          0) / 100,
       learning_rate:
-        (conventionalSlice.value.bottomUpProcess.learningRate ?? 0) / 100,
+        (parseFloat(conventionalSlice.value.bottomUpProcess.learningRate) ??
+          0) / 100,
       efficiency:
-        (conventionalSlice.value.bottomUpProcess.efficiency ?? 0) / 100,
+        (parseFloat(conventionalSlice.value.bottomUpProcess.efficiency) ?? 0) /
+        100,
       energy_req:
-        conventionalSlice.value.bottomUpProcess.energyRequirement ?? 0,
+        parseFloat(conventionalSlice.value.bottomUpProcess.energyRequirement) ??
+        0,
     });
   } else {
     conventionalSlice.value.subProcesses.map((subProcess) => {

@@ -11,6 +11,17 @@ export interface ConvSubProcess {
   name: string;
 }
 
+export interface ConvBottomUpProcess {
+  baseCost: string;
+  learningRate: string;
+  scalingFactor: string;
+  installationFactor: string;
+  energyRequirement: string;
+  efficiency: string;
+  ngReq: string;
+  name: string;
+}
+
 export interface Cost {
   name: string;
   cost: string;
@@ -33,7 +44,7 @@ export interface ConventionalState {
     onsiteEmissions: string;
     upstreamEmissions: string;
     waterRequirement: string;
-    bottomUpProcess: ConvSubProcess;
+    bottomUpProcess: ConvBottomUpProcess;
   };
 }
 
@@ -86,14 +97,14 @@ export const conventionalSlice = createSlice({
       waterRequirement: "0.0791",
       bottomUpProcess: {
         name: "",
-        baseCost: null,
-        installationFactor: null,
-        scalingFactor: null,
-        learningRate: null,
-        efficiency: null,
-        energyRequirement: null,
-        ngReq: null,
-      } as ConvSubProcess,
+        baseCost: "",
+        installationFactor: "",
+        scalingFactor: "",
+        learningRate: "",
+        efficiency: "",
+        energyRequirement: "",
+        ngReq: "",
+      } as ConvBottomUpProcess,
     },
   },
   reducers: {
@@ -179,7 +190,10 @@ export const conventionalSlice = createSlice({
     deleteIndirectCost: (state, action: PayloadAction<number>) => {
       state.value.indirectCosts.splice(action.payload, 1);
     },
-    updateBottomUpProcess: (state, action: PayloadAction<ConvSubProcess>) => {
+    updateBottomUpProcess: (
+      state,
+      action: PayloadAction<ConvBottomUpProcess>,
+    ) => {
       state.value.bottomUpProcess = action.payload;
     },
     setUpstreamEmissions: (state, action: PayloadAction<string>) => {
@@ -241,12 +255,13 @@ export const conventionalSlice = createSlice({
         waterRequirement: "0.0791",
         bottomUpProcess: {
           name: "",
-          baseCost: 0,
-          installationFactor: 0,
-          scalingFactor: 0,
-          learningRate: 0,
-          efficiency: 0,
-          energyRequirement: 0,
+          baseCost: "",
+          installationFactor: "",
+          scalingFactor: "",
+          learningRate: "",
+          efficiency: "",
+          energyRequirement: "",
+          ngReq: "",
         },
       };
     },

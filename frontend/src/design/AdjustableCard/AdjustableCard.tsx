@@ -121,7 +121,7 @@ const AdjustableCard: React.FC<AdjustableCardProps> = ({ onClickAdjust }) => {
                     dispatch(
                       updateBottomUpProcess({
                         ...electrifiedValues.bottomUpProcess,
-                        learningRate: parseFloat(e.target.value),
+                        learningRate: e.target.value,
                       }),
                     )
                   }
@@ -142,7 +142,7 @@ const AdjustableCard: React.FC<AdjustableCardProps> = ({ onClickAdjust }) => {
                     dispatch(
                       updateBottomUpProcess({
                         ...electrifiedValues.bottomUpProcess,
-                        scalingFactor: parseFloat(e.target.value),
+                        scalingFactor: e.target.value,
                       }),
                     )
                   }
@@ -261,7 +261,7 @@ const AdjustableCard: React.FC<AdjustableCardProps> = ({ onClickAdjust }) => {
                     dispatch(
                       updateConvBottomUpProcess({
                         ...conventionalValues.bottomUpProcess,
-                        learningRate: parseFloat(e.target.value),
+                        learningRate: e.target.value,
                       }),
                     )
                   }
@@ -284,7 +284,7 @@ const AdjustableCard: React.FC<AdjustableCardProps> = ({ onClickAdjust }) => {
                     dispatch(
                       updateConvBottomUpProcess({
                         ...conventionalValues.bottomUpProcess,
-                        scalingFactor: parseFloat(e.target.value),
+                        scalingFactor: e.target.value,
                       }),
                     )
                   }
@@ -322,7 +322,7 @@ const AdjustableCard: React.FC<AdjustableCardProps> = ({ onClickAdjust }) => {
                             index,
                             subProcess: {
                               ...subProcess,
-                              learningRate: parseFloat(e.target.value),
+                              learningRate: parseFloat(e.target.value) || 0,
                             },
                           }),
                         )

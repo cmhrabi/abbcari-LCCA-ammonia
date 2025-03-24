@@ -21,7 +21,6 @@ import {
   setIndirectCostFactor,
   setWorkingCapitalCost,
   setWorkingCapitalFactor,
-  ConvSubProcess,
   updateDirectCost,
   updateIndirectCost,
   updateBottomUpProcess,
@@ -29,6 +28,7 @@ import {
   setUpstreamEmissions,
   setOnsightEmissions,
   setInstallationCost,
+  ConvBottomUpProcess,
 } from "../../Slices/conventionalSlice";
 import Input from "../../design/Input/Input";
 import DeleteProcessModal from "../DeleteProcessModal/DeleteProcessModal";
@@ -118,14 +118,15 @@ const SecondTechnology: React.FC<SecondTechnologyProps> = ({ setCurrStep }) => {
 
   useEffect(() => {
     const process = {
-      baseCost: parseFloat(bottomUpProcess.baseCost),
-      learningRate: parseFloat(bottomUpProcess.learningRate),
-      scalingFactor: parseFloat(bottomUpProcess.scalingFactor),
-      installationFactor: parseFloat(bottomUpProcess.installationFactor),
-      energyRequirement: parseFloat(bottomUpProcess.energyRequirement),
-      efficiency: parseFloat(bottomUpProcess.efficiency),
+      baseCost: bottomUpProcess.baseCost,
+      learningRate: bottomUpProcess.learningRate,
+      scalingFactor: bottomUpProcess.scalingFactor,
+      installationFactor: bottomUpProcess.installationFactor,
+      energyRequirement: bottomUpProcess.energyRequirement,
+      efficiency: bottomUpProcess.efficiency,
+      ngReq: bottomUpProcess.ngReq,
       name: tech2Name,
-    } as ConvSubProcess;
+    } as ConvBottomUpProcess;
     dispatch(updateBottomUpProcess(process));
   }, [bottomUpProcess]);
 
@@ -151,15 +152,14 @@ const SecondTechnology: React.FC<SecondTechnologyProps> = ({ setCurrStep }) => {
           conventionalValues.waterRequirement &&
           conventionalValues.onsiteEmissions &&
           conventionalValues.upstreamEmissions &&
-          conventionalValues.bottomUpProcess.learningRate !== null &&
-          conventionalValues.bottomUpProcess.learningRate >= 0 &&
-          conventionalValues.bottomUpProcess.scalingFactor !== null &&
-          conventionalValues.bottomUpProcess.scalingFactor >= 0 &&
-          conventionalValues.bottomUpProcess.installationFactor !== null &&
-          conventionalValues.bottomUpProcess.installationFactor >= 0 &&
-          conventionalValues.bottomUpProcess.efficiency !== null &&
-          conventionalValues.bottomUpProcess.efficiency >= 0 &&
-          conventionalValues.bottomUpProcess.energyRequirement &&
+          parseFloat(conventionalValues.bottomUpProcess.learningRate) >= 0 &&
+          parseFloat(conventionalValues.bottomUpProcess.scalingFactor) >= 0 &&
+          parseFloat(conventionalValues.bottomUpProcess.installationFactor) >=
+            0 &&
+          parseFloat(conventionalValues.bottomUpProcess.energyRequirement) >=
+            0 &&
+          parseFloat(conventionalValues.bottomUpProcess.efficiency) >= 0 &&
+          parseFloat(conventionalValues.bottomUpProcess.ngReq) >= 0 &&
           !learningRateError &&
           !scalingFactorError &&
           !installationFactorError &&
@@ -245,10 +245,7 @@ const SecondTechnology: React.FC<SecondTechnologyProps> = ({ setCurrStep }) => {
   }, [conventionalValues.workingCapitalFactor]);
 
   useEffect(() => {
-    if (
-      conventionalValues.bottomUpProcess.learningRate !== null &&
-      conventionalValues.bottomUpProcess.learningRate > 100
-    ) {
+    if (parseFloat(conventionalValues.bottomUpProcess.learningRate) > 100) {
       setLearningRateError("Learning rate must less than 100%.");
     } else {
       setLearningRateError("");
@@ -256,10 +253,7 @@ const SecondTechnology: React.FC<SecondTechnologyProps> = ({ setCurrStep }) => {
   }, [conventionalValues.bottomUpProcess.learningRate]);
 
   useEffect(() => {
-    if (
-      conventionalValues.bottomUpProcess.scalingFactor !== null &&
-      conventionalValues.bottomUpProcess.scalingFactor > 100
-    ) {
+    if (parseFloat(conventionalValues.bottomUpProcess.scalingFactor) > 100) {
       setScalingFactorError("Scaling factor must be less than 100%.");
     } else {
       setScalingFactorError("");
@@ -268,8 +262,7 @@ const SecondTechnology: React.FC<SecondTechnologyProps> = ({ setCurrStep }) => {
 
   useEffect(() => {
     if (
-      conventionalValues.bottomUpProcess.installationFactor !== null &&
-      conventionalValues.bottomUpProcess.installationFactor > 100
+      parseFloat(conventionalValues.bottomUpProcess.installationFactor) > 100
     ) {
       setInstallationFactorError("Installation factor must be less than 100%.");
     } else {
@@ -278,10 +271,7 @@ const SecondTechnology: React.FC<SecondTechnologyProps> = ({ setCurrStep }) => {
   }, [conventionalValues.bottomUpProcess.installationFactor]);
 
   useEffect(() => {
-    if (
-      conventionalValues.bottomUpProcess.efficiency !== null &&
-      conventionalValues.bottomUpProcess.efficiency > 100
-    ) {
+    if (parseFloat(conventionalValues.bottomUpProcess.efficiency) > 100) {
       setEfficiencyError("Efficiency must be less than 100%.");
     } else {
       setEfficiencyError("");
