@@ -462,7 +462,7 @@ const FirstTechnology: React.FC<FirstTechnologyProps> = ({ setCurrStep }) => {
               type="number"
               error={learningRateError}
               label="Learning rate"
-              value={electrifiedValues.bottomUpProcess.learningRate}
+              value={String(electrifiedValues.bottomUpProcess.learningRate)}
               onChange={(e) =>
                 setBottomUpProcess({
                   ...bottomUpProcess,
@@ -481,7 +481,7 @@ const FirstTechnology: React.FC<FirstTechnologyProps> = ({ setCurrStep }) => {
               type="number"
               error={scalingFactorError}
               label="Scaling factor"
-              value={electrifiedValues.bottomUpProcess.scalingFactor}
+              value={String(electrifiedValues.bottomUpProcess.scalingFactor)}
               onChange={(e) =>
                 setBottomUpProcess({
                   ...bottomUpProcess,
@@ -500,7 +500,9 @@ const FirstTechnology: React.FC<FirstTechnologyProps> = ({ setCurrStep }) => {
               type="number"
               error={installationFactorError}
               label="Installation factor"
-              value={electrifiedValues.bottomUpProcess.installationFactor}
+              value={String(
+                electrifiedValues.bottomUpProcess.installationFactor,
+              )}
               onChange={(e) =>
                 setBottomUpProcess({
                   ...bottomUpProcess,
@@ -519,7 +521,7 @@ const FirstTechnology: React.FC<FirstTechnologyProps> = ({ setCurrStep }) => {
               type="number"
               error={efficiencyError}
               label="Efficiency of process"
-              value={electrifiedValues.bottomUpProcess.efficiency}
+              value={String(electrifiedValues.bottomUpProcess.efficiency)}
               onChange={(e) =>
                 setBottomUpProcess({
                   ...bottomUpProcess,
@@ -538,7 +540,9 @@ const FirstTechnology: React.FC<FirstTechnologyProps> = ({ setCurrStep }) => {
               <Input
                 type="number"
                 label="Electricity requirement at base capacity"
-                value={electrifiedValues.bottomUpProcess.energyRequirement}
+                value={String(
+                  electrifiedValues.bottomUpProcess.energyRequirement,
+                )}
                 onChange={(e) =>
                   setBottomUpProcess({
                     ...bottomUpProcess,
