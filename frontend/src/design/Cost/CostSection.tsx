@@ -51,7 +51,7 @@ const CostInput: React.FC<InputProps> = ({
             "focus:outline-none focus:border-tertiary focus:shadow-input",
         },
         start: {
-          true: "ps-9",
+          true: "ps-12",
         },
       },
     },

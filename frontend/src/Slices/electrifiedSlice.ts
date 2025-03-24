@@ -10,6 +10,16 @@ export interface SubProcess {
   name: string;
 }
 
+export interface BottomUpProcess {
+  baseCost: string;
+  learningRate: string;
+  scalingFactor: string;
+  installationFactor: string;
+  energyRequirement: string;
+  efficiency: string;
+  name: string;
+}
+
 export interface Cost {
   name: string;
   cost: string;
@@ -26,7 +36,7 @@ export interface ElectrifiedState {
     indirectCostFactor: number;
     workingCapitalFactor: number;
     bottomUpCalc: boolean;
-    bottomUpProcess: SubProcess;
+    bottomUpProcess: BottomUpProcess;
     waterRequirement: string;
     installationCost: string;
   };
@@ -76,13 +86,13 @@ export const electrifiedSlice = createSlice({
       waterRequirement: "1.58",
       bottomUpProcess: {
         name: "",
-        baseCost: null,
-        installationFactor: null,
-        scalingFactor: null,
-        learningRate: null,
-        efficiency: null,
-        energyRequirement: null,
-      } as SubProcess,
+        baseCost: "",
+        installationFactor: "",
+        scalingFactor: "",
+        learningRate: "",
+        efficiency: "",
+        energyRequirement: "",
+      } as BottomUpProcess,
     },
   },
   reducers: {
@@ -162,7 +172,7 @@ export const electrifiedSlice = createSlice({
     deleteIndirectCost: (state, action: PayloadAction<number>) => {
       state.value.indirectCosts.splice(action.payload, 1);
     },
-    updateBottomUpProcess: (state, action: PayloadAction<SubProcess>) => {
+    updateBottomUpProcess: (state, action: PayloadAction<BottomUpProcess>) => {
       state.value.bottomUpProcess = action.payload;
     },
     setInstallationCost: (state, action: PayloadAction<string>) => {
@@ -213,12 +223,12 @@ export const electrifiedSlice = createSlice({
         waterRequirement: "",
         bottomUpProcess: {
           name: "",
-          baseCost: null,
-          installationFactor: 0,
-          scalingFactor: 0,
-          learningRate: null,
-          efficiency: 0,
-          energyRequirement: 0,
+          baseCost: "",
+          installationFactor: "",
+          scalingFactor: "",
+          learningRate: "",
+          efficiency: "",
+          energyRequirement: "",
         },
       };
     },

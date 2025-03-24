@@ -21,10 +21,10 @@ import {
   updateBottomUpProcess,
   updateDirectCost,
   updateIndirectCost,
-  SubProcess,
   setInstallationCost,
   setWaterRequirement,
   addIndirectCostError,
+  BottomUpProcess,
 } from "../../Slices/electrifiedSlice";
 import Input from "../../design/Input/Input";
 import DeleteProcessModal from "../DeleteProcessModal/DeleteProcessModal";
@@ -44,16 +44,12 @@ const FirstTechnology: React.FC<FirstTechnologyProps> = ({ setCurrStep }) => {
   );
   const [bottomUpProcess, setBottomUpProcess] = useState({
     name: tech1Name,
-    baseCost: String(electrifiedValues.bottomUpProcess.baseCost),
-    installationFactor: String(
-      electrifiedValues.bottomUpProcess.installationFactor,
-    ),
-    scalingFactor: String(electrifiedValues.bottomUpProcess.scalingFactor),
-    learningRate: String(electrifiedValues.bottomUpProcess.learningRate),
-    efficiency: String(electrifiedValues.bottomUpProcess.efficiency),
-    energyRequirement: String(
-      electrifiedValues.bottomUpProcess.energyRequirement,
-    ),
+    baseCost: electrifiedValues.bottomUpProcess.baseCost,
+    installationFactor: electrifiedValues.bottomUpProcess.installationFactor,
+    scalingFactor: electrifiedValues.bottomUpProcess.scalingFactor,
+    learningRate: electrifiedValues.bottomUpProcess.learningRate,
+    efficiency: electrifiedValues.bottomUpProcess.efficiency,
+    energyRequirement: electrifiedValues.bottomUpProcess.energyRequirement,
   });
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
   const dispatch = useAppDispatch();
@@ -110,14 +106,14 @@ const FirstTechnology: React.FC<FirstTechnologyProps> = ({ setCurrStep }) => {
 
   useEffect(() => {
     const process = {
-      baseCost: parseFloat(bottomUpProcess.baseCost),
-      learningRate: parseFloat(bottomUpProcess.learningRate),
-      scalingFactor: parseFloat(bottomUpProcess.scalingFactor),
-      installationFactor: parseFloat(bottomUpProcess.installationFactor),
-      energyRequirement: parseFloat(bottomUpProcess.energyRequirement),
-      efficiency: parseFloat(bottomUpProcess.efficiency),
+      baseCost: bottomUpProcess.baseCost,
+      learningRate: bottomUpProcess.learningRate,
+      scalingFactor: bottomUpProcess.scalingFactor,
+      installationFactor: bottomUpProcess.installationFactor,
+      energyRequirement: bottomUpProcess.energyRequirement,
+      efficiency: bottomUpProcess.efficiency,
       name: tech1Name,
-    } as SubProcess;
+    } as BottomUpProcess;
     dispatch(updateBottomUpProcess(process));
   }, [bottomUpProcess]);
 
@@ -140,16 +136,15 @@ const FirstTechnology: React.FC<FirstTechnologyProps> = ({ setCurrStep }) => {
             electrifiedValues.installationCost &&
             electrifiedValues.directCosts[0].cost &&
             electrifiedValues.indirectCosts[0].cost &&
-            // electrifiedValues.workingCapitalCost &&
+            electrifiedValues.workingCapitalCost &&
             electrifiedValues.waterRequirement &&
-            electrifiedValues.bottomUpProcess.learningRate &&
-            electrifiedValues.bottomUpProcess.learningRate >= 0 &&
-            electrifiedValues.bottomUpProcess.scalingFactor &&
-            electrifiedValues.bottomUpProcess.scalingFactor >= 0 &&
-            electrifiedValues.bottomUpProcess.installationFactor &&
-            electrifiedValues.bottomUpProcess.installationFactor >= 0 &&
-            electrifiedValues.bottomUpProcess.efficiency &&
-            electrifiedValues.bottomUpProcess.energyRequirement &&
+            parseFloat(electrifiedValues.bottomUpProcess.learningRate) >= 0 &&
+            parseFloat(electrifiedValues.bottomUpProcess.scalingFactor) >= 0 &&
+            parseFloat(electrifiedValues.bottomUpProcess.installationFactor) >=
+              0 &&
+            parseFloat(electrifiedValues.bottomUpProcess.efficiency) >= 0 &&
+            parseFloat(electrifiedValues.bottomUpProcess.energyRequirement) >=
+              0 &&
             !learningRateError &&
             !scalingFactorError &&
             !installationFactorError &&
@@ -205,10 +200,7 @@ const FirstTechnology: React.FC<FirstTechnologyProps> = ({ setCurrStep }) => {
   }, [electrifiedValues.waterRequirement]);
 
   useEffect(() => {
-    if (
-      electrifiedValues.bottomUpProcess.learningRate &&
-      electrifiedValues.bottomUpProcess.learningRate > 100
-    ) {
+    if (parseFloat(electrifiedValues.bottomUpProcess.learningRate) > 100) {
       setLearningRateError("Learning rate must less than 100%.");
     } else {
       setLearningRateError("");
@@ -216,10 +208,7 @@ const FirstTechnology: React.FC<FirstTechnologyProps> = ({ setCurrStep }) => {
   }, [electrifiedValues.bottomUpProcess.learningRate]);
 
   useEffect(() => {
-    if (
-      electrifiedValues.bottomUpProcess.scalingFactor &&
-      electrifiedValues.bottomUpProcess.scalingFactor > 100
-    ) {
+    if (parseFloat(electrifiedValues.bottomUpProcess.scalingFactor) > 100) {
       setScalingFactorError("Scaling factor must be less than 100%.");
     } else {
       setScalingFactorError("");
@@ -228,8 +217,7 @@ const FirstTechnology: React.FC<FirstTechnologyProps> = ({ setCurrStep }) => {
 
   useEffect(() => {
     if (
-      electrifiedValues.bottomUpProcess.installationFactor &&
-      electrifiedValues.bottomUpProcess.installationFactor > 100
+      parseFloat(electrifiedValues.bottomUpProcess.installationFactor) > 100
     ) {
       setInstallationFactorError("Installation factor must be less than 100%.");
     } else {
@@ -238,10 +226,7 @@ const FirstTechnology: React.FC<FirstTechnologyProps> = ({ setCurrStep }) => {
   }, [electrifiedValues.bottomUpProcess.installationFactor]);
 
   useEffect(() => {
-    if (
-      electrifiedValues.bottomUpProcess.efficiency &&
-      electrifiedValues.bottomUpProcess.efficiency > 100
-    ) {
+    if (parseFloat(electrifiedValues.bottomUpProcess.efficiency) > 100) {
       setEfficiencyError("Efficiency must be less than 100%.");
     } else {
       setEfficiencyError("");
@@ -477,7 +462,7 @@ const FirstTechnology: React.FC<FirstTechnologyProps> = ({ setCurrStep }) => {
               type="number"
               error={learningRateError}
               label="Learning rate"
-              value={String(electrifiedValues.bottomUpProcess.learningRate)}
+              value={electrifiedValues.bottomUpProcess.learningRate}
               onChange={(e) =>
                 setBottomUpProcess({
                   ...bottomUpProcess,
@@ -496,7 +481,7 @@ const FirstTechnology: React.FC<FirstTechnologyProps> = ({ setCurrStep }) => {
               type="number"
               error={scalingFactorError}
               label="Scaling factor"
-              value={String(electrifiedValues.bottomUpProcess.scalingFactor)}
+              value={electrifiedValues.bottomUpProcess.scalingFactor}
               onChange={(e) =>
                 setBottomUpProcess({
                   ...bottomUpProcess,
@@ -515,9 +500,7 @@ const FirstTechnology: React.FC<FirstTechnologyProps> = ({ setCurrStep }) => {
               type="number"
               error={installationFactorError}
               label="Installation factor"
-              value={String(
-                electrifiedValues.bottomUpProcess.installationFactor,
-              )}
+              value={electrifiedValues.bottomUpProcess.installationFactor}
               onChange={(e) =>
                 setBottomUpProcess({
                   ...bottomUpProcess,
@@ -536,7 +519,7 @@ const FirstTechnology: React.FC<FirstTechnologyProps> = ({ setCurrStep }) => {
               type="number"
               error={efficiencyError}
               label="Efficiency of process"
-              value={String(electrifiedValues.bottomUpProcess.efficiency)}
+              value={electrifiedValues.bottomUpProcess.efficiency}
               onChange={(e) =>
                 setBottomUpProcess({
                   ...bottomUpProcess,
@@ -555,9 +538,7 @@ const FirstTechnology: React.FC<FirstTechnologyProps> = ({ setCurrStep }) => {
               <Input
                 type="number"
                 label="Electricity requirement at base capacity"
-                value={String(
-                  electrifiedValues.bottomUpProcess.energyRequirement,
-                )}
+                value={electrifiedValues.bottomUpProcess.energyRequirement}
                 onChange={(e) =>
                   setBottomUpProcess({
                     ...bottomUpProcess,
