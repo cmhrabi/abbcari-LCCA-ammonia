@@ -334,7 +334,7 @@ const ConvSubProcessModal: React.FC<ConvSubProcessModalProps> = ({
                     onChange={(e) => setEnergyRequirement(e.target.value)}
                     end={
                       <Text color="grey-blue" textSize="input">
-                        pJ/year
+                        MW
                       </Text>
                     }
                     helpMessage="The amount of energy consumed by the existing system operating at its standard capacity."
