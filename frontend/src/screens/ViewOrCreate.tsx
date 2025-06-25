@@ -10,6 +10,7 @@ import {
 import { useNavigate } from "react-router-dom";
 import NoLoginModal from "../components/NoLoginModal/NoLoginModal";
 import { useDisclosure } from "@heroui/react";
+import { useAuth0 } from "@auth0/auth0-react";
 
 const descriptionText = `
   A dynamic modeling tool that allows you to analyze strategies and scenarios to reduce carbon emissions for hydrogen production for the upcoming decades. Levelized cost of carbon abatement (LCCA) is a new time-dependent parameter that can be used to inform decision-making practices.
@@ -19,6 +20,7 @@ const ViewOrCreate = () => {
   const [alertOpen, setAlertOpen] = useState(true);
   const navigate = useNavigate();
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
+  const { isAuthenticated, loginWithRedirect } = useAuth0();
 
   return (
     <>
@@ -32,11 +34,13 @@ const ViewOrCreate = () => {
         <div className="pb-6">
           <Text textSize="sub2">{descriptionText}</Text>
         </div>
-        {alertOpen && (
+        {alertOpen && !isAuthenticated && (
           <Alert
             title="Log in to explore without limits"
             message="You can perform your analysis without logging in, but to save and revisit your analysis later, please log in or create an account. Don't worry, you can still export a PDF to your computer at any time without logging in."
-            action={onOpen}
+            action={() => {
+              loginWithRedirect();
+            }}
             actionLabel="Log In"
             secondaryAction={() => {
               setAlertOpen(false);
