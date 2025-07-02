@@ -12,17 +12,26 @@ interface NavBarProps {
 
 const NavBar: React.FC<NavBarProps> = ({ type = "default" }) => {
   const navigate = useNavigate();
-  const { loginWithRedirect, isAuthenticated, logout } = useAuth0();
+  const { loginWithRedirect, isAuthenticated, logout, user } = useAuth0();
+
+  const handleLoginClick = async () => {
+    await loginWithRedirect();
+  };
 
   return (
     <nav className="flex flex-row justify-between items-center shadow-nav-bar py-2.5 px-20 bg-white">
-      <div className="flex flex-row items-center">
+      <div className="flex flex-row items-center space-x-10">
         <div
           className="flex flex-row items-center cursor-pointer"
           onClick={() => navigate("/")}
         >
           <img src={logo} alt="logo" />
         </div>
+        {isAuthenticated && (
+          <div>
+            <Text textSize="input">Welcome back! {user?.email}</Text>
+          </div>
+        )}
       </div>
       <div>
         <div className="flex flex-row items-right align-items-center space-x-10">
@@ -65,7 +74,7 @@ const NavBar: React.FC<NavBarProps> = ({ type = "default" }) => {
                 Logout
               </Button>
             ) : (
-              <Button size="medium" onClick={() => loginWithRedirect()}>
+              <Button size="medium" onClick={() => handleLoginClick()}>
                 Login
               </Button>
             )}

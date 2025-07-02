@@ -226,5 +226,29 @@ const postAnalysis = async (data: Payload) => {
     });
 };
 
-export { cleanData, postAnalysis };
+const postLogin = async (auth0_id: string) => {
+  return await fetch(`${process.env.REACT_APP_API}/api/login`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({ auth0_id }),
+  })
+    .then((response) => {
+      if (response.status === 200) {
+        return response.json().then((json) => {
+          if (json.message === "User signed up successfully") {
+            return { error: "", response: json, signedUp: true };
+          }
+          return { error: "", response: json, signedUp: false };
+        });
+      }
+      throw new Error(`Failed to sign up status: ${response.status}`);
+    })
+    .catch((error) => {
+      return { error: error.message, response: null, signedUp: false };
+    });
+};
+
+export { cleanData, postAnalysis, postLogin as postSignup };
 export type { LCCAOutput };
