@@ -9,6 +9,7 @@ import About from "./screens/About";
 import { useAuth0 } from "@auth0/auth0-react";
 import { postSignup } from "./api";
 import { addToast } from "@heroui/react";
+import Saved from "./screens/Saved";
 
 const routes = [
   {
@@ -29,6 +30,10 @@ const routes = [
       {
         path: "results",
         element: <Results />,
+      },
+      {
+        path: "saved",
+        element: <Saved />,
       },
     ],
   },

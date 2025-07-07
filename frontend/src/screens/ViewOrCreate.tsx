@@ -58,7 +58,11 @@ const ViewOrCreate = () => {
               Start a new analysis
             </Card>
           </div>
-          <div onClick={onOpen}>
+          <div
+            onClick={
+              isAuthenticated ? () => navigate("/analysis/saved") : onOpen
+            }
+          >
             <Card
               variant="primary"
               description="Lorem ipsum dolor sit amet, consectetur adipiscing elit."

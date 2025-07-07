@@ -21,11 +21,9 @@ def login():
     data = request.json
     auth0_id = data.get('auth0_id')
     try:
-        # Validate request body against schema data types
         result = schema.load(data)
         print(result)
     except ValidationError as err:
-        # Return a nice message if validation fails
         return jsonify(err.messages), 400
     
     try:
@@ -35,7 +33,6 @@ def login():
         res = mongo_collection.insert_one({"auth0_id": auth0_id})
     except Exception as e:
         if hasattr(e, 'details'):
-            # If the error has a 'details' attribute, it's likely a validation error
             return jsonify({"mongo validation error": e.details}), 400
         print(f"Error inserting user into MongoDB: {e}")
         return jsonify({"error": "Failed to insert user"}), 500
