@@ -182,37 +182,12 @@ export const electrifiedSlice = createSlice({
     setWaterRequirement: (state, action: PayloadAction<string>) => {
       state.value.waterRequirement = action.payload;
     },
+    setState: (state, action: PayloadAction<ElectrifiedState["value"]>) => {
+      state.value = action.payload;
+    },
     resetState: (state) => {
       state.value = {
-        subProcesses: [
-          {
-            name: "SubProcess 1",
-            baseCost: 2.001468915,
-            installationFactor: 33,
-            scalingFactor: 100,
-            learningRate: 13,
-            efficiency: 40,
-            energyRequirement: 0.986181293,
-          },
-          {
-            name: "SubProcess 2",
-            baseCost: 2.252380011,
-            installationFactor: 0,
-            scalingFactor: 49,
-            learningRate: 10,
-            efficiency: 100,
-            energyRequirement: 0.034624043,
-          },
-          {
-            name: "SubProcess 3",
-            baseCost: 9.256259378,
-            installationFactor: 70,
-            scalingFactor: 50,
-            learningRate: 10,
-            efficiency: 100,
-            energyRequirement: 0.0778,
-          },
-        ],
+        subProcesses: [],
         directCosts: [{ name: "", cost: "" }],
         indirectCosts: [{ name: "", cost: "" }],
         workingCapitalCost: "",
@@ -257,6 +232,7 @@ export const {
   setInstallationCost,
   setWaterRequirement,
   resetState,
+  setState: setElectrifiedState,
 } = electrifiedSlice.actions;
 
 export default electrifiedSlice.reducer;

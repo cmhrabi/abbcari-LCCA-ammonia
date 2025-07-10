@@ -24,7 +24,7 @@ root.render(
       domain="dev-b4h011ic71qc07ws.us.auth0.com"
       clientId="xxPlVCzXA2o3M1y0EnFgFdiQuRYtEP3R"
       authorizationParams={{
-        redirect_uri: `${window.location.origin}/analysis/start`,
+        redirect_uri: `${window.location.origin}/analysis`,
       }}
     >
       <HeroUIProvider>

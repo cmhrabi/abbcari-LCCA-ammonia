@@ -208,38 +208,12 @@ export const conventionalSlice = createSlice({
     setInstallationCost: (state, action: PayloadAction<string>) => {
       state.value.installationCost = action.payload;
     },
+    setState: (state, action: PayloadAction<ConventionalState["value"]>) => {
+      state.value = action.payload;
+    },
     resetState: (state) => {
       state.value = {
-        subProcesses: [
-          {
-            name: "SubProcess 1",
-            baseCost: 6.373533174,
-            installationFactor: 0,
-            scalingFactor: 66.63,
-            learningRate: 11,
-            efficiency: 100,
-            energyRequirement: 0.017,
-            ngReq: 0.887651929,
-          },
-          {
-            name: "SubProcess 2",
-            baseCost: 2.252380011,
-            installationFactor: 0,
-            scalingFactor: 49,
-            learningRate: 10,
-            efficiency: 100,
-            energyRequirement: 0.034624043,
-          },
-          {
-            name: "SubProcess 3",
-            baseCost: 9.256259378,
-            installationFactor: 70,
-            scalingFactor: 50,
-            learningRate: 10,
-            efficiency: 100,
-            energyRequirement: 0.0778,
-          },
-        ],
+        subProcesses: [],
         directCosts: [{ name: "", cost: "" }],
         indirectCosts: [{ name: "", cost: "" }],
         installationCost: "",
@@ -248,11 +222,11 @@ export const conventionalSlice = createSlice({
         indirectCostFactor: 50,
         workingCapitalFactor: 5,
         bottomUpCalc: false,
-        depreciationPercent: 11.8,
+        depreciationPercent: 10,
         duration: 20,
-        onsiteEmissions: "5.41",
-        upstreamEmissions: "5.41",
-        waterRequirement: "0.0791",
+        onsiteEmissions: "",
+        upstreamEmissions: "",
+        waterRequirement: "",
         bottomUpProcess: {
           name: "",
           baseCost: "",
@@ -293,6 +267,7 @@ export const {
   setWaterRequirement,
   setInstallationCost,
   resetState,
+  setState: setConventionalState,
 } = conventionalSlice.actions;
 
 export default conventionalSlice.reducer;

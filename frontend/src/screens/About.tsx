@@ -1,10 +1,24 @@
-import React from "react";
+import React, { useEffect } from "react";
 import NavBar from "../components/NavBar/NavBar";
 import MeetTheTeam from "../components/AboutPage/MeetTheTeam";
 import Text from "../design/Text/Text";
 import logo from "../assets/logo.svg";
+import { resetState as resetNameState } from "../Slices/nameSlice";
+import { resetState as resetGeneralState } from "../Slices/generalSlice";
+import { resetState as resetElectrifiedState } from "../Slices/electrifiedSlice";
+import { resetState as resetConventionalState } from "../Slices/conventionalSlice";
+import { useAppDispatch } from "../hooks";
 
 const About = () => {
+  const dispatch = useAppDispatch();
+
+  useEffect(() => {
+    dispatch(resetConventionalState());
+    dispatch(resetElectrifiedState());
+    dispatch(resetGeneralState());
+    dispatch(resetNameState());
+  }, []);
+
   return (
     <div className="overflow-visible">
       <NavBar title="COMPASS" type="home" />

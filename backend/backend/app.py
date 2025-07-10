@@ -1,3 +1,5 @@
+from datetime import datetime
+from backend.Schemas.analysis import AnalysisSchema
 from backend.Schemas.calculation import CalculationSchema
 from backend.Schemas.login import LoginSchema
 from backend.mongo import Mongo
@@ -7,6 +9,7 @@ from calculations import lcca
 from marshmallow import ValidationError
 from os import environ
 from dotenv import load_dotenv
+from bson.objectid import ObjectId
 
 load_dotenv()
 
@@ -15,6 +18,58 @@ cors = CORS(app, resources={r"*": {"origins": environ.get("FRONTEND_URL")}})
 logging.getLogger('flask_cors').level = logging.DEBUG
 mongo = Mongo()
 
+@app.route('/api/save', methods=['POST'])
+def save_analysis():
+    schema = AnalysisSchema()
+    data = request.json
+    try:
+        result = schema.load(data)
+    except ValidationError as err:
+        return jsonify(err.messages), 400
+    
+    analysis_id = data.get('analysis_id')
+    try:
+        mongo_collection = mongo.get_collection("analyses")
+        if not analysis_id:
+            mongo_collection.insert_one({**data, "date_created": datetime.now()})
+            return jsonify({"message": "Analysis saved successfully"}), 200
+        
+        del data['analysis_id']
+        mongo_collection.update_one(
+            {"_id": ObjectId(analysis_id)},
+            {"$set": data},
+        )
+    except Exception as e:
+        print(f"Error saving analysis to MongoDB: {e}")
+        return jsonify({"error": "Failed to save analysis"}), 500
+    
+    return jsonify({"message": "Analysis saved successfully"}), 200
+
+@app.route('/api/analyses/<auth0_id>', methods=['GET'])
+def get_analyses(auth0_id):
+    try:
+        mongo_collection = mongo.get_collection("analyses")
+        analyses = list(mongo_collection.find({"auth0_id": auth0_id}))
+        if not analyses:
+            return jsonify({"message": "No analyses found"}), 404
+        analyses = [{"_id": str(analysis["_id"]), "name": str(analysis["name"])} for analysis in analyses]
+        return jsonify(analyses), 200
+    except Exception as e:
+        print(f"Error retrieving analyses from MongoDB: {e}")
+        return jsonify({"error": "Failed to retrieve analyses"}), 500
+    
+@app.route('/api/analysis/<auth0_id>/<analysis_id>', methods=['GET'])
+def get_analysis(auth0_id, analysis_id):
+    try:
+        mongo_collection = mongo.get_collection("analyses")
+        analysis = mongo_collection.find_one({"_id": ObjectId(analysis_id), "auth0_id": auth0_id})
+        if not analysis:
+            return jsonify({"error": "Analysis not found"}), 404
+        return jsonify({**analysis, "_id": str(analysis["_id"])}), 200
+    except Exception as e:
+        print(f"Error retrieving analysis from MongoDB: {e}")
+        return jsonify({"error": "Failed to retrieve analysis"}), 500
+
 @app.route('/api/login', methods=['POST'])
 def login():
     schema = LoginSchema()
@@ -22,7 +77,6 @@ def login():
     auth0_id = data.get('auth0_id')
     try:
         result = schema.load(data)
-        print(result)
     except ValidationError as err:
         return jsonify(err.messages), 400
     
@@ -30,7 +84,7 @@ def login():
         mongo_collection = mongo.get_collection("users")
         if mongo_collection.find_one({"auth0_id": auth0_id}):
             return jsonify({"message": "User already exists"}), 200
-        res = mongo_collection.insert_one({"auth0_id": auth0_id})
+        res = mongo_collection.insert_one({"auth0_id": auth0_id, "date_created": datetime.now()})
     except Exception as e:
         if hasattr(e, 'details'):
             return jsonify({"mongo validation error": e.details}), 400

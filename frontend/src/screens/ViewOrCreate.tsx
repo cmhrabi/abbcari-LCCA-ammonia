@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import NavBar from "../components/NavBar/NavBar";
 import Text from "../design/Text/Text";
 import Alert from "../design/Alert/Alert";
@@ -11,6 +11,11 @@ import { useNavigate } from "react-router-dom";
 import NoLoginModal from "../components/NoLoginModal/NoLoginModal";
 import { useDisclosure } from "@heroui/react";
 import { useAuth0 } from "@auth0/auth0-react";
+import { resetState as resetNameState } from "../Slices/nameSlice";
+import { resetState as resetGeneralState } from "../Slices/generalSlice";
+import { resetState as resetElectrifiedState } from "../Slices/electrifiedSlice";
+import { resetState as resetConventionalState } from "../Slices/conventionalSlice";
+import { useAppDispatch } from "../hooks";
 
 const descriptionText = `
   A dynamic modeling tool that allows you to analyze strategies and scenarios to reduce carbon emissions for hydrogen production for the upcoming decades. Levelized cost of carbon abatement (LCCA) is a new time-dependent parameter that can be used to inform decision-making practices.
@@ -21,6 +26,14 @@ const ViewOrCreate = () => {
   const navigate = useNavigate();
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
   const { isAuthenticated, loginWithRedirect } = useAuth0();
+  const dispatch = useAppDispatch();
+
+  useEffect(() => {
+    dispatch(resetConventionalState());
+    dispatch(resetElectrifiedState());
+    dispatch(resetGeneralState());
+    dispatch(resetNameState());
+  }, []);
 
   return (
     <>

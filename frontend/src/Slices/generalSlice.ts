@@ -51,12 +51,15 @@ export const generalSlice = createSlice({
       state.value = {
         startYear: 2026,
         finalYear: 2050,
-        discount: "7",
-        province: "Ontario",
-        finalDemand: "238.23",
+        discount: "",
+        province: "",
+        finalDemand: "",
         plantOperatingHours: 8000,
-        baselineDemand: "0.01486512",
+        baselineDemand: "",
       };
+    },
+    setState: (state, action: PayloadAction<GeneralState["value"]>) => {
+      state.value = action.payload;
     },
   },
 });
@@ -70,6 +73,7 @@ export const {
   setPlantOperatingHours,
   setBaselineDemand,
   resetState,
+  setState: setGeneralState,
 } = generalSlice.actions;
 
 export default generalSlice.reducer;
