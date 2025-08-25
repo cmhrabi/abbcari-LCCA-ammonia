@@ -8,7 +8,8 @@ import {
 } from "@heroui/react";
 import Button from "../../design/Button/Button";
 import Text from "../../design/Text/Text";
-import { WrenchScrewdriverIcon } from "@heroicons/react/24/solid";
+import { LockClosedIcon } from "@heroicons/react/24/solid";
+import { useAuth0 } from "@auth0/auth0-react";
 
 interface NoLoginModalProps {
   isOpen: boolean;
@@ -19,6 +20,8 @@ const NoLoginModal: React.FC<NoLoginModalProps> = ({
   isOpen,
   onOpenChange,
 }) => {
+  const { loginWithRedirect } = useAuth0();
+
   return (
     <Modal
       isOpen={isOpen}
@@ -32,23 +35,19 @@ const NoLoginModal: React.FC<NoLoginModalProps> = ({
       radius="sm"
     >
       <ModalContent>
-        {(onClose) => (
+        {() => (
           <>
             <ModalHeader>
-              <WrenchScrewdriverIcon className="size-11 text-primary" />
+              <LockClosedIcon className="size-11 text-primary" />
             </ModalHeader>
             <ModalBody>
               <Text textSize="sub3">
-                Whoops! Login capabilities are not available at the moment.
-              </Text>
-              <Text>
-                The team is working hard to bring this feature to you soon.
-                Please check back later.
+                Whoops! Cannot access this saved analyses without logging in.
               </Text>
             </ModalBody>
             <ModalFooter>
-              <Button color="primary" onClick={onClose}>
-                Back
+              <Button color="primary" onClick={() => loginWithRedirect()}>
+                Login
               </Button>
             </ModalFooter>
           </>

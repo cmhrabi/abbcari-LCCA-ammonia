@@ -22,7 +22,7 @@ const TitleSlide: React.FC = () => {
               Levelized cost of carbon abatement (LCCA) model
             </Text>
           </div>
-          <Button size="large" onClick={() => navigate("/analysis/start")}>
+          <Button size="large" onClick={() => navigate("/analysis")}>
             Get Started
           </Button>
         </div>

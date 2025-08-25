@@ -15,6 +15,8 @@ import { useAppSelector } from "../../hooks";
 import { cleanData, postAnalysis } from "../../api";
 import { addToast } from "@heroui/toast";
 import { useNavigate } from "react-router-dom";
+import { useSaveAnalysis } from "../../hooks/useSaveAnalysis";
+import { Spinner } from "@heroui/react";
 
 interface ReviewProps {
   setCurrStep: (arg0: number) => void;
@@ -42,6 +44,7 @@ const Review: React.FC<ReviewProps> = ({ setCurrStep }) => {
   const generalSlice = useAppSelector((state) => state.general);
 
   const navigate = useNavigate();
+  const { onSaveClick, saveLoading, isAuthenticated } = useSaveAnalysis();
 
   const onSubmit = async () => {
     const data = cleanData(
@@ -620,6 +623,11 @@ const Review: React.FC<ReviewProps> = ({ setCurrStep }) => {
         <Button color="grey" onClick={() => setCurrStep(2)}>
           Back
         </Button>
+        {isAuthenticated && (
+          <Button color="secondary" onClick={onSaveClick}>
+            {saveLoading ? <Spinner size="sm" color="white" /> : "Save Analysis"}
+          </Button>
+        )}
         <Button color="primary" onClick={onSubmit}>
           Calculate
         </Button>

@@ -2,6 +2,7 @@ import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 export interface NameState {
   value: {
+    analysisId: string;
     analysisName: string;
     tech1Name: string;
     tech2Name: string;
@@ -13,6 +14,7 @@ export const nameSlice = createSlice({
   name: "name",
   initialState: {
     value: {
+      analysisId: "",
       analysisName: "P2A vs Grey",
       tech1Name: "P2A",
       tech2Name: "Grey",
@@ -32,13 +34,20 @@ export const nameSlice = createSlice({
     setType: (state, action: PayloadAction<string>) => {
       state.value.type = action.payload;
     },
+    setAnalysisId: (state, action: PayloadAction<string>) => {
+      state.value.analysisId = action.payload;
+    },
     resetState: (state) => {
       state.value = {
-        analysisName: "P2A vs Grey",
-        tech1Name: "P2A",
-        tech2Name: "Grey",
+        analysisId: "",
+        analysisName: "",
+        tech1Name: "",
+        tech2Name: "",
         type: "",
       };
+    },
+    setState: (state, action: PayloadAction<NameState["value"]>) => {
+      state.value = action.payload;
     },
   },
 });
@@ -48,7 +57,9 @@ export const {
   setTech1Name,
   setTech2Name,
   setType,
+  setAnalysisId,
   resetState,
+  setState: setNameState,
 } = nameSlice.actions;
 
 export default nameSlice.reducer;

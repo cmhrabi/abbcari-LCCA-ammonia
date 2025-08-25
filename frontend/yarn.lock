@@ -29,6 +29,18 @@
     jsonpointer "^5.0.0"
     leven "^3.1.0"
 
+"@auth0/auth0-react@^2.3.0":
+  version "2.3.0"
+  resolved "https://registry.yarnpkg.com/@auth0/auth0-react/-/auth0-react-2.3.0.tgz#59273aeafac8494ad87bfc8e5dfb9d72a8fbd80f"
+  integrity sha512-YYTc/DWWigKC9fURufR/79h3+3DAnIzbfEzJLZ8Z4Q0BXE0azru3pKUbU+vYzS4lMAJkclwLuAbUnLjK81vCpA==
+  dependencies:
+    "@auth0/auth0-spa-js" "^2.1.3"
+
+"@auth0/auth0-spa-js@^2.1.3":
+  version "2.2.0"
+  resolved "https://registry.yarnpkg.com/@auth0/auth0-spa-js/-/auth0-spa-js-2.2.0.tgz#62d192368f73fd445807a0e513f733de60d79a18"
+  integrity sha512-YaHHCxiSQxDb+Ju9gXOqcqgXWq8EkUSpZC4g24D3MoEBUaADKwOosrAnmjDZcslBZpnSFFdrl4dLYedAer3xlQ==
+
 "@babel/code-frame@^7.0.0", "@babel/code-frame@^7.10.4", "@babel/code-frame@^7.12.13", "@babel/code-frame@^7.16.0", "@babel/code-frame@^7.16.7", "@babel/code-frame@^7.26.2", "@babel/code-frame@^7.8.3":
   version "7.26.2"
   resolved "https://registry.yarnpkg.com/@babel/code-frame/-/code-frame-7.26.2.tgz#4b5fab97d33338eff916235055f0ebc21e573a85"
@@ -8361,12 +8373,13 @@ fresh@0.5.2:
     eslint-config-prettier "^9.1.0"
     eslint-plugin-prettier "^5.2.1"
     framer-motion "^11.8.0"
-    frontend "file:../../../.cache/yarn/v6/npm-frontend-0.1.0-94403d4c-37e3-46a4-844b-176f225378f5-1742759956719/node_modules/frontend"
+    frontend "file:../../../.cache/yarn/v6/npm-frontend-0.1.0-56f88e8a-9d11-4ba1-87c9-bde27ebf70e8-1750863545401/node_modules/frontend"
     html2canvas "^1.4.1"
     jspdf "^3.0.0"
     prettier "^3.4.1"
     react "^18.3.1"
     react-dom "^18.3.1"
+    react-error-boundary "^5.0.0"
     react-redux "^9.1.2"
     react-router-dom "^6.28.0"
     react-scripts "5.0.1"

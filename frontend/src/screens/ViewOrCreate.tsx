@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import NavBar from "../components/NavBar/NavBar";
 import Text from "../design/Text/Text";
 import Alert from "../design/Alert/Alert";
@@ -10,6 +10,12 @@ import {
 import { useNavigate } from "react-router-dom";
 import NoLoginModal from "../components/NoLoginModal/NoLoginModal";
 import { useDisclosure } from "@heroui/react";
+import { useAuth0 } from "@auth0/auth0-react";
+import { resetState as resetNameState } from "../Slices/nameSlice";
+import { resetState as resetGeneralState } from "../Slices/generalSlice";
+import { resetState as resetElectrifiedState } from "../Slices/electrifiedSlice";
+import { resetState as resetConventionalState } from "../Slices/conventionalSlice";
+import { useAppDispatch } from "../hooks";
 
 const descriptionText = `
   A dynamic modeling tool that allows you to analyze strategies and scenarios to reduce carbon emissions for hydrogen production for the upcoming decades. Levelized cost of carbon abatement (LCCA) is a new time-dependent parameter that can be used to inform decision-making practices.
@@ -19,6 +25,15 @@ const ViewOrCreate = () => {
   const [alertOpen, setAlertOpen] = useState(true);
   const navigate = useNavigate();
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
+  const { isAuthenticated, loginWithRedirect } = useAuth0();
+  const dispatch = useAppDispatch();
+
+  useEffect(() => {
+    dispatch(resetConventionalState());
+    dispatch(resetElectrifiedState());
+    dispatch(resetGeneralState());
+    dispatch(resetNameState());
+  }, []);
 
   return (
     <>
@@ -32,11 +47,13 @@ const ViewOrCreate = () => {
         <div className="pb-6">
           <Text textSize="sub2">{descriptionText}</Text>
         </div>
-        {alertOpen && (
+        {alertOpen && !isAuthenticated && (
           <Alert
             title="Log in to explore without limits"
             message="You can perform your analysis without logging in, but to save and revisit your analysis later, please log in or create an account. Don't worry, you can still export a PDF to your computer at any time without logging in."
-            action={onOpen}
+            action={() => {
+              loginWithRedirect();
+            }}
             actionLabel="Log In"
             secondaryAction={() => {
               setAlertOpen(false);
@@ -54,7 +71,11 @@ const ViewOrCreate = () => {
               Start a new analysis
             </Card>
           </div>
-          <div onClick={onOpen}>
+          <div
+            onClick={
+              isAuthenticated ? () => navigate("/analysis/saved") : onOpen
+            }
+          >
             <Card
               variant="primary"
               description="Lorem ipsum dolor sit amet, consectetur adipiscing elit."

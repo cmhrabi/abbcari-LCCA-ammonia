@@ -21,7 +21,7 @@ const Analysis = () => {
       <div className="py-11 max-w-6xl m-auto">
         <Breadcrumbs
           items={[
-            { label: "LCCA Analysis", link: "/" },
+            { label: "LCCA Analysis", link: "/analysis" },
             { label: "Start New", link: "/analysis/start" },
             { label: `${analysisName} Analysis`, link: "" },
           ]}

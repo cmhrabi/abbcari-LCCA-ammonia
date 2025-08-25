@@ -14,6 +14,7 @@ import { addToast, Checkbox, Spinner, useDisclosure } from "@heroui/react";
 import { cleanData, postAnalysis } from "../api";
 import { generatePDF } from "../utils/utils";
 import StartNewModal from "../components/StartNewModal/StartNew";
+import { useSaveAnalysis } from "../hooks/useSaveAnalysis";
 
 interface LCCAData {
   LCCA: number[];
@@ -41,6 +42,8 @@ const Results = () => {
   const [showOriginal, setShowOriginal] = useState(false);
 
   const [exportLoading, setExportLoading] = useState(false);
+  const { onSaveClick, saveLoading, isAuthenticated } = useSaveAnalysis();
+
   const generateResultPDF = async () => {
     await generatePDF("results_export", `${tech1Name}_vs_${tech2Name}_LCCA`);
     setExportLoading(false);
@@ -166,7 +169,7 @@ const Results = () => {
       <div className="py-11 max-w-6xl m-auto">
         <Breadcrumbs
           items={[
-            { label: "LCCA Analysis", link: "/" },
+            { label: "LCCA Analysis", link: "/analysis" },
             { label: "Start New", link: "/analysis/start" },
             { label: `${analysisName} Analysis`, link: "/analysis/main" },
             { label: "Results", link: "" },
@@ -183,19 +186,33 @@ const Results = () => {
             <Text color="secondary" textSize="results-title">
               Overview
             </Text>
-            <Button
-              color="primary"
-              onClick={() => {
-                setExportLoading(true);
-                generateResultPDF();
-              }}
-            >
-              {exportLoading ? (
-                <Spinner size="sm" color="white" />
-              ) : (
-                "Export to PDF"
+            <div className="space-x-3">
+              {isAuthenticated && (
+                <Button
+                  color="secondary"
+                  onClick={onSaveClick}
+                >
+                  {saveLoading ? (
+                    <Spinner size="sm" color="white" />
+                  ) : (
+                    "Save Analysis"
+                  )}
+                </Button>
               )}
-            </Button>
+              <Button
+                color="primary"
+                onClick={() => {
+                  setExportLoading(true);
+                  generateResultPDF();
+                }}
+              >
+                {exportLoading ? (
+                  <Spinner size="sm" color="white" />
+                ) : (
+                  "Export to PDF"
+                )}
+              </Button>
+            </div>
           </div>
           <div className="space-y-12">
             <div className="pt-4 grid grid-cols-3 gap-7">

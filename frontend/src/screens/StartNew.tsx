@@ -14,15 +14,14 @@ import {
   setTech2Name,
   setType,
 } from "../Slices/nameSlice";
-
-const descriptionText = `
-  A dynamic modeling tool that allows you to analyze strategies and scenarios to reduce carbon emissions for ammonia production process for the upcoming decades. Levelized cost of carbon abatement (LCCA) is a new time-dependent parameter that can be used to inform decision-making practices.
-`;
+import { useSaveAnalysis } from "../hooks/useSaveAnalysis";
+import { Spinner } from "@heroui/react";
 
 const StartNew = () => {
   const nameValues = useAppSelector((state) => state.name.value);
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
+  const { onSaveClick, saveLoading, isAuthenticated } = useSaveAnalysis();
 
   const [disabled, setDisabled] = useState(true);
 
@@ -45,18 +44,15 @@ const StartNew = () => {
       <div className="py-11 max-w-6xl m-auto">
         <Breadcrumbs
           items={[
-            { label: "LCCA Analysis", link: "/" },
+            { label: "LCCA Analysis", link: "/analysis" },
             { label: "Start New", link: "" },
           ]}
         />
         <div className="grid grid-cols-1 gap-y-10">
           <div>
-            <div className="pb-3">
-              <Text color="secondary" textSize="h2">
-                Start a new analysis
-              </Text>
-            </div>
-            <Text textSize="sub2">{descriptionText}</Text>
+            <Text color="secondary" textSize="h2">
+              Start a new analysis
+            </Text>
           </div>
           <div className="max-w-sm">
             <Input
@@ -117,6 +113,15 @@ const StartNew = () => {
             <Button color="grey" onClick={() => navigate("/")}>
               Cancel
             </Button>
+            {isAuthenticated && (
+              <Button
+                color="secondary"
+                onClick={onSaveClick}
+                disabled={disabled}
+              >
+                {saveLoading ? <Spinner size="sm" color="white" /> : "Save Analysis"}
+              </Button>
+            )}
             <Button
               color="primary"
               disabled={disabled}
