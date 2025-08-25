@@ -14,11 +14,14 @@ import {
   setTech2Name,
   setType,
 } from "../Slices/nameSlice";
+import { useSaveAnalysis } from "../hooks/useSaveAnalysis";
+import { Spinner } from "@heroui/react";
 
 const StartNew = () => {
   const nameValues = useAppSelector((state) => state.name.value);
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
+  const { onSaveClick, saveLoading, isAuthenticated } = useSaveAnalysis();
 
   const [disabled, setDisabled] = useState(true);
 
@@ -110,6 +113,15 @@ const StartNew = () => {
             <Button color="grey" onClick={() => navigate("/")}>
               Cancel
             </Button>
+            {isAuthenticated && (
+              <Button
+                color="secondary"
+                onClick={onSaveClick}
+                disabled={disabled}
+              >
+                {saveLoading ? <Spinner size="sm" color="white" /> : "Save Analysis"}
+              </Button>
+            )}
             <Button
               color="primary"
               disabled={disabled}

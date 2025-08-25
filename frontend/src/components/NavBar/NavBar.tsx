@@ -64,6 +64,14 @@ const NavBar: React.FC<NavBarProps> = ({ type = "default" }) => {
             >
               <Text textSize="input">Help</Text>
             </div>
+            {isAuthenticated && (
+              <div
+                className="flex flex-row items-center cursor-pointer"
+                onClick={() => navigate("/analysis/saved")}
+              >
+                <Text textSize="input">View Saved</Text>
+              </div>
+            )}
             {isAuthenticated ? (
               <Button
                 size="medium"

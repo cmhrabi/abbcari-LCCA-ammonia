@@ -5,6 +5,8 @@ import { useNavigate } from "react-router-dom";
 import { useAppSelector, useAppDispatch } from "../../hooks";
 import Input from "../../design/Input/Input";
 import Select from "../../design/Select/Select";
+import { useSaveAnalysis } from "../../hooks/useSaveAnalysis";
+import { Spinner } from "@heroui/react";
 import {
   setDiscount,
   setProvince,
@@ -23,6 +25,7 @@ const General: React.FC<GeneralProps> = ({ setCurrStep }) => {
   const generalValues = useAppSelector((state) => state.general.value);
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
+  const { onSaveClick, saveLoading, isAuthenticated } = useSaveAnalysis();
 
   const [disabled, setDisabled] = useState(true);
 
@@ -273,6 +276,14 @@ const General: React.FC<GeneralProps> = ({ setCurrStep }) => {
           <Button color="grey" onClick={() => navigate("/analysis/start")}>
             Back
           </Button>
+          {isAuthenticated && (
+            <Button 
+              color="secondary" 
+              onClick={onSaveClick}
+            >
+              {saveLoading ? <Spinner size="sm" color="white" /> : "Save Analysis"}
+            </Button>
+          )}
           <Button
             color="primary"
             disabled={disabled}

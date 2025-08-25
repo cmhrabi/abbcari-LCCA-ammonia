@@ -30,28 +30,52 @@ def save_analysis():
     analysis_id = data.get('analysis_id')
     try:
         mongo_collection = mongo.get_collection("analyses")
-        if not analysis_id:
-            mongo_collection.insert_one({**data, "date_created": datetime.now()})
-            return jsonify({"message": "Analysis saved successfully"}), 200
         
-        del data['analysis_id']
-        mongo_collection.update_one(
-            {"_id": ObjectId(analysis_id)},
-            {"$set": data},
-        )
+        if not analysis_id:
+            # Check if analysis with same name already exists for this user
+            existing_analysis = mongo_collection.find_one({
+                "auth0_id": data.get('auth0_id'),
+                "name": data.get('name')
+            })
+            
+            if existing_analysis:
+                # Update existing analysis
+                data_without_id = {k: v for k, v in data.items() if k != 'analysis_id'}
+                mongo_collection.update_one(
+                    {"_id": existing_analysis["_id"]},
+                    {"$set": {**data_without_id, "date_updated": datetime.now()}},
+                )
+                return jsonify({
+                    "message": "Analysis updated successfully",
+                    "analysis_id": str(existing_analysis["_id"])
+                }), 200
+            else:
+                # Create new analysis
+                result = mongo_collection.insert_one({**data, "date_created": datetime.now()})
+                return jsonify({
+                    "message": "Analysis saved successfully",
+                    "analysis_id": str(result.inserted_id)
+                }), 200
+        else:
+            # Update existing analysis by ID
+            data_without_id = {k: v for k, v in data.items() if k != 'analysis_id'}
+            mongo_collection.update_one(
+                {"_id": ObjectId(analysis_id)},
+                {"$set": {**data_without_id, "date_updated": datetime.now()}},
+            )
+            return jsonify({
+                "message": "Analysis updated successfully",
+                "analysis_id": analysis_id
+            }), 200
     except Exception as e:
         print(f"Error saving analysis to MongoDB: {e}")
         return jsonify({"error": "Failed to save analysis"}), 500
-    
-    return jsonify({"message": "Analysis saved successfully"}), 200
 
 @app.route('/api/analyses/<auth0_id>', methods=['GET'])
 def get_analyses(auth0_id):
     try:
         mongo_collection = mongo.get_collection("analyses")
         analyses = list(mongo_collection.find({"auth0_id": auth0_id}))
-        if not analyses:
-            return jsonify({"message": "No analyses found"}), 404
         analyses = [{"_id": str(analysis["_id"]), "name": str(analysis["name"])} for analysis in analyses]
         return jsonify(analyses), 200
     except Exception as e:

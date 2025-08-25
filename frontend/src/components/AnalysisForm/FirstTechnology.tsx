@@ -4,7 +4,8 @@ import Button from "../../design/Button/Button";
 import { useAppDispatch, useAppSelector } from "../../hooks";
 import ProcessCard from "../ProcessCard/ProcessCard";
 import CostSection from "../../design/Cost/CostSection";
-import { Checkbox, useDisclosure } from "@heroui/react";
+import { Checkbox, useDisclosure, Spinner } from "@heroui/react";
+import { useSaveAnalysis } from "../../hooks/useSaveAnalysis";
 import { XCircleIcon } from "@heroicons/react/24/outline";
 import SubProcessModal from "../SubProcessModal/SubProcessModal";
 import {
@@ -38,6 +39,7 @@ const FirstTechnology: React.FC<FirstTechnologyProps> = ({ setCurrStep }) => {
   const subProcesses = useAppSelector(
     (state) => state.electrified.value.subProcesses,
   );
+  const { onSaveClick, saveLoading, isAuthenticated } = useSaveAnalysis();
   const electrifiedValues = useAppSelector((state) => state.electrified.value);
   const bottomUpCalc = useAppSelector(
     (state) => state.electrified.value.bottomUpCalc,
@@ -626,6 +628,11 @@ const FirstTechnology: React.FC<FirstTechnologyProps> = ({ setCurrStep }) => {
           <Button color="grey" onClick={() => setCurrStep(0)}>
             Back
           </Button>
+          {isAuthenticated && (
+            <Button color="secondary" onClick={onSaveClick}>
+              {saveLoading ? <Spinner size="sm" color="white" /> : "Save Analysis"}
+            </Button>
+          )}
           <Button
             color="primary"
             disabled={disabled}

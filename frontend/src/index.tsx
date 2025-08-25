@@ -21,8 +21,8 @@ const root = ReactDOM.createRoot(
 root.render(
   <React.StrictMode>
     <Auth0Provider
-      domain="dev-b4h011ic71qc07ws.us.auth0.com"
-      clientId="xxPlVCzXA2o3M1y0EnFgFdiQuRYtEP3R"
+      domain={process.env.REACT_APP_AUTH0_DOMAIN!}
+      clientId={process.env.REACT_APP_AUTH0_CLIENT_ID!}
       authorizationParams={{
         redirect_uri: `${window.location.origin}/analysis`,
       }}

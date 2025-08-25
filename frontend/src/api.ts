@@ -433,6 +433,33 @@ const postLogin = async (auth0_id: string) => {
     });
 };
 
+const saveAnalysis = async (data: Payload, auth0_id: string, analysis_id?: string) => {
+  const payload = {
+    ...data,
+    auth0_id: auth0_id.replace("auth0|", ""),
+    ...(analysis_id && { analysis_id })
+  };
+
+  return await fetch(`${process.env.REACT_APP_API}/api/save`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(payload),
+  })
+    .then((response) => {
+      if (response.status === 200) {
+        return response.json().then((json) => {
+          return { error: "", response: json, saved: true };
+        });
+      }
+      throw new Error(`Failed to save analysis status: ${response.status}`);
+    })
+    .catch((error) => {
+      return { error: error.message, response: null, saved: false };
+    });
+};
+
 const getSavedAnalyses = async (
   auth0_id: string,
 ): Promise<AnalysesResponse> => {
@@ -491,10 +518,169 @@ const getAnalysisById = async (
     });
 };
 
+const cleanDataForSave = (
+  electrifiedSlice: ElectrifiedState,
+  conventionalSlice: ConventionalState,
+  nameSlice: NameState,
+  generalSlice: GeneralState,
+): { error: string; payload: Payload | null } => {
+  // Only validate essential fields for saving
+  if (!nameSlice.value.analysisName) {
+    return {
+      error: "Analysis name is required",
+      payload: null,
+    };
+  }
+
+  if (!nameSlice.value.tech1Name || !nameSlice.value.tech2Name) {
+    return {
+      error: "Technology names are required",
+      payload: null,
+    };
+  }
+
+  if (!nameSlice.value.type) {
+    return {
+      error: "Analysis type is required", 
+      payload: null,
+    };
+  }
+
+  // No additional validation required beyond the essential fields above
+
+  // Use values from general slice or empty values for API
+  const startYear = generalSlice.value.startYear || 2026;
+  const finalYear = generalSlice.value.finalYear || 2050;
+  const discountRate = parseFloat(generalSlice.value.discount) || 0;
+  const province = generalSlice.value.province.includes("No Selection") ? "" : generalSlice.value.province;
+  const operatingHours = generalSlice.value.plantOperatingHours || 0;
+  const finalDemand = parseFloat(generalSlice.value.finalDemand) || 0;
+  const baselineDemand = parseFloat(generalSlice.value.baselineDemand) || 0;
+
+  // Build subprocess arrays with defaults for missing data
+  const electrifiedSubProcesses: SubProcess[] = [];
+  if (electrifiedSlice.value.bottomUpCalc) {
+    electrifiedSubProcesses.push({
+      name: electrifiedSlice.value.bottomUpProcess.name || "",
+      installation_factor: (parseFloat(electrifiedSlice.value.bottomUpProcess.installationFactor) || 0) / 100,
+      scaling_factor: (parseFloat(electrifiedSlice.value.bottomUpProcess.scalingFactor) || 0) / 100,
+      learning_rate: (parseFloat(electrifiedSlice.value.bottomUpProcess.learningRate) || 0) / 100,
+      efficiency: (parseFloat(electrifiedSlice.value.bottomUpProcess.efficiency) || 0) / 100,
+      energy_req: parseFloat(electrifiedSlice.value.bottomUpProcess.energyRequirement) || 0,
+    });
+  } else {
+    if (electrifiedSlice.value.subProcesses.length === 0) {
+      // Leave empty if no subprocesses exist
+    } else {
+      electrifiedSlice.value.subProcesses.forEach((subProcess) => {
+        electrifiedSubProcesses.push({
+          name: subProcess.name || "",
+          baseline_cost: subProcess.baseCost || 0,
+          installation_factor: (subProcess.installationFactor || 0) / 100,
+          scaling_factor: (subProcess.scalingFactor || 0) / 100,
+          learning_rate: (subProcess.learningRate || 0) / 100,
+          efficiency: (subProcess.efficiency || 0) / 100,
+          energy_req: subProcess.energyRequirement || 0,
+        });
+      });
+    }
+  }
+
+  const conventionalSubProcesses: SubProcess[] = [];
+  if (conventionalSlice.value.bottomUpCalc) {
+    conventionalSubProcesses.push({
+      name: conventionalSlice.value.bottomUpProcess.name || "",
+      installation_factor: (parseFloat(conventionalSlice.value.bottomUpProcess.installationFactor) || 0) / 100,
+      scaling_factor: (parseFloat(conventionalSlice.value.bottomUpProcess.scalingFactor) || 0) / 100,
+      learning_rate: (parseFloat(conventionalSlice.value.bottomUpProcess.learningRate) || 0) / 100,
+      efficiency: (parseFloat(conventionalSlice.value.bottomUpProcess.efficiency) || 0) / 100,
+      energy_req: parseFloat(conventionalSlice.value.bottomUpProcess.energyRequirement) || 0,
+      ng_req: parseFloat(conventionalSlice.value.bottomUpProcess.ngReq) || 0,
+    });
+  } else {
+    if (conventionalSlice.value.subProcesses.length === 0) {
+      // Leave empty if no subprocesses exist
+    } else {
+      conventionalSlice.value.subProcesses.forEach((subProcess) => {
+        conventionalSubProcesses.push({
+          name: subProcess.name || "",
+          baseline_cost: subProcess.baseCost || 0,
+          installation_factor: (subProcess.installationFactor || 0) / 100,
+          scaling_factor: (subProcess.scalingFactor || 0) / 100,
+          learning_rate: (subProcess.learningRate || 0) / 100,
+          efficiency: (subProcess.efficiency || 0) / 100,
+          energy_req: subProcess.energyRequirement || 0,
+          ng_req: subProcess.ngReq || 0,
+        });
+      });
+    }
+  }
+
+  return {
+    error: "",
+    payload: {
+      name: nameSlice.value.analysisName,
+      electrified: {
+        name: nameSlice.value.tech1Name,
+        direct_cost_factor: (electrifiedSlice.value.directCostFactor || 0) / 100,
+        indirect_cost_factor: (electrifiedSlice.value.indirectCostFactor || 0) / 100,
+        wc_cost_factor: (electrifiedSlice.value.workingCapitalFactor || 0) / 100,
+        wc_cost: parseFloat(electrifiedSlice.value.workingCapitalCost) || 0,
+        installation_cost: parseFloat(electrifiedSlice.value.installationCost) || 0,
+        direct_costs: electrifiedSlice.value.directCosts.map((cost) => ({
+          ...cost,
+          cost: parseFloat(cost.cost) || 0,
+        })),
+        indirect_costs: electrifiedSlice.value.indirectCosts.map((cost) => ({
+          ...cost,
+          cost: parseFloat(cost.cost) || 0,
+        })),
+        subprocesses: electrifiedSubProcesses,
+        water_consumption: parseFloat(electrifiedSlice.value.waterRequirement) || 0,
+        bottom_up: electrifiedSlice.value.bottomUpCalc,
+      },
+            conventional: {
+        name: nameSlice.value.tech2Name,
+        direct_cost_factor: (conventionalSlice.value.directCostFactor || 0) / 100,
+        indirect_cost_factor: (conventionalSlice.value.indirectCostFactor || 0) / 100,
+        wc_cost_factor: (conventionalSlice.value.workingCapitalFactor || 0) / 100,
+        wc_cost: parseFloat(conventionalSlice.value.workingCapitalCost) || 0,
+        installation_cost: parseFloat(conventionalSlice.value.installationCost) || 0,
+        direct_costs: conventionalSlice.value.directCosts.map((cost) => ({
+          ...cost,
+          cost: parseFloat(cost.cost) || 0,
+        })),
+        indirect_costs: conventionalSlice.value.indirectCosts.map((cost) => ({
+          ...cost,
+          cost: parseFloat(cost.cost) || 0,
+        })),
+        subprocesses: conventionalSubProcesses,
+        water_consumption: parseFloat(conventionalSlice.value.waterRequirement) || 0,
+        depreciation: (conventionalSlice.value.depreciationPercent || 0) / 100,
+        duration: conventionalSlice.value.duration || 0,
+        onsite_upstream_emmisions:
+          parseFloat(conventionalSlice.value.onsiteEmissions) || 0 +
+          parseFloat(conventionalSlice.value.upstreamEmissions) || 0,
+        bottom_up: conventionalSlice.value.bottomUpCalc,
+      },
+      lcca_type: nameSlice.value.type,
+      start_year: startYear,
+      final_year: finalYear,
+      discount_rate: discountRate / 100,
+      province: province,
+      operating_hours: operatingHours,
+      final_demand: finalDemand,
+      baseline_demand: baselineDemand,
+    },
+  };
+};
+
 export {
   cleanData,
+  cleanDataForSave,
   postAnalysis,
   postLogin as postSignup,
+  saveAnalysis,
   getSavedAnalyses,
   getAnalysisById,
 };

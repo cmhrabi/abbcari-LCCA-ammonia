@@ -34,6 +34,9 @@ export const nameSlice = createSlice({
     setType: (state, action: PayloadAction<string>) => {
       state.value.type = action.payload;
     },
+    setAnalysisId: (state, action: PayloadAction<string>) => {
+      state.value.analysisId = action.payload;
+    },
     resetState: (state) => {
       state.value = {
         analysisId: "",
@@ -54,6 +57,7 @@ export const {
   setTech1Name,
   setTech2Name,
   setType,
+  setAnalysisId,
   resetState,
   setState: setNameState,
 } = nameSlice.actions;
